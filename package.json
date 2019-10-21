@@ -11,6 +11,10 @@
     "@fortawesome/fontawesome-free": "^5.8.2",
     "@websanova/vue-auth": "^2.21.14-beta",
     "core-js": "^2.6.5",
+    "prettier": "^1.18.2",
+    "vue-router": "^3.0.6",
+    "axios": "^0.19.0",
+    "vue-axios": "^2.1.4",
     "roboto-fontface": "*",
     "vue": "^2.6.10",
     "vuetify": "^2.1.0"
