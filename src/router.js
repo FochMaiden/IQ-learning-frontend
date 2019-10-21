@@ -3,7 +3,8 @@ import Router from "vue-router";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import Home from "./components/Home";
-import Login from "./components/Login";
+import Login from "./components/forms/Login";
+import Register from "./components/forms/Register";
 
 //compbell
 axios.defaults.baseURL = 'http://localhost:8080/';
@@ -24,6 +25,11 @@ const router = new Router({
 	  path: "/login",
 	  name: "login",
 	  component: Login
+	},
+	{
+	  path: "/register",
+	  name: "register",
+	  component: Register
 	},
   ],
   scrollBehavior() {

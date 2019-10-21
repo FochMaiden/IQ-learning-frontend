@@ -1,17 +1,28 @@
 <template>
-  <v-app v-if="$auth.ready()">
-    <Login v-if="!$auth.check()" />
-    <Home v-else></Home>
+  <v-app  v-if="$auth.ready()">
+<!--    <v-navigation-drawer app>
+      &lt;!&ndash; &ndash;&gt;
+    </v-navigation-drawer>-->
+    <Navbar/>
+    <!-- Sizes your content based upon application components -->
+    <v-content>
+        <router-view/>
+    </v-content>
+
+    <v-footer app>
+      <!-- -->
+    </v-footer>
   </v-app>
 </template>
 
 <script>
-import Login from "./components/Login";
+
+import Navbar from "./components/nav/Navbar";
 
 export default {
   name: "App",
   components: {
-    Login
+    Navbar,
   },
   data: () => ({
     //
