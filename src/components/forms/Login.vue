@@ -45,10 +45,11 @@
                     color="primary"
             ></v-checkbox>
           </v-form>
-          <v-card-actions style="padding-bottom: 1.5em" class="justify-center">
+          <v-card-actions class="pb-6 px-6 justify-center">
             <v-btn
               large
               dark
+              block
               style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
               v-on:click="login"
               >Login</v-btn
