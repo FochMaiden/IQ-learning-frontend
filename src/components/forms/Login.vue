@@ -44,7 +44,7 @@ export default {
         url: "/user/token",
         method: "POST",
         headers: {
-          authorization: "bearer null"
+          Authorization: "bearer null"
         },
         data: {
           username: this.username,
@@ -54,10 +54,10 @@ export default {
         rememberMe: true,
         success: function(response) {
           console.log(response.data);
-          this.$auth.token(null, response.data.sessionID);
+          this.$auth.token(null, response.data.token);
         },
         error: function(err) {},
-        redirect: { name: "home" }
+        //redirect: { name: "home" }
       });
     }
   }

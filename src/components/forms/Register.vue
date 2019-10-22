@@ -81,13 +81,13 @@
 			surname: this.surname,
 			password: this.password
 		  },
-		  autoLogin: false,
+		  autoLogin: true,
 		  rememberMe: true,
 		  success: function(response) {
 			console.log(response.data);
+			this.$auth.token(null, response.data.token);
 		  },
-		  error: function(err) {},
-		  redirect: { name: "login" }
+		  error: function(err) {}
 		});
 	  }
 	}
