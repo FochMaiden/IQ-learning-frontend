@@ -1,13 +1,12 @@
 <template>
-	<p>HALLO{{this.$auth.user().username}}</p>
+  <v-container fluid class="fill-height">
+  </v-container>
 </template>
 
 <script>
-  export default {
-	name: "Home"
-  }
+export default {
+  name: "Home"
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
