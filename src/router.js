@@ -60,8 +60,8 @@ Vue.use(require("@websanova/vue-auth"), {
     method: "GET",
     enabled: true,
 	success: function (d) {
-      if (Vue.auth.check()){
-        Vue.auth.user(d.data)
+      if (Vue.auth.check()) {
+		Vue.auth.user(d.data)
 	  }
 	}
   },

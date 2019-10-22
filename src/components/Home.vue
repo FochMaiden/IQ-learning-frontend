@@ -1,6 +1,5 @@
 <template>
-	<p>HALLO {{this.$auth.user().username}}</p>
-
+	<p>HALLO{{this.$auth.user().username}}</p>
 </template>
 
 <script>
