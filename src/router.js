@@ -7,7 +7,7 @@ import Login from "./components/forms/Login";
 import Register from "./components/forms/Register";
 
 //compbell
-axios.defaults.baseURL = 'http://localhost:8080/';
+axios.defaults.baseURL = 'http://localhost:8080';
 
 Vue.use(Router);
 Vue.use(VueAxios, axios);
@@ -43,8 +43,8 @@ Vue.use(require("@websanova/vue-auth"), {
   auth: require("@websanova/vue-auth/drivers/auth/bearer.js"),
   http: require("@websanova/vue-auth/drivers/http/axios.1.x.js"),
   router: require("@websanova/vue-auth/drivers/router/vue-router.2.x.js"),
-  refreshData: { enabled: true },
-  fetchData: { enabled: true }
+  refreshData:  {url: 'user/refresh', method: 'GET', enabled: true},
+  fetchData:  {url: 'user/user', method: 'GET', enabled: true},
 });
 
 export default router;

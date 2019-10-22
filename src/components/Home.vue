@@ -1,5 +1,6 @@
 <template>
 	<p>HALLO</p>
+
 </template>
 
 <script>
