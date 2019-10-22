@@ -53,7 +53,8 @@ export default {
         fetchUser: false,
         rememberMe: true,
         success: function(response) {
-          this.$auth.token(null, response.data.token);
+          this.$auth.user(response.data);
+          this.$auth.token(null, response.data.sessionID);
         },
         error: function(err) {},
         //redirect: { name: "home" }

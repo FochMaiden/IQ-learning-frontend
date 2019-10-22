@@ -81,11 +81,11 @@
 			surname: this.surname,
 			password: this.password
 		  },
-		  autoLogin: true,
+		  autoLogin: false,
 		  rememberMe: true,
 		  success: function(response) {
-			console.log(response.data);
-			this.$auth.token(null, response.data.token);
+			this.$auth.user(response.data);
+			this.$auth.token(null, response.data.sessionID);
 		  },
 		  error: function(err) {}
 		});
