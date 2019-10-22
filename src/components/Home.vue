@@ -1,5 +1,5 @@
 <template>
-	<p>HALLO</p>
+	<p>HALLO {{this.$auth.user().username}}</p>
 
 </template>
 

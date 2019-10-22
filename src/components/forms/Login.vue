@@ -53,7 +53,6 @@ export default {
         fetchUser: false,
         rememberMe: true,
         success: function(response) {
-          console.log(response.data);
           this.$auth.token(null, response.data.token);
         },
         error: function(err) {},
