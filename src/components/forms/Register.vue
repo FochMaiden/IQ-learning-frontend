@@ -1,13 +1,22 @@
 <template>
   <v-container
-    style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
     fluid
     class="fill-height"
+    style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
   >
     <v-row align="center" justify="center">
       <v-col cols="12" sm="8" md="4">
-        <v-card color="rgb(255, 255, 255, 0.8)" dark>
-          <v-form class="pa-6 primary--text">
+        <v-card color="rgb(255, 255, 255, 0.7)">
+          <v-toolbar
+            style="display: flex; justify-content: center"
+            class="primary--text"
+          >
+            <v-toolbar-title>
+              REGISTER
+            </v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <v-form class="pt-6 px-6 primary--text">
             <v-text-field
               label="Username"
               name="username"
@@ -15,23 +24,28 @@
               type="text"
               autofocus
               filled
-              solo
-            ></v-text-field>
+            >
+              <v-icon slot="append" color="accent">
+                fas fa-user-tie
+              </v-icon>
+            </v-text-field>
             <v-text-field
               label="E-mail"
               name="email"
               v-model="email"
               type="text"
               filled
-              solo
-            ></v-text-field>
+            >
+              <v-icon slot="append" color="accent">
+                fas fa-envelope
+              </v-icon>
+            </v-text-field>
             <v-text-field
               label="Name"
               name="name"
               v-model="name"
               type="text"
               filled
-              solo
             ></v-text-field>
             <v-text-field
               label="Surname"
@@ -39,7 +53,6 @@
               v-model="surname"
               type="text"
               filled
-              solo
             ></v-text-field>
             <v-text-field
               id="password"
@@ -48,11 +61,17 @@
               v-model="password"
               type="password"
               filled
-              solo
             ></v-text-field>
+            <v-checkbox
+              v-model="autoLogin"
+              label="Login automatically"
+              data-vv-name="checkbox"
+              type="checkbox"
+              color="primary"
+            ></v-checkbox>
           </v-form>
           <v-spacer></v-spacer>
-          <v-card-actions style="padding-bottom: 1.5em" class="justify-center">
+          <v-card-actions class="pb-6 justify-center">
             <v-btn
               large
               dark
@@ -76,7 +95,8 @@ export default {
       email: null,
       name: null,
       surname: null,
-      password: null
+      password: null,
+      autoLogin: true
     };
   },
   methods: {
@@ -97,8 +117,12 @@ export default {
         autoLogin: false,
         rememberMe: true,
         success: function(response) {
-          this.$auth.user(response.data);
-          this.$auth.token(null, response.data.sessionID);
+          if (this.autoLogin) {
+            this.$auth.user(response.data);
+            this.$auth.token(null, response.data.sessionID);
+          } else {
+            this.$router.push("/login");
+          }
         },
         error: function(err) {}
       });
@@ -106,5 +130,4 @@ export default {
   }
 };
 </script>
-
 <style scoped></style>

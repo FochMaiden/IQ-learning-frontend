@@ -1,6 +1,6 @@
 <template>
   <nav style="height: auto">
-    <v-app-bar color="rgb(255, 255, 255, 0.5)" fixed app>
+    <v-app-bar fixed app>
      <!-- <v-app-bar-nav-icon v-on:click="drawer = !drawer"> </v-app-bar-nav-icon>-->
       <v-toolbar-title>IQ Learning</v-toolbar-title>
       <v-spacer></v-spacer>
