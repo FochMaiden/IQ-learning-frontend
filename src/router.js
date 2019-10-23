@@ -59,12 +59,12 @@ Vue.use(require("@websanova/vue-auth"), {
     url: "/user/refresh",
     method: "GET",
     enabled: true,
-	success: function (d) {
+    success: function(d) {
       if (Vue.auth.check()) {
-		Vue.auth.user(d.data)
-	  }
-	}
-  },
+        Vue.auth.user(d.data);
+      }
+    }
+  }
 });
 
 export default router;

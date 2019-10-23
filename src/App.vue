@@ -6,7 +6,7 @@
     <Navbar />
     <!-- Sizes your content based upon application components -->
     <v-content id="content">
-        <router-view />
+      <router-view />
     </v-content>
 
     <v-footer app>
@@ -21,7 +21,7 @@ import Navbar from "./components/nav/Navbar";
 export default {
   name: "App",
   components: {
-    Navbar,
+    Navbar
   },
   data: () => ({
     //

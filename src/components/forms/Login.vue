@@ -6,12 +6,12 @@
   >
     <v-row align="center" justify="center">
       <v-col cols="12" sm="8" md="4">
-        <v-card color="rgb(255, 255, 255, 0.7)" >
+        <v-card color="rgb(255, 255, 255, 0.7)">
           <v-toolbar
             style="display: flex; justify-content: center"
             class="primary--text"
           >
-            <v-toolbar-title >
+            <v-toolbar-title>
               LOGIN
             </v-toolbar-title>
             <v-spacer></v-spacer>
@@ -21,14 +21,17 @@
           <v-card-title class="justify-center primary--text"> </v-card-title>
           <v-form class="pt-6 px-6 primary--text" v-model="valid">
             <v-text-field
-                    label="Login"
+              label="Login"
               name="login"
               v-model="username"
               type="text"
               autofocus
               filled
-              :rules="[required('username'),minLength('username', 3),regexUsername()]"
-
+              :rules="[
+                required('username'),
+                minLength('username', 3),
+                regexUsername()
+              ]"
             ></v-text-field>
             <v-text-field
               id="password"
@@ -36,15 +39,20 @@
               name="password"
               v-model="password"
               type="password"
-              :rules="[required('password'), minLength(password,8),passwordNumber(),passwordUppercase()]"
+              :rules="[
+                required('password'),
+                minLength(password, 8),
+                passwordNumber(),
+                passwordUppercase()
+              ]"
               filled
             ></v-text-field>
             <v-checkbox
-                    v-model="rememberMe"
-                    label="Remember Me"
-                    data-vv-name="checkbox"
-                    type="checkbox"
-                    color="primary"
+              v-model="rememberMe"
+              label="Remember Me"
+              data-vv-name="checkbox"
+              type="checkbox"
+              color="primary"
             ></v-checkbox>
           </v-form>
           <v-card-actions class="pb-6 px-6 justify-center">
@@ -70,15 +78,14 @@
 
 <script>
 export default {
-	data: function () {
-		return {
-			username: null,
-			password: null,
-			rememberMe: true,
-			valid: false,
-
-		};
-	},
+  data: function() {
+    return {
+      username: null,
+      password: null,
+      rememberMe: true,
+      valid: false
+    };
+  },
   methods: {
     login() {
       this.$auth.login({
@@ -101,26 +108,31 @@ export default {
         //redirect: { name: "home" }
       });
     },
-      required(propertyType) {return (v) =>
-          (v && v.length > 0) || `You must input a ${propertyType}`;
-      },
-      minLength(propertyType,minLength) {return (v) =>
-          (v && v.length >= minLength) || `Must be at least ${minLength} characters`;
-      },
-      regexUsername(){
-    	let regexUsername = /^([a-zA-Z0-9\-._@+\\])*$/;
-          return (v) =>
-            regexUsername.test(v) || 'Your username contains not allowed characters.';
-      },
-      passwordUppercase(){
-    	let regexPasswordUpper = /[A-Z]+/;
-          return (v) =>
-                regexPasswordUpper.test(v) || 'Password must contain at least one uppercase letter';
-      },
-      passwordNumber(){
-    	let regexPasswordNumber = /[0-9]+/;
-          return (v)=>
-            regexPasswordNumber.test(v) || 'Password must contain at least one number'
+    required(propertyType) {
+      return v => (v && v.length > 0) || `You must input a ${propertyType}`;
+    },
+    minLength(propertyType, minLength) {
+      return v =>
+        (v && v.length >= minLength) ||
+        `Must be at least ${minLength} characters`;
+    },
+    regexUsername() {
+      let regexUsername = /^([a-zA-Z0-9\-._@+\\])*$/;
+      return v =>
+        regexUsername.test(v) ||
+        "Your username contains not allowed characters.";
+    },
+    passwordUppercase() {
+      let regexPasswordUpper = /[A-Z]+/;
+      return v =>
+        regexPasswordUpper.test(v) ||
+        "Password must contain at least one uppercase letter";
+    },
+    passwordNumber() {
+      let regexPasswordNumber = /[0-9]+/;
+      return v =>
+        regexPasswordNumber.test(v) ||
+        "Password must contain at least one number";
     }
   }
 };

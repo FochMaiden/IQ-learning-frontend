@@ -16,7 +16,7 @@
             </v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <v-form class="pt-6 px-6 primary--text">
+          <v-form class="pt-6 px-6 primary--text" v-model="valid">
             <v-text-field
               label="Username"
               name="username"
@@ -97,7 +97,8 @@ export default {
       name: null,
       surname: null,
       password: null,
-      autoLogin: true
+      autoLogin: true,
+      valid: false
     };
   },
   methods: {

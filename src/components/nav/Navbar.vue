@@ -1,7 +1,7 @@
 <template>
   <nav style="height: auto">
     <v-app-bar fixed app>
-     <!-- <v-app-bar-nav-icon v-on:click="drawer = !drawer"> </v-app-bar-nav-icon>-->
+      <!-- <v-app-bar-nav-icon v-on:click="drawer = !drawer"> </v-app-bar-nav-icon>-->
       <v-toolbar-title>IQ Learning</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
@@ -26,7 +26,7 @@
         >
       </v-toolbar-items>
     </v-app-bar>
-<!--    <v-navigation-drawer v-model="drawer" app>
+    <!--    <v-navigation-drawer v-model="drawer" app>
       <p>aaa</p>
     </v-navigation-drawer>-->
   </nav>
