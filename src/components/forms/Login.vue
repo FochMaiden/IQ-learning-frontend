@@ -19,7 +19,7 @@
           <!--          <v-row class="pa-0">
             <v-col class="pa-0">-->
           <v-card-title class="justify-center primary--text"> </v-card-title>
-          <v-form class="pt-6 px-6 primary--text">
+          <v-form class="pt-6 px-6 primary--text" v-model="valid">
             <v-text-field
                     label="Login"
               name="login"
@@ -27,6 +27,7 @@
               type="text"
               autofocus
               filled
+              :rules="[required('username'),minLength('username', 3),regexUsername()]"
 
             ></v-text-field>
             <v-text-field
@@ -35,6 +36,7 @@
               name="password"
               v-model="password"
               type="password"
+              :rules="[required('password'), minLength(password,8),passwordNumber(),passwordUppercase()]"
               filled
             ></v-text-field>
             <v-checkbox
@@ -51,6 +53,7 @@
               dark
               block
               style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
+              :disabled="!valid"
               v-on:click="login"
               >Login</v-btn
             >
@@ -67,13 +70,39 @@
 
 <script>
 export default {
-  data() {
-    return {
-      username: null,
-      password: null,
-      rememberMe: true
-    };
-  },
+	data: function () {
+		return {
+			username: null,
+			password: null,
+			rememberMe: true,
+			valid: false,
+			required(propertyType) {
+				return (v) =>
+					(v && v.length > 0) || `You must input a ${propertyType}`
+			},
+			minLength(propertyType,minLength) {
+				return (v) =>
+					(v && v.length >= minLength) || `Must be at least ${minLength} characters`;
+			},
+			regexUsername () {
+				let regexUsername = /^([a-zA-Z0-9\-._@+\\])*$/;
+				return (v) =>
+					regexUsername.test(v) || 'Your username contains not allowed characters.'
+			},
+			passwordUppercase(){
+				let regexPasswordUpper = /[A-Z]+/;
+
+				return (v) =>
+					regexPasswordUpper.test(v) || 'Password must contain at least one uppercase letter';
+
+            },
+			passwordNumber() {
+				let regexPasswordNumber = /[0-9]+/;
+				return (v) =>
+					regexPasswordNumber.test(v) || 'Password must contain at least one number'
+			}
+		};
+	},
   methods: {
     login() {
       this.$auth.login({
