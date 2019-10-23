@@ -24,6 +24,11 @@
               type="text"
               autofocus
               filled
+              :rules="[
+                regexUsername(),
+                required('username'),
+                minLength('username', 3)
+              ]"
             >
               <v-icon slot="append" color="accent">
                 fas fa-user-tie
@@ -34,6 +39,7 @@
               name="email"
               v-model="email"
               type="text"
+              :rules="[required('email'), regexEmail()]"
               filled
             >
               <v-icon slot="append" color="accent">
@@ -46,6 +52,7 @@
               v-model="name"
               type="text"
               filled
+              :rules="[isName()]"
             ></v-text-field>
             <v-text-field
               label="Surname"
@@ -53,6 +60,7 @@
               v-model="surname"
               type="text"
               filled
+              :rules="isName()"
             ></v-text-field>
             <v-text-field
               id="password"
@@ -60,6 +68,12 @@
               name="password"
               v-model="password"
               type="password"
+              :rules="[
+                required('password'),
+                minLength(password, 8),
+                passwordNumber(),
+                passwordUppercase()
+              ]"
               filled
             ></v-text-field>
             <v-checkbox
@@ -78,6 +92,7 @@
               block
               style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
               v-on:click="register"
+              :disabled="!valid"
               >Register</v-btn
             >
           </v-card-actions>
@@ -88,9 +103,19 @@
 </template>
 
 <script>
+import { required } from "./validationFunctions.js";
+import {
+  isName,
+  minLength,
+  passwordNumber,
+  passwordUppercase,
+  regexEmail,
+  regexUsername
+} from "./validationFunctions";
+
 export default {
   name: "Register",
-  data() {
+  data: function() {
     return {
       username: null,
       email: null,
@@ -98,7 +123,14 @@ export default {
       surname: null,
       password: null,
       autoLogin: true,
-      valid: false
+      valid: false,
+      required,
+      regexEmail,
+      passwordNumber,
+      regexUsername,
+      minLength,
+      passwordUppercase,
+      isName
     };
   },
   methods: {
