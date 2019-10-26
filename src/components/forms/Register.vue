@@ -76,6 +76,7 @@
               ]"
               filled
             ></v-text-field>
+            <p>{{ error }}</p>
             <v-checkbox
               v-model="autoLogin"
               label="Login automatically"
@@ -84,7 +85,7 @@
               color="primary"
             ></v-checkbox>
           </v-form>
-          <p>{{ error }}</p>
+
           <v-spacer></v-spacer>
           <v-card-actions class="pb-6 px-6 justify-center">
             <v-btn
