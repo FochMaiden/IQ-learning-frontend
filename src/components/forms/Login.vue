@@ -47,6 +47,7 @@
               ]"
               filled
             ></v-text-field>
+            <p>{{ error }}</p>
             <v-checkbox
               v-model="rememberMe"
               label="Remember Me"
@@ -92,6 +93,7 @@ export default {
       password: null,
       rememberMe: true,
       valid: false,
+      error: "",
       required,
       passwordNumber,
       regexUsername,
@@ -113,12 +115,17 @@ export default {
         },
         fetchUser: false,
         rememberMe: this.rememberMe,
-        success: function(response) {
-          this.$auth.user(response.data);
-          this.$auth.token(null, response.data.sessionID);
+        success: async function(response) {
+          if (!response.data.isError) {
+            this.$auth.user(response.data);
+            this.$auth.token(null, response.data.sessionID);
+          }
         },
-        error: function(err) {}
-        //redirect: { name: "home" }
+        error: function(err) {
+          if (err.response.data) {
+            this.error = err.response.data;
+          }
+        }
       });
     }
   }

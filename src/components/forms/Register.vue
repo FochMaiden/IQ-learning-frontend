@@ -84,6 +84,7 @@
               color="primary"
             ></v-checkbox>
           </v-form>
+          <p>{{ error }}</p>
           <v-spacer></v-spacer>
           <v-card-actions class="pb-6 px-6 justify-center">
             <v-btn
@@ -124,6 +125,7 @@ export default {
       password: null,
       autoLogin: true,
       valid: false,
+      error: "",
       required,
       regexEmail,
       passwordNumber,
@@ -150,15 +152,19 @@ export default {
         },
         autoLogin: false,
         rememberMe: true,
-        success: function(response) {
-          if (this.autoLogin) {
+        success: async function(response) {
+          if (!response.data.isError) {
             this.$auth.user(response.data);
             this.$auth.token(null, response.data.sessionID);
           } else {
             this.$router.push("/login");
           }
         },
-        error: function(err) {}
+        error: function(err) {
+          if (err.response.data) {
+            this.error = err.response.data;
+          }
+        }
       });
     }
   }
