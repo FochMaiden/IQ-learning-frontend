@@ -60,7 +60,7 @@
               v-model="surname"
               type="text"
               filled
-              :rules="isName()"
+              :rules="[isName()]"
             ></v-text-field>
             <v-text-field
               id="password"
