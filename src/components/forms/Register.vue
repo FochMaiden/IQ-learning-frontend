@@ -115,7 +115,7 @@ export default {
           surname: this.surname,
           password: this.password
         },
-        autoLogin: false,
+        autoLogin: this.autoLogin,
         rememberMe: true,
         success: function(response) {
           if (this.autoLogin) {
