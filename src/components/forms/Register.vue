@@ -16,7 +16,7 @@
             </v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <v-form class="pt-6 px-6 primary--text">
+          <v-form class="pt-6 px-6 primary--text" v-model="valid">
             <v-text-field
               label="Username"
               name="username"
@@ -24,6 +24,11 @@
               type="text"
               autofocus
               filled
+              :rules="[
+                regexUsername(),
+                required('username'),
+                minLength('username', 3)
+              ]"
             >
               <v-icon slot="append" color="accent">
                 fas fa-user-tie
@@ -34,6 +39,7 @@
               name="email"
               v-model="email"
               type="text"
+              :rules="[required('email'), regexEmail()]"
               filled
             >
               <v-icon slot="append" color="accent">
@@ -46,6 +52,7 @@
               v-model="name"
               type="text"
               filled
+              :rules="[isName()]"
             ></v-text-field>
             <v-text-field
               label="Surname"
@@ -53,6 +60,7 @@
               v-model="surname"
               type="text"
               filled
+              :rules="isName()"
             ></v-text-field>
             <v-text-field
               id="password"
@@ -60,8 +68,15 @@
               name="password"
               v-model="password"
               type="password"
+              :rules="[
+                required('password'),
+                minLength(password, 8),
+                passwordNumber(),
+                passwordUppercase()
+              ]"
               filled
             ></v-text-field>
+            <p>{{ error }}</p>
             <v-checkbox
               v-model="autoLogin"
               label="Login automatically"
@@ -70,6 +85,7 @@
               color="primary"
             ></v-checkbox>
           </v-form>
+
           <v-spacer></v-spacer>
           <v-card-actions class="pb-6 px-6 justify-center">
             <v-btn
@@ -78,6 +94,7 @@
               block
               style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
               v-on:click="register"
+              :disabled="!valid"
               >Register</v-btn
             >
           </v-card-actions>
@@ -88,16 +105,35 @@
 </template>
 
 <script>
+import { required } from "./validationFunctions.js";
+import {
+  isName,
+  minLength,
+  passwordNumber,
+  passwordUppercase,
+  regexEmail,
+  regexUsername
+} from "./validationFunctions";
+
 export default {
   name: "Register",
-  data() {
+  data: function() {
     return {
       username: null,
       email: null,
       name: null,
       surname: null,
       password: null,
-      autoLogin: true
+      autoLogin: true,
+      valid: false,
+      error: "",
+      required,
+      regexEmail,
+      passwordNumber,
+      regexUsername,
+      minLength,
+      passwordUppercase,
+      isName
     };
   },
   methods: {
@@ -117,15 +153,19 @@ export default {
         },
         autoLogin: this.autoLogin,
         rememberMe: true,
-        success: function(response) {
-          if (this.autoLogin) {
+        success: async function(response) {
+          if (!response.data.isError) {
             this.$auth.user(response.data);
             this.$auth.token(null, response.data.sessionID);
           } else {
             this.$router.push("/login");
           }
         },
-        error: function(err) {}
+        error: function(err) {
+          if (err.response.data) {
+            this.error = err.response.data;
+          }
+        }
       });
     }
   }

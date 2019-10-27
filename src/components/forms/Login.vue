@@ -6,12 +6,12 @@
   >
     <v-row align="center" justify="center">
       <v-col cols="12" sm="8" md="4">
-        <v-card color="rgb(255, 255, 255, 0.7)" >
+        <v-card color="rgb(255, 255, 255, 0.7)">
           <v-toolbar
             style="display: flex; justify-content: center"
             class="primary--text"
           >
-            <v-toolbar-title >
+            <v-toolbar-title>
               LOGIN
             </v-toolbar-title>
             <v-spacer></v-spacer>
@@ -19,15 +19,19 @@
           <!--          <v-row class="pa-0">
             <v-col class="pa-0">-->
           <v-card-title class="justify-center primary--text"> </v-card-title>
-          <v-form class="pt-6 px-6 primary--text">
+          <v-form class="pt-6 px-6 primary--text" v-model="valid">
             <v-text-field
-                    label="Login"
+              label="Login"
               name="login"
               v-model="username"
               type="text"
               autofocus
               filled
-
+              :rules="[
+                required('username'),
+                minLength('username', 3),
+                regexUsername()
+              ]"
             ></v-text-field>
             <v-text-field
               id="password"
@@ -35,14 +39,21 @@
               name="password"
               v-model="password"
               type="password"
+              :rules="[
+                required('password'),
+                minLength(password, 8),
+                passwordNumber(),
+                passwordUppercase()
+              ]"
               filled
             ></v-text-field>
+            <p>{{ error }}</p>
             <v-checkbox
-                    v-model="rememberMe"
-                    label="Remember Me"
-                    data-vv-name="checkbox"
-                    type="checkbox"
-                    color="primary"
+              v-model="rememberMe"
+              label="Remember Me"
+              data-vv-name="checkbox"
+              type="checkbox"
+              color="primary"
             ></v-checkbox>
           </v-form>
           <v-card-actions class="pb-6 px-6 justify-center">
@@ -51,6 +62,7 @@
               dark
               block
               style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
+              :disabled="!valid"
               v-on:click="login"
               >Login</v-btn
             >
@@ -66,12 +78,27 @@
 </template>
 
 <script>
+import { required } from "./validationFunctions.js";
+import {
+  minLength,
+  passwordNumber,
+  passwordUppercase,
+  regexUsername
+} from "./validationFunctions";
+
 export default {
-  data() {
+  data: function() {
     return {
       username: null,
       password: null,
-      rememberMe: true
+      rememberMe: true,
+      valid: false,
+      error: "",
+      required,
+      passwordNumber,
+      regexUsername,
+      minLength,
+      passwordUppercase
     };
   },
   methods: {
@@ -88,12 +115,17 @@ export default {
         },
         fetchUser: false,
         rememberMe: this.rememberMe,
-        success: function(response) {
-          this.$auth.user(response.data);
-          this.$auth.token(null, response.data.sessionID);
+        success: async function(response) {
+          if (!response.data.isError) {
+            this.$auth.user(response.data);
+            this.$auth.token(null, response.data.sessionID);
+          }
         },
-        error: function(err) {}
-        //redirect: { name: "home" }
+        error: function(err) {
+          if (err.response.data) {
+            this.error = err.response.data;
+          }
+        }
       });
     }
   }
