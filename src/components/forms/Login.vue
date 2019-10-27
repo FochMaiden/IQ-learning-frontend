@@ -78,15 +78,10 @@
 </template>
 
 <script>
-import { required } from "./validationFunctions.js";
-import {
-  minLength,
-  passwordNumber,
-  passwordUppercase,
-  regexUsername
-} from "./validationFunctions";
+	import {required} from "./validationFunctions.js";
+	import {minLength, passwordNumber, passwordUppercase, regexUsername} from "./validationFunctions";
 
-export default {
+	export default {
   data: function() {
     return {
       username: null,

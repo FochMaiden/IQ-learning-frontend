@@ -60,7 +60,7 @@
               v-model="surname"
               type="text"
               filled
-              :rules="isName()"
+              :rules="[isName()]"
             ></v-text-field>
             <v-text-field
               id="password"
@@ -105,17 +105,17 @@
 </template>
 
 <script>
-import { required } from "./validationFunctions.js";
-import {
-  isName,
-  minLength,
-  passwordNumber,
-  passwordUppercase,
-  regexEmail,
-  regexUsername
-} from "./validationFunctions";
+	import {required} from "./validationFunctions.js";
+	import {
+		isName,
+		minLength,
+		passwordNumber,
+		passwordUppercase,
+		regexEmail,
+		regexUsername
+	} from "./validationFunctions";
 
-export default {
+	export default {
   name: "Register",
   data: function() {
     return {
