@@ -47,7 +47,20 @@ export default {
   methods: {
     logout() {
       this.$auth.logout({
-        redirect: { name: "home" }
+        makeRequest: true,
+        url: "/user/logout",
+        method: "POST",
+        data:{
+          token: localStorage.getItem('default_auth_token')
+        },
+        //redirect: { name: "home" }
+        success: async function(response) {
+          console.log('Logout successful')
+        },
+        error: function(err) {
+          console.log('Error during logout')
+        },
+        redirect: {name: 'login'}
       });
     }
   }
