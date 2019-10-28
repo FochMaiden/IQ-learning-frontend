@@ -2,9 +2,6 @@ import Vue from "vue";
 import Router from "vue-router";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import Home from "./pages/Home";
-import Login from "./pages/forms/Login";
-import Register from "./pages/forms/Register";
 
 //compbell
 axios.defaults.baseURL = "http://localhost:8080";
@@ -17,19 +14,32 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/admin',
+      meta: {
+        auth: {
+          roles: 'admin',
+          redirect: {name: 'admin'},
+          //forbiddenRedirect: '/admin/403'
+        }
+      },
+      //component: require('./admin')
+    },
+    {
       path: "/",
       name: "home",
-      component: Home
+      component: ()=> import('./components/Home')
     },
     {
       path: "/login",
       name: "login",
-      component: Login
+      meta: {auth: false},
+      component: ()=> import('./components/forms/Login')
     },
     {
       path: "/register",
       name: "register",
-      component: Register
+      meta: {auth: false},
+      component: ()=> import('./components/forms/Register')
     }
   ],
   scrollBehavior() {
