@@ -2,7 +2,12 @@
   <nav style="height: auto">
     <v-app-bar color="rgb(255, 255, 255, 0)" fixed app flat>
       <!-- <v-app-bar-nav-icon v-on:click="drawer = !drawer"> </v-app-bar-nav-icon>-->
-      <v-toolbar-title v-if="!isUserRoute">IQ Learning</v-toolbar-title>
+      <v-toolbar-title v-if="!isUserRoute" cou v-on:click.prevent="$router.push('/').catch(e=>{})">
+        <v-avatar class="profile ma-auto">
+          <v-img :src="ico"></v-img>
+        </v-avatar>
+        IQ Learning</v-toolbar-title
+      >
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn
@@ -48,6 +53,7 @@ export default {
         { title: 'Login', link: '/login' },
         { title: 'Register', link: '/register' },
       ],
+      ico: require('../../assets/wisdom.svg'),
     };
   },
   methods: {

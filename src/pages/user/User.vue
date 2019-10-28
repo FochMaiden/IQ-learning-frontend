@@ -3,7 +3,7 @@
     <v-navigation-drawer width="25vh" floating permanent app>
       <template v-slot:prepend>
         <v-list class="pt-10 p">
-          <v-list-item  >
+          <v-list-item to="/">
             <v-avatar class="profile ma-auto" >
               <v-img :src="ico"></v-img>
             </v-avatar>
