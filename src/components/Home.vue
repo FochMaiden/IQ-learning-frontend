@@ -1,5 +1,9 @@
 <template>
-  <v-container fluid class="fill-height"> </v-container>
+  <v-parallax>
+
+
+  </v-parallax>
+ <!-- <v-container fluid class="fill-height"> </v-container>-->
 </template>
 
 <script>

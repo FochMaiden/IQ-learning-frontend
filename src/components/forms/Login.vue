@@ -41,9 +41,7 @@
               type="password"
               :rules="[
                 required('password'),
-                minLength(password, 8),
-                passwordNumber(),
-                passwordUppercase()
+                minLength(password, 3)
               ]"
               filled
             ></v-text-field>
