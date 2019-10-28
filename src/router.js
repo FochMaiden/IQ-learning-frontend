@@ -27,19 +27,19 @@ const router = new Router({
     {
       path: "/",
       name: "home",
-      component: ()=> import('./components/Home')
+      component: ()=> import('./pages/Home')
     },
     {
       path: "/login",
       name: "login",
       meta: {auth: false},
-      component: ()=> import('./components/forms/Login')
+      component: ()=> import('./pages/forms/Login')
     },
     {
       path: "/register",
       name: "register",
       meta: {auth: false},
-      component: ()=> import('./components/forms/Register')
+      component: ()=> import('./pages/forms/Register')
     }
   ],
   scrollBehavior() {
