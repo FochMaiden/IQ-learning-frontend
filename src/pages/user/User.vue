@@ -11,8 +11,8 @@
           </v-list-item>
         </v-list>
       </template>
-      <v-list>
-        <v-list-item v-for="item in items" :key="item.title" link>
+      <v-list class="pt-10">
+        <v-list-item v-for="item in items" :key="item.title" :to="item.to" link>
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -62,7 +62,7 @@ export default {
   name: 'User',
   data() {
     return {
-      items: [{ title: 'halko', icon: 'fas fa-user' }],
+      items: [{ title: 'Dashboard', to: {name: 'dashboard'}, icon: 'mdi-view-dashboard-outline' }],
       ico: require('../../assets/wisdom.svg'),
     };
   },
