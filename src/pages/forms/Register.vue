@@ -139,11 +139,6 @@
   methods: {
     register() {
       this.$auth.register({
-        url: "/user/register",
-        method: "POST",
-        headers: {
-          authorization: "bearer null"
-        },
         data: {
           username: this.username,
           email: this.email,
@@ -154,12 +149,8 @@
         autoLogin: this.autoLogin,
         rememberMe: true,
         success: async function(response) {
-          if (!response.data.isError) {
             this.$auth.user(response.data);
             this.$auth.token(null, response.data.sessionID);
-          } else {
-            this.$router.push("/login");
-          }
         },
         error: function(err) {
           if (err.response.data) {

@@ -97,22 +97,14 @@
   methods: {
     login() {
       this.$auth.login({
-        url: "/user/token",
-        method: "POST",
-        headers: {
-          Authorization: "bearer null"
-        },
         data: {
           username: this.username,
           password: this.password
         },
-        fetchUser: false,
         rememberMe: this.rememberMe,
         success: async function(response) {
-          if (!response.data.isError) {
             this.$auth.user(response.data);
             this.$auth.token(null, response.data.sessionID);
-          }
         },
         error: function(err) {
           if (err.response.data) {

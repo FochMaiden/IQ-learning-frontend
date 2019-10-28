@@ -72,10 +72,35 @@ Vue.use(require('@websanova/vue-auth'), {
   loginData: {
     url: '/user/token',
     method: 'POST',
+    headers: {
+      Authorization: 'bearer null',
+    },
     fetchUser: false,
-    redirect: '/',
+    redirect: {name: 'home'}
   },
-  registerData: { url: 'auth/register', method: 'POST', redirect: '/' },
+  registerData: {
+    url: '/user/register',
+    method: 'POST',
+    headers: {
+      authorization: 'bearer null',
+    },
+    redirect: {name: 'home'}
+  },
+  logoutData: {
+    makeRequest: true,
+    url: '/user/logout',
+    method: 'POST',
+    data: {
+      token: localStorage.getItem('default_auth_token'),
+    },
+    success: function(d) {
+      console.log('logout: ', d.data);
+    },
+    error: function(d) {
+      console.log('logout: ', d);
+    },
+    redirect: { name: 'home' },
+  },
   fetchData: {
     url: '/user/refresh',
     method: 'GET',

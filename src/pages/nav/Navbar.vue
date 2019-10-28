@@ -4,7 +4,7 @@
       <!-- <v-app-bar-nav-icon v-on:click="drawer = !drawer"> </v-app-bar-nav-icon>-->
       <v-toolbar-title v-if="!isUserRoute">IQ Learning</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-toolbar-items >
+      <v-toolbar-items>
         <v-btn
           to="/user"
           text
@@ -18,10 +18,10 @@
           v-if="this.$auth.check() && !isUserRoute"
           v-on:click="logout"
         >
-          <v-icon small color="primary">fas fa-sign-out-alt</v-icon>
+          <v-icon color="primary">mdi-logout-variant</v-icon>
         </v-btn>
         <v-btn
-          v-else
+          v-else-if="!isUserRoute"
           color="primary"
           text
           :to="link.link"
@@ -52,22 +52,7 @@ export default {
   },
   methods: {
     logout() {
-      this.$auth.logout({
-        makeRequest: true,
-        url: '/user/logout',
-        method: 'POST',
-        data: {
-          token: localStorage.getItem('default_auth_token'),
-        },
-        //redirect: { name: "home" }
-        success: async function(response) {
-          console.log('Logout successful');
-        },
-        error: function(err) {
-          console.log('Error during logout');
-        },
-        redirect: { name: 'login' },
-      });
+      this.$auth.logout();
     },
   },
   computed: {
