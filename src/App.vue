@@ -4,7 +4,7 @@
       &lt;!&ndash; &ndash;&gt;
     </v-navigation-drawer>-->
     <Navbar />
-    <!-- Sizes your content based upon application components -->
+    <!-- Sizes your content based upon application pages -->
     <v-content id="content">
       <router-view />
     </v-content>
@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import Navbar from "./components/nav/Navbar";
+	import Navbar from "./pages/nav/Navbar";
 
-export default {
+	export default {
   name: "App",
   components: {
     Navbar

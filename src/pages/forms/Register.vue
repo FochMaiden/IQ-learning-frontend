@@ -12,26 +12,55 @@
             class="primary--text"
           >
             <v-toolbar-title>
-              LOGIN
+              REGISTER
             </v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <!--          <v-row class="pa-0">
-            <v-col class="pa-0">-->
-          <v-card-title class="justify-center primary--text"> </v-card-title>
           <v-form class="pt-6 px-6 primary--text" v-model="valid">
             <v-text-field
-              label="Login"
-              name="login"
+              label="Username"
+              name="username"
               v-model="username"
               type="text"
               autofocus
               filled
               :rules="[
+                regexUsername(),
                 required('username'),
-                minLength('username', 3),
-                regexUsername()
+                minLength('username', 3)
               ]"
+            >
+              <v-icon slot="append" color="accent">
+                fas fa-user-tie
+              </v-icon>
+            </v-text-field>
+            <v-text-field
+              label="E-mail"
+              name="email"
+              v-model="email"
+              type="text"
+              :rules="[required('email'), regexEmail()]"
+              filled
+            >
+              <v-icon slot="append" color="accent">
+                fas fa-envelope
+              </v-icon>
+            </v-text-field>
+            <v-text-field
+              label="Name"
+              name="name"
+              v-model="name"
+              type="text"
+              filled
+              :rules="[isName()]"
+            ></v-text-field>
+            <v-text-field
+              label="Surname"
+              name="surname"
+              v-model="surname"
+              type="text"
+              filled
+              :rules="[isName()]"
             ></v-text-field>
             <v-text-field
               id="password"
@@ -49,28 +78,26 @@
             ></v-text-field>
             <p>{{ error }}</p>
             <v-checkbox
-              v-model="rememberMe"
-              label="Remember Me"
+              v-model="autoLogin"
+              label="Login automatically"
               data-vv-name="checkbox"
               type="checkbox"
               color="primary"
             ></v-checkbox>
           </v-form>
+
+          <v-spacer></v-spacer>
           <v-card-actions class="pb-6 px-6 justify-center">
             <v-btn
               large
               dark
               block
               style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
+              v-on:click="register"
               :disabled="!valid"
-              v-on:click="login"
-              >Login</v-btn
+              >Register</v-btn
             >
           </v-card-actions>
-          <!--            </v-col>
-&lt;!&ndash;            <v-col>
-            </v-col>&ndash;&gt;
-          </v-row>-->
         </v-card>
       </v-col>
     </v-row>
@@ -78,47 +105,60 @@
 </template>
 
 <script>
-import { required } from "./validationFunctions.js";
-import {
-  minLength,
-  passwordNumber,
-  passwordUppercase,
-  regexUsername
-} from "./validationFunctions";
+	import {required} from "./validationFunctions.js";
+	import {
+		isName,
+		minLength,
+		passwordNumber,
+		passwordUppercase,
+		regexEmail,
+		regexUsername
+	} from "./validationFunctions";
 
-export default {
+	export default {
+  name: "Register",
   data: function() {
     return {
       username: null,
+      email: null,
+      name: null,
+      surname: null,
       password: null,
-      rememberMe: true,
+      autoLogin: true,
       valid: false,
       error: "",
       required,
+      regexEmail,
       passwordNumber,
       regexUsername,
       minLength,
-      passwordUppercase
+      passwordUppercase,
+      isName
     };
   },
   methods: {
-    login() {
-      this.$auth.login({
-        url: "/user/token",
+    register() {
+      this.$auth.register({
+        url: "/user/register",
         method: "POST",
         headers: {
-          Authorization: "bearer null"
+          authorization: "bearer null"
         },
         data: {
           username: this.username,
+          email: this.email,
+          name: this.name,
+          surname: this.surname,
           password: this.password
         },
-        fetchUser: false,
-        rememberMe: this.rememberMe,
+        autoLogin: this.autoLogin,
+        rememberMe: true,
         success: async function(response) {
           if (!response.data.isError) {
             this.$auth.user(response.data);
             this.$auth.token(null, response.data.sessionID);
+          } else {
+            this.$router.push("/login");
           }
         },
         error: function(err) {

@@ -21,9 +21,11 @@
           color="primary"
           text
           :to="link.link"
+          :key="link.title"
           v-for="link in links"
-          >{{ link.title }}</v-btn
         >
+          {{ link.title }}
+        </v-btn>
       </v-toolbar-items>
     </v-app-bar>
     <!--    <v-navigation-drawer v-model="drawer" app>
@@ -34,36 +36,36 @@
 
 <script>
 export default {
-  name: "Navbar",
+  name: 'Navbar',
   data() {
     return {
       drawer: false,
       links: [
-        { title: "Login", link: "/login" },
-        { title: "Register", link: "/register" }
-      ]
+        { title: 'Login', link: '/login' },
+        { title: 'Register', link: '/register' },
+      ],
     };
   },
   methods: {
     logout() {
       this.$auth.logout({
         makeRequest: true,
-        url: "/user/logout",
-        method: "POST",
-        data:{
-          token: localStorage.getItem('default_auth_token')
+        url: '/user/logout',
+        method: 'POST',
+        data: {
+          token: localStorage.getItem('default_auth_token'),
         },
         //redirect: { name: "home" }
         success: async function(response) {
-          console.log('Logout successful')
+          console.log('Logout successful');
         },
         error: function(err) {
-          console.log('Error during logout')
+          console.log('Error during logout');
         },
-        redirect: {name: 'login'}
+        redirect: { name: 'login' },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
