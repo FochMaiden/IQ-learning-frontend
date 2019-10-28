@@ -1,5 +1,5 @@
 <template>
-  <v-parallax>
+  <v-parallax style="height: 100vh !important;">
 
 
   </v-parallax>

@@ -9,22 +9,22 @@
       <router-view />
     </v-content>
 
-<!--    <v-footer app>
+    <!--    <v-footer app>
       &lt;!&ndash; &ndash;&gt;
     </v-footer>-->
   </v-app>
 </template>
 
 <script>
-	import Navbar from "./pages/nav/Navbar";
+import Navbar from './pages/nav/Navbar';
 
-	export default {
-  name: "App",
+export default {
+  name: 'App',
   components: {
-    Navbar
+    Navbar,
   },
   data: () => ({
     //
-  })
+  }),
 };
 </script>

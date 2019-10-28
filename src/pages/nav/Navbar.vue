@@ -1,17 +1,21 @@
 <template>
   <nav style="height: auto">
-    <v-app-bar fixed app>
+    <v-app-bar color="rgb(255, 255, 255, 0)" fixed app flat>
       <!-- <v-app-bar-nav-icon v-on:click="drawer = !drawer"> </v-app-bar-nav-icon>-->
-      <v-toolbar-title>IQ Learning</v-toolbar-title>
+      <v-toolbar-title v-if="!isUserRoute">IQ Learning</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-toolbar-items>
-        <v-btn text color="primary" v-if="this.$auth.check()"
-          >{{ this.$auth.user().username }}
+      <v-toolbar-items >
+        <v-btn
+          to="/user"
+          text
+          color="primary"
+          v-if="this.$auth.check() && !isUserRoute"
+          >{{ $auth.user().username }}
         </v-btn>
         <v-btn
           text
           color="primary"
-          v-if="this.$auth.check()"
+          v-if="this.$auth.check() && !isUserRoute"
           v-on:click="logout"
         >
           <v-icon small color="primary">fas fa-sign-out-alt</v-icon>
@@ -64,6 +68,12 @@ export default {
         },
         redirect: { name: 'login' },
       });
+    },
+  },
+  computed: {
+    isUserRoute() {
+      const path = this.$route.path;
+      return path.split('/')[1] === 'user';
     },
   },
 };

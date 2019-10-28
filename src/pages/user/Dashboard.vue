@@ -1,8 +1,4 @@
-<template>
-<p>
-		asdasdadsdas
-</p>
-</template>
+<template> </template>
 
 <script>
 export default {
