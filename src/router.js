@@ -2,9 +2,9 @@ import Vue from "vue";
 import Router from "vue-router";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import Home from "./components/Home";
-import Login from "./components/forms/Login";
-import Register from "./components/forms/Register";
+import Home from "./pages/Home";
+import Login from "./pages/forms/Login";
+import Register from "./pages/forms/Register";
 
 //compbell
 axios.defaults.baseURL = "http://localhost:8080";
