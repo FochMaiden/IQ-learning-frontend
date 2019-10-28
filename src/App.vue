@@ -9,9 +9,9 @@
       <router-view />
     </v-content>
 
-    <v-footer app>
-      <!-- -->
-    </v-footer>
+<!--    <v-footer app>
+      &lt;!&ndash; &ndash;&gt;
+    </v-footer>-->
   </v-app>
 </template>
 
