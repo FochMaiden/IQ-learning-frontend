@@ -5,7 +5,7 @@
     </v-navigation-drawer>-->
     <Navbar />
     <!-- Sizes your content based upon application pages -->
-    <v-content id="content">
+    <v-content id="content" style="background: rgba(229,237,251,0.8)">
       <router-view />
     </v-content>
 
