@@ -76,8 +76,8 @@
 </template>
 
 <script>
-	import {required} from "./validationFunctions.js";
-	import {minLength, passwordNumber, passwordUppercase, regexUsername} from "./validationFunctions";
+	import {required} from "../../util/validationFunctions.js";
+	import {minLength, passwordNumber, passwordUppercase, regexUsername} from "../../util/validationFunctions";
 
 	export default {
   data: function() {

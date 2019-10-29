@@ -105,7 +105,7 @@
 </template>
 
 <script>
-	import {required} from "./validationFunctions.js";
+	import {required} from "../../util/validationFunctions.js";
 	import {
 		isName,
 		minLength,
@@ -113,7 +113,7 @@
 		passwordUppercase,
 		regexEmail,
 		regexUsername
-	} from "./validationFunctions";
+	} from "../../util/validationFunctions";
 
 	export default {
   name: "Register",

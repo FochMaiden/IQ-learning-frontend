@@ -26,18 +26,18 @@ const router = new Router({
     },*/
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: () => import('./pages/Home'),
     },
     {
       path: '/login',
-      name: 'login',
+      name: 'Login',
       meta: { auth: false },
       component: () => import('./pages/forms/Login'),
     },
     {
       path: '/register',
-      name: 'register',
+      name: 'Register',
       meta: { auth: false },
       component: () => import('./pages/forms/Register'),
     },
@@ -46,9 +46,11 @@ const router = new Router({
       children: [
         {
           path: '',
+          name: 'Dashboard',
           component: () => import('./pages/user/Dashboard'),
         },
       ],
+      redirect: {name: 'Dashboard'},
       meta: { auth: true },
       component: () => import('./pages/user/User'),
     },

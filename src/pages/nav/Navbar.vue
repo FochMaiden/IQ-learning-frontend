@@ -1,8 +1,11 @@
 <template>
   <nav style="height: auto">
-    <v-app-bar color="rgb(255, 255, 255, 0)" fixed app flat>
+    <v-app-bar v-if="!isUserRoute" color="rgb(255, 255, 255, 0)" fixed app flat>
       <!-- <v-app-bar-nav-icon v-on:click="drawer = !drawer"> </v-app-bar-nav-icon>-->
-      <v-toolbar-title v-if="!isUserRoute" cou v-on:click.prevent="$router.push('/').catch(e=>{})">
+      <v-toolbar-title
+        cou
+        v-on:click.prevent="$router.push('/').catch(e => {})"
+      >
         <v-avatar class="profile ma-auto">
           <v-img :src="ico"></v-img>
         </v-avatar>
@@ -10,23 +13,19 @@
       >
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn
-          to="/user"
-          text
-          color="primary"
-          v-if="this.$auth.check() && !isUserRoute"
+        <v-btn to="/user" text color="primary" v-if="this.$auth.check()"
           >{{ $auth.user().username }}
         </v-btn>
         <v-btn
           text
           color="primary"
-          v-if="this.$auth.check() && !isUserRoute"
+          v-if="this.$auth.check()"
           v-on:click="logout"
         >
           <v-icon color="primary">mdi-logout-variant</v-icon>
         </v-btn>
         <v-btn
-          v-else-if="!isUserRoute"
+          v-else
           color="primary"
           text
           :to="link.link"
@@ -37,7 +36,10 @@
         </v-btn>
       </v-toolbar-items>
     </v-app-bar>
-    <!--    <v-navigation-drawer v-model="drawer" app>
+    <v-app-bar v-else color="rgb(255, 255, 255, 0)" fixed app flat>
+      <v-toolbar-title>{{ this.$router.currentRoute.name }}</v-toolbar-title>
+    </v-app-bar>
+<!--    <v-navigation-drawer v-model="drawer" app>
       <p>aaa</p>
     </v-navigation-drawer>-->
   </nav>
