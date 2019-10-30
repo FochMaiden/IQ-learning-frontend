@@ -50,7 +50,7 @@ const router = new Router({
           component: () => import('./pages/user/Dashboard'),
         },
       ],
-      redirect: {name: 'Dashboard'},
+      redirect: { name: 'Dashboard' },
       meta: { auth: true },
       component: () => import('./pages/user/User'),
     },
@@ -67,8 +67,6 @@ Vue.use(require('@websanova/vue-auth'), {
   http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
   router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
   refreshData: {
-    /*    url: "/user/refresh",
-    method: "GET",*/
     enabled: false,
   },
   loginData: {
@@ -78,7 +76,7 @@ Vue.use(require('@websanova/vue-auth'), {
       Authorization: 'bearer null',
     },
     fetchUser: false,
-    redirect: {name: 'home'}
+    redirect: {name: 'Home'}
   },
   registerData: {
     url: '/user/register',
@@ -86,25 +84,22 @@ Vue.use(require('@websanova/vue-auth'), {
     headers: {
       authorization: 'bearer null',
     },
-    redirect: {name: 'home'}
+    redirect: { name: 'Home' },
   },
   logoutData: {
     makeRequest: true,
     url: '/user/logout',
-    method: 'POST',
-    data: {
-      token: localStorage.getItem('default_auth_token'),
-    },
+    method: 'DELETE',
     success: function(d) {
-      console.log('logout: ', d.data);
+      console.log('logout: ');
     },
     error: function(d) {
       console.log('logout: ', d);
     },
-    redirect: { name: 'home' },
+    redirect: { name: 'Home' },
   },
   fetchData: {
-    url: '/user/refresh',
+    url: '/user/fetch',
     method: 'GET',
     enabled: true,
     success: function(d) {

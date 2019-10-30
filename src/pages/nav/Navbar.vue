@@ -1,6 +1,6 @@
 <template>
   <nav style="height: auto">
-    <v-app-bar v-if="!isUserRoute" color="rgb(255, 255, 255, 0)" fixed app flat>
+    <v-app-bar v-if="!isUserRoute" color="rgb(255, 255, 255, 0.5)" fixed app flat>
       <!-- <v-app-bar-nav-icon v-on:click="drawer = !drawer"> </v-app-bar-nav-icon>-->
       <v-toolbar-title
         cou
