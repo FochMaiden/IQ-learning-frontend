@@ -30,9 +30,6 @@
                 minLength('username', 3)
               ]"
             >
-              <v-icon slot="append" color="accent">
-                fas fa-user-tie
-              </v-icon>
             </v-text-field>
             <v-text-field
               label="E-mail"
@@ -42,10 +39,21 @@
               :rules="[required('email'), regexEmail()]"
               filled
             >
-              <v-icon slot="append" color="accent">
-                fas fa-envelope
-              </v-icon>
             </v-text-field>
+            <v-text-field
+                    id="password"
+                    label="Password"
+                    name="password"
+                    v-model="password"
+                    type="password"
+                    :rules="[
+                required('password'),
+                minLength(password, 8),
+                passwordNumber(),
+                passwordUppercase()
+              ]"
+                    filled
+            ></v-text-field>
             <v-text-field
               label="Name"
               name="name"
@@ -61,20 +69,6 @@
               type="text"
               filled
               :rules="[isName()]"
-            ></v-text-field>
-            <v-text-field
-              id="password"
-              label="Password"
-              name="password"
-              v-model="password"
-              type="password"
-              :rules="[
-                required('password'),
-                minLength(password, 8),
-                passwordNumber(),
-                passwordUppercase()
-              ]"
-              filled
             ></v-text-field>
             <p>{{ error }}</p>
             <v-checkbox
