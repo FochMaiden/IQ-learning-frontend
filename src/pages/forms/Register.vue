@@ -27,7 +27,7 @@
               :rules="[
                 regexUsername(),
                 required('username'),
-                minLength('username', 3)
+                minLength('username', 3),
               ]"
             >
             </v-text-field>
@@ -41,18 +41,18 @@
             >
             </v-text-field>
             <v-text-field
-                    id="password"
-                    label="Password"
-                    name="password"
-                    v-model="password"
-                    type="password"
-                    :rules="[
+              id="password"
+              label="Password"
+              name="password"
+              v-model="password"
+              type="password"
+              :rules="[
                 required('password'),
                 minLength(password, 8),
                 passwordNumber(),
-                passwordUppercase()
+                passwordUppercase(),
               ]"
-                    filled
+              filled
             ></v-text-field>
             <v-text-field
               label="Name"
@@ -99,18 +99,18 @@
 </template>
 
 <script>
-	import {required} from "../../util/validationFunctions.js";
-	import {
-		isName,
-		minLength,
-		passwordNumber,
-		passwordUppercase,
-		regexEmail,
-		regexUsername
-	} from "../../util/validationFunctions";
+import { required } from '../../util/validationFunctions.js';
+import {
+  isName,
+  minLength,
+  passwordNumber,
+  passwordUppercase,
+  regexEmail,
+  regexUsername,
+} from '../../util/validationFunctions';
 
-	export default {
-  name: "Register",
+export default {
+  name: 'Register',
   data: function() {
     return {
       username: null,
@@ -120,14 +120,14 @@
       password: null,
       autoLogin: true,
       valid: false,
-      error: "",
+      error: '',
       required,
       regexEmail,
       passwordNumber,
       regexUsername,
       minLength,
       passwordUppercase,
-      isName
+      isName,
     };
   },
   methods: {
@@ -138,22 +138,22 @@
           email: this.email,
           name: this.name,
           surname: this.surname,
-          password: this.password
+          password: this.password,
         },
         autoLogin: this.autoLogin,
         rememberMe: true,
         success: async function(response) {
-            this.$auth.user(response.data);
-            this.$auth.token(null, response.data.sessionID);
+          this.$auth.user(response.data);
+          this.$auth.token(null, response.data.sessionID);
         },
         error: function(err) {
           if (err.response.data) {
             this.error = err.response.data;
           }
-        }
+        },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped></style>

@@ -30,7 +30,7 @@
               :rules="[
                 required('username'),
                 minLength('username', 3),
-                regexUsername()
+                regexUsername(),
               ]"
             ></v-text-field>
             <v-text-field
@@ -39,10 +39,7 @@
               name="password"
               v-model="password"
               type="password"
-              :rules="[
-                required('password'),
-                minLength(password, 3)
-              ]"
+              :rules="[required('password'), minLength(password, 3)]"
               filled
             ></v-text-field>
             <p>{{ error }}</p>
@@ -76,22 +73,27 @@
 </template>
 
 <script>
-	import {required} from "../../util/validationFunctions.js";
-	import {minLength, passwordNumber, passwordUppercase, regexUsername} from "../../util/validationFunctions";
+import { required } from '../../util/validationFunctions.js';
+import {
+  minLength,
+  passwordNumber,
+  passwordUppercase,
+  regexUsername,
+} from '../../util/validationFunctions';
 
-	export default {
+export default {
   data: function() {
     return {
       username: null,
       password: null,
       rememberMe: true,
       valid: false,
-      error: "",
+      error: '',
       required,
       passwordNumber,
       regexUsername,
       minLength,
-      passwordUppercase
+      passwordUppercase,
     };
   },
   methods: {
@@ -99,21 +101,21 @@
       this.$auth.login({
         data: {
           username: this.username,
-          password: this.password
+          password: this.password,
         },
         rememberMe: this.rememberMe,
         success: async function(response) {
-            this.$auth.user(response.data);
-            this.$auth.token(null, response.data.sessionID);
+          this.$auth.user(response.data);
+          this.$auth.token(null, response.data.sessionID);
         },
         error: function(err) {
           if (err.response.data) {
             this.error = err.response.data;
           }
-        }
+        },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped></style>

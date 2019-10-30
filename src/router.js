@@ -13,17 +13,6 @@ const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    /*    {
-      path: '/admin',
-      meta: {
-        auth: {
-          roles: 'admin',
-          redirect: {name: 'admin'},
-          //forbiddenRedirect: '/admin/403'
-        }
-      },
-      //component: require('./admin')
-    },*/
     {
       path: '/',
       name: 'Home',
@@ -103,9 +92,7 @@ Vue.use(require('@websanova/vue-auth'), {
     method: 'GET',
     enabled: true,
     success: function(d) {
-      if (Vue.auth.check()) {
-        Vue.auth.user(d.data);
-      }
+      Vue.auth.user(d.data);
     },
   },
 });

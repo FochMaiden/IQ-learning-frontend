@@ -23,7 +23,7 @@
           </v-btn>
         </v-fab-transition>
         <span class="white--text headline">
-          {{ this.getAvatarName.toUpperCase() }}
+          {{ initials }}
         </span>
       </v-avatar>
       <v-list-item two-line align="center" class="mt-3 flex flex-wrap">
@@ -45,6 +45,28 @@ export default {
     logout() {
       this.$auth.logout();
     },
+    checkInitials() {
+      if (this.$name && this.$surname) {
+        return this.getInitials(this.$name, this.$surname, false);
+      } else if (this.$name) {
+        return this.getInitials(this.$name, this.$name);
+      } else if (this.$surname) {
+        return this.getInitials(this.$surname, this.$surname);
+      } else return this.getInitials(this.$username, this.$username);
+    },
+    getInitials(firstString, secondString, isSameString = true) {
+      isSameString
+        ? (this.initials = firstString[0] + secondString[1])
+        : (this.initials = firstString[0] + secondString[0]);
+    },
+  },
+  data() {
+    return {
+      initials: '',
+    };
+  },
+  created() {
+    this.checkInitials();
   },
   computed: {
     isMobile() {
@@ -52,16 +74,6 @@ export default {
         this.$vuetify.breakpoint.name === 'lg' ||
         this.$vuetify.breakpoint.name === 'xl'
       );
-    },
-    getAvatarName() {
-      if (this.$auth.user().name && this.$auth.user().surname) {
-        return this.$auth.user().name[0] + this.$auth.user().surname[0];
-      } else if (this.$auth.user().name && !this.$auth.user().surname) {
-        return this.$auth.user().name[0] + this.$auth.user().name[1];
-      } else if (!this.$auth.user().name && this.$auth.user().surname) {
-        return this.$auth.user().surname[0] + this.$auth.user().surname[1];
-      } else
-        return this.$auth.user().username[0] + this.$auth.user().username[1];
     },
     getName() {
       if (this.$auth.user().name && this.$auth.user().surname) {

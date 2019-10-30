@@ -1,11 +1,14 @@
 <template>
   <nav style="height: auto">
-    <v-app-bar v-if="!isUserRoute" color="rgb(255, 255, 255, 0.5)" fixed app flat>
+    <v-app-bar
+      v-if="!isUserRoute"
+      color="rgb(255, 255, 255, 0.5)"
+      fixed
+      app
+      flat
+    >
       <!-- <v-app-bar-nav-icon v-on:click="drawer = !drawer"> </v-app-bar-nav-icon>-->
-      <v-toolbar-title
-        cou
-        v-on:click.prevent="$router.push('/').catch(e => {})"
-      >
+      <v-toolbar-title v-on:click.prevent="$router.push('/').catch(e => {})">
         <v-avatar class="profile ma-auto">
           <v-img :src="ico"></v-img>
         </v-avatar>
@@ -14,7 +17,7 @@
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn to="/user" text color="primary" v-if="this.$auth.check()"
-          >{{ $auth.user().username }}
+          >{{ $username }}
         </v-btn>
         <v-btn
           text
@@ -39,7 +42,7 @@
     <v-app-bar v-else color="rgb(255, 255, 255, 0)" fixed app flat>
       <v-toolbar-title>{{ this.$router.currentRoute.name }}</v-toolbar-title>
     </v-app-bar>
-<!--    <v-navigation-drawer v-model="drawer" app>
+    <!--    <v-navigation-drawer v-model="drawer" app>
       <p>aaa</p>
     </v-navigation-drawer>-->
   </nav>

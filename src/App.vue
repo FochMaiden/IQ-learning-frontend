@@ -5,7 +5,11 @@
     </v-navigation-drawer>-->
     <Navbar />
     <!-- Sizes your content based upon application pages -->
-    <v-content id="content" style="background: rgba(229,237,251,0.8)" class='pt-0'>
+    <v-content
+      id="content"
+      style="background: rgba(229,237,251,0.8)"
+      class="pt-0"
+    >
       <router-view />
     </v-content>
 
@@ -24,9 +28,7 @@ export default {
     Navbar,
   },
   data() {
-    return {
-
-    };
+    return {};
   },
 };
 </script>
