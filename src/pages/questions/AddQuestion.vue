@@ -10,14 +10,15 @@
         <form class="pt-6 px-6 primary--text" v-model="valid">
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
-              <v-text-field
+              <v-select
                 name="subject"
                 label="Subject"
                 id="subject"
                 v-model="subject"
                 :rules="[required('subject')]"
-                filled
-              ></v-text-field>
+                :items="items"
+                required
+              ></v-select>
             </v-flex>
           </v-layout>
           <v-layout row>
@@ -36,11 +37,8 @@
 
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
-              <v-switch v-model="sharable" label="Shareable"></v-switch>
-              <v-switch
-                v-model="isChoiceTest"
-                label="is choice test"
-              ></v-switch>
+              <v-switch v-model="shareable" label="Shareable"></v-switch>
+              <v-switch v-model="choiceTest" label="is choice test"></v-switch>
             </v-flex>
           </v-layout>
           <v-layout row>
@@ -68,23 +66,24 @@ import axios from 'axios';
 
 export default {
   data: function() {
+    let math1;
+    let math2;
     return {
       subject: '',
       question: '',
-      sharable: 0,
-      isChoiceTest: 0,
+      shareable: false,
+      choiceTest: false,
       valid: true,
+      items: [
+        (math1 = { id: 2, name: 'Math', year: 2 }),
+        (math2 = { id: 2, name: 'Math', year: 2 }),
+      ],
       required,
     };
   },
   methods: {
     addQuestion() {
-      console.log(
-        this.subject,
-        this.sharable,
-        this.question,
-        this.isChoiceTest
-      );
+      console.log(this.subject, this.shareable, this.question, this.choiceTest);
       /* axios
 		    .post('/question/add', {data:{subject: 'duoa',
 		    question: 'duoa',
@@ -100,8 +99,8 @@ export default {
         data: {
           subject: this.subject,
           question: this.question,
-          sharable: this.sharable,
-          isChoiceTest: this.isChoiceTest,
+          shareable: this.shareable,
+          choiceTest: this.choiceTest,
         },
         success: async function(response) {
           this.question(response.data);

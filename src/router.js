@@ -30,12 +30,7 @@ const router = new Router({
       meta: { auth: false },
       component: () => import('./pages/forms/Register'),
     },
-    {
-      path: '/user/q',
-      name: 'AddQuestion',
-      meta: { auth: true },
-      component: () => import('./pages/questions/AddQuestion'),
-    },
+
     {
       path: '/user',
       children: [
@@ -43,6 +38,11 @@ const router = new Router({
           path: '',
           name: 'Dashboard',
           component: () => import('./pages/user/Dashboard'),
+        },
+        {
+          path: 'q',
+          name: 'AddQuestion',
+          component: () => import('./pages/questions/AddQuestion'),
         },
       ],
       redirect: { name: 'Dashboard' },
