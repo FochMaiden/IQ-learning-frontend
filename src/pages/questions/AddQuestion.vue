@@ -83,25 +83,23 @@ export default {
   },
   methods: {
     addQuestion() {
-      console.log(this.subject, this.shareable, this.question, this.choiceTest);
-      /* axios
-		    .post('/question/add', {data:{subject: 'duoa',
-		    question: 'duoa',
-		    sherable: 'duoa',
-		    isChoiceTest: 'duoa'}})
+      /*axios
+		    .put('/question/add', {
+				    subject: this.subject,
+				    question: this.question,
+				    shareable: this.shareable,
+				    choiceTest: this.choiceTest})
 		    .then(response => {
-                console.log(response)
+			    this.question(response.data);
 		    })
-		    .catch(error => {
-			    console.log(error)
+		    .catch(err => {
+			    this.err = err.response.data;
 		    })*/
       axios.put('http://localhost:8080/question/add', {
-        data: {
-          subject: this.subject,
-          question: this.question,
-          shareable: this.shareable,
-          choiceTest: this.choiceTest,
-        },
+        subject: this.subject,
+        question: this.question,
+        shareable: this.shareable,
+        choiceTest: this.choiceTest,
         success: async function(response) {
           this.question(response.data);
         },
