@@ -31,6 +31,12 @@ const router = new Router({
       component: () => import('./pages/forms/Register'),
     },
     {
+      path: '/user/q',
+      name: 'AddQuestion',
+      meta: { auth: true },
+      component: () => import('./pages/questions/AddQuestion'),
+    },
+    {
       path: '/user',
       children: [
         {
@@ -65,7 +71,7 @@ Vue.use(require('@websanova/vue-auth'), {
       Authorization: 'bearer null',
     },
     fetchUser: false,
-    redirect: {name: 'Home'}
+    redirect: { name: 'Home' },
   },
   registerData: {
     url: '/user/register',

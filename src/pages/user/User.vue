@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class='pt-12'>
+  <v-container fluid class="pt-12">
     <left-nav></left-nav>
     <router-view />
     <right-nav></right-nav>
