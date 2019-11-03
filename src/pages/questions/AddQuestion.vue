@@ -39,8 +39,34 @@
             <v-flex xs12 sm6 offset-sm3>
               <v-switch v-model="shareable" label="Shareable"></v-switch>
               <v-switch v-model="choiceTest" label="is choice test"></v-switch>
+              <v-layout row>
+                <v-flex xs12 sm6 offset-sm3>
+                  <v-text-field
+                    v-if="choiceTest === true"
+                    name="answer"
+                    label="Answer"
+                    id="answer"
+                    multi-line
+                    filled
+                    v-model="answer"
+                    :rules="[required('question')]"
+                  ></v-text-field>
+                  <v-text-field
+                    v-if="choiceTest === true"
+                    name="answer1"
+                    label="Answer 2"
+                    id="answer1"
+                    multi-line
+                    filled
+                    v-model="answer1"
+                    :rules="[required('question')]"
+                  ></v-text-field>
+                </v-flex>
+              </v-layout>
             </v-flex>
           </v-layout>
+          <p>{{ error }}</p>
+          <ButtonCounter></ButtonCounter>
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <v-btn
@@ -63,8 +89,10 @@
 <script>
 import { required } from '../../util/validationFunctions.js';
 import axios from 'axios';
+import ButtonCounter from './ButtonCounter';
 
 export default {
+  components: { ButtonCounter },
   data: function() {
     let math1;
     let math2;
@@ -74,6 +102,7 @@ export default {
       shareable: false,
       choiceTest: false,
       valid: true,
+      error: '',
       items: [
         (math1 = { id: 2, name: 'Math', year: 2 }),
         (math2 = { id: 2, name: 'Math', year: 2 }),
@@ -83,29 +112,34 @@ export default {
   },
   methods: {
     addQuestion() {
-      /*axios
+      /* axios
 		    .put('/question/add', {
 				    subject: this.subject,
 				    question: this.question,
 				    shareable: this.shareable,
-				    choiceTest: this.choiceTest})
+				    choiceTest: this.choiceTest,
+            answer: this.answer,
+            answer1: this.answer1})
 		    .then(response => {
 			    this.question(response.data);
+			    this.error= (response.data.message)
 		    })
 		    .catch(err => {
-			    this.err = err.response.data;
+			    this.error = err.response.data.error;
 		    })*/
       axios.put('http://localhost:8080/question/add', {
         subject: this.subject,
         question: this.question,
         shareable: this.shareable,
         choiceTest: this.choiceTest,
+        answer: this.answer,
+        answer1: this.answer1,
         success: async function(response) {
           this.question(response.data);
         },
         error: function(err) {
           if (err.response.data) {
-            this.error = err.response.data;
+            this.error = err.response.data.error;
           }
         },
       });
