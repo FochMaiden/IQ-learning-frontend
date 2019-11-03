@@ -38,6 +38,11 @@ const router = new Router({
           name: 'Dashboard',
           component: () => import('./pages/user/Dashboard'),
         },
+        {
+          path: 'settings',
+          name: 'Settings',
+          component: () => import('./pages/user/Settings'),
+        },
       ],
       redirect: { name: 'Dashboard' },
       meta: { auth: true },

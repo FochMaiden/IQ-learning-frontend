@@ -17,11 +17,9 @@
     </template>
     <v-list class="d-flex flex-wrap">
       <v-avatar color="primary" size="120" class="ma-auto">
-        <v-fab-transition>
-          <v-btn dark x-small absolute bottom right fab>
-            <v-icon>mdi-plus</v-icon>
+          <v-btn dark small absolute bottom right fab to="/user/settings">
+            <v-icon>settings</v-icon>
           </v-btn>
-        </v-fab-transition>
         <span class="white--text headline">
           {{ initials }}
         </span>
@@ -77,7 +75,7 @@ export default {
     },
     getName() {
       if (this.$auth.user().name && this.$auth.user().surname) {
-        return this.$auth.user().name + this.$auth.user().surname;
+        return this.$auth.user().name + ' ' + this.$auth.user().surname;
       } else return this.$auth.user().username;
     },
   },
