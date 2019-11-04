@@ -3,7 +3,7 @@
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
         <v-btn
-          v-on:click="addRow(row)"
+          v-on:click="addRow"
           large
           dark
           block

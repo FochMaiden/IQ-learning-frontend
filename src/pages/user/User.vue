@@ -7,10 +7,10 @@
 </template>
 
 <script>
-import RightNav from '../../templates/RightNav';
-import LeftNav from '../../templates/LeftNav';
+	import RightNav from '../../templates/RightNav';
+	import LeftNav from '../../templates/LeftNav';
 
-export default {
+	export default {
   name: 'User',
   components: {
     LeftNav,
