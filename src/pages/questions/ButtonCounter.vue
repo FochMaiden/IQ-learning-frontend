@@ -22,12 +22,12 @@
           filled
           v-model="row.answerValue"
         ></v-text-field>
-        <v-switch v-model="correct" label="correct"></v-switch>
+        <v-switch v-model="row.correct" label="correct"></v-switch>
         <v-layout row>
           <v-flex xs12 sm6 offset-sm3>
             <v-btn
               v-bind="row.answer"
-              v-on:click="removeRow"
+              v-on:click="removeRow(row.id)"
               large
               dark
               block
@@ -45,8 +45,6 @@ export default {
   data() {
     return {
       currentInputIndex: 0,
-      id: 0,
-      correct: false,
       inputs: ['answer'],
       rows: [],
       values: {},
@@ -57,12 +55,14 @@ export default {
       this.rows.push({
         answer: this.inputs[this.currentInputIndex],
         answerValue: '',
+        id: this.currentInputIndex,
+        correct: false
       });
       this.currentInputIndex++;
     },
-    removeRow() {
+    removeRow(id) {
       //this.rows.splice(this.row[index],1);
-      console.log(this.rows[0]);
+      console.log(id)
     },
   },
 };
