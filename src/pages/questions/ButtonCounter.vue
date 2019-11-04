@@ -3,7 +3,7 @@
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
         <v-btn
-          v-on:click="addRow"
+          v-on:click="addRow(row)"
           large
           dark
           block
@@ -12,7 +12,7 @@
         >
       </v-flex>
     </v-layout>
-    <v-layout row v-for="(row, index) in rows" :key="index" :row="row">
+    <v-layout row v-for="row in rows">
       <v-flex xs12 sm6 offset-sm3>
         <v-text-field
           :name="row.answer"
@@ -27,7 +27,7 @@
           <v-flex xs12 sm6 offset-sm3>
             <v-btn
               v-bind="row.answer"
-              v-on:click="removeRow(row.id)"
+              v-on:click="removeRow(row)"
               large
               dark
               block
@@ -44,25 +44,21 @@
 export default {
   data() {
     return {
-      currentInputIndex: 0,
       inputs: ['answer'],
       rows: [],
       values: {},
     };
   },
   methods: {
-    addRow: function() {
+    addRow: function(row) {
       this.rows.push({
-        answer: this.inputs[this.currentInputIndex],
+        answer: this.inputs[this.rows.indexOf(row)],
         answerValue: '',
-        id: this.currentInputIndex,
-        correct: false
+        correct: false,
       });
-      this.currentInputIndex++;
     },
-    removeRow(id) {
-      //this.rows.splice(this.row[index],1);
-      console.log(id)
+    removeRow(row) {
+      this.rows.splice(this.rows.indexOf(row), 1);
     },
   },
 };

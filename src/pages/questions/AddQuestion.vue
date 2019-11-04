@@ -41,32 +41,12 @@
               <v-switch v-model="choiceTest" label="is choice test"></v-switch>
               <v-layout row>
                 <v-flex xs12 sm6 offset-sm3>
-                  <v-text-field
-                    v-if="choiceTest === true"
-                    name="answer"
-                    label="Answer"
-                    id="answer"
-                    multi-line
-                    filled
-                    v-model="answer"
-                    :rules="[required('question')]"
-                  ></v-text-field>
-                  <v-text-field
-                    v-if="choiceTest === true"
-                    name="answer1"
-                    label="Answer 2"
-                    id="answer1"
-                    multi-line
-                    filled
-                    v-model="answer1"
-                    :rules="[required('question')]"
-                  ></v-text-field>
+                  <ButtonCounter v-if="choiceTest === true"></ButtonCounter>
                 </v-flex>
               </v-layout>
             </v-flex>
           </v-layout>
           <p>{{ error }}</p>
-          <ButtonCounter></ButtonCounter>
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <v-btn
