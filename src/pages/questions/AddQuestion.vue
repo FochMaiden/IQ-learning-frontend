@@ -134,7 +134,7 @@ export default {
           }
         },
       });
-      console.log(this.rows);
+      console.log(this.rows[0].answerValue);
     },
   },
 };

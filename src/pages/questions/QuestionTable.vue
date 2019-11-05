@@ -27,15 +27,17 @@
 
 <script>
 import AddQuestion from './AddQuestion';
+import axios from 'axios';
 
 export default {
   components: { AddQuestion },
   data() {
     return {
       dialog: false,
+      question: '',
       headers: [
         {
-          text: 'Dessert (100g serving)',
+          text: 'Questions',
           align: 'left',
           sortable: false,
           value: 'name',
@@ -130,5 +132,19 @@ export default {
       ],
     };
   },
+  mounted() {
+    axios
+      .get('/question/get/user')
+      .then(response => {
+        console.log(response.data);
+        this.question = response.data;
+        return response.data;
+      })
+      .catch(err => {
+        this.error = err.response;
+        console.log(err);
+      });
+  },
+  methods: {},
 };
 </script>

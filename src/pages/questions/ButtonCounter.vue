@@ -62,8 +62,8 @@ export default {
       this.rows.splice(this.rows.indexOf(row), 1);
       console.log(this.rows);
     },
-    emitToParent() {
-      this.$emit('childToParent', this.row);
+    emitToParent(row) {
+      this.$emit('childToParent', this.rows);
     },
   },
 };
