@@ -41,8 +41,8 @@ const router = new Router({
         },
         {
           path: 'q',
-          name: 'AddQuestion',
-          component: () => import('./pages/questions/AddQuestion'),
+          name: 'QuestionTable',
+          component: () => import('./pages/questions/QuestionTable'),
         },
       ],
       redirect: { name: 'Dashboard' },

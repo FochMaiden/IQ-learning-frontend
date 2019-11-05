@@ -16,6 +16,7 @@
       <v-flex xs12 sm6 offset-sm3>
         <v-text-field
           :name="row.answer"
+          v-on:change="emitToParent"
           label="Answer"
           id="answer"
           multi-line
@@ -46,7 +47,7 @@ export default {
     return {
       inputs: ['answer'],
       rows: [],
-      values: {},
+      values: [],
     };
   },
   methods: {
@@ -59,6 +60,10 @@ export default {
     },
     removeRow(row) {
       this.rows.splice(this.rows.indexOf(row), 1);
+      console.log(this.rows);
+    },
+    emitToParent() {
+      this.$emit('childToParent', this.row);
     },
   },
 };

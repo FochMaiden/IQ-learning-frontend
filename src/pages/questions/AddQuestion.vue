@@ -5,6 +5,7 @@
         <h4>Create a new Question</h4>
       </v-flex>
     </v-layout>
+
     <v-layout row>
       <v-flex xs12>
         <form class="pt-6 px-6 primary--text" v-model="valid">
@@ -15,6 +16,7 @@
                 label="Subject"
                 id="subject"
                 v-model="subject"
+                :item-text="name"
                 :rules="[required('subject')]"
                 :items="items"
                 required
@@ -41,7 +43,10 @@
               <v-switch v-model="choiceTest" label="is choice test"></v-switch>
               <v-layout row>
                 <v-flex xs12 sm6 offset-sm3>
-                  <ButtonCounter v-if="choiceTest === true"></ButtonCounter>
+                  <ButtonCounter
+                    v-if="choiceTest === true"
+                    v-on:childToParent="onChildClick"
+                  ></ButtonCounter>
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -78,11 +83,14 @@ export default {
     let math2;
     return {
       subject: '',
+      name: '',
+      correct: '',
       question: '',
       shareable: false,
       choiceTest: false,
       valid: true,
       error: '',
+      answers: [],
       items: [
         (math1 = { id: 2, name: 'Math', year: 2 }),
         (math2 = { id: 2, name: 'Math', year: 2 }),
@@ -91,6 +99,10 @@ export default {
     };
   },
   methods: {
+    onChildClick(value) {
+      this.rows = value;
+      console.log(this.rows);
+    },
     addQuestion() {
       /* axios
 		    .put('/question/add', {
@@ -112,8 +124,7 @@ export default {
         question: this.question,
         shareable: this.shareable,
         choiceTest: this.choiceTest,
-        answer: this.answer,
-        answer1: this.answer1,
+        //answers: [this.rows.correct,this.rows.answerValue],
         success: async function(response) {
           this.question(response.data);
         },
@@ -123,6 +134,7 @@ export default {
           }
         },
       });
+      console.log(this.rows);
     },
   },
 };
