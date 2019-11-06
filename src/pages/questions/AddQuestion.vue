@@ -1,73 +1,51 @@
 <template>
   <v-container>
-    <v-layout row>
-      <v-flex xs12 sm6 offset-sm3>
-        <h4>Create a new Question</h4>
-      </v-flex>
-    </v-layout>
+    <h4>Create a new Question</h4>
+    <form class="pt-6 px-6 primary--text" v-model="valid">
+      <v-select
+        name="subject"
+        label="Subject"
+        id="id"
+        v-model="subject"
+        :items="items"
+        item-value="id"
+        required
+        return-object
+      >
+        <template slot="selection" slot-scope="data">
+          {{ data.item.name }}, {{ data.item.year }}
+        </template>
+        <template slot="item" slot-scope="data">
+          {{ data.item.name }}, {{ data.item.year }}
+        </template>
+      </v-select>
+      <v-text-field
+        name="question"
+        label="Question"
+        id="question"
+        multi-line
+        filled
+        v-model="question"
+        :rules="[required('question')]"
+      ></v-text-field>
 
-    <v-layout row>
-      <v-flex xs12>
-        <form class="pt-6 px-6 primary--text" v-model="valid">
-          <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
-              <v-select
-                name="subject"
-                label="Subject"
-                id="subject"
-                v-model="subject"
-                :item-text="name"
-                :rules="[required('subject')]"
-                :items="items"
-                required
-              ></v-select>
-            </v-flex>
-          </v-layout>
-          <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
-              <v-text-field
-                name="question"
-                label="Question"
-                id="question"
-                multi-line
-                filled
-                v-model="question"
-                :rules="[required('question')]"
-              ></v-text-field>
-            </v-flex>
-          </v-layout>
-
-          <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
-              <v-switch v-model="shareable" label="Shareable"></v-switch>
-              <v-switch v-model="choiceTest" label="is choice test"></v-switch>
-              <v-layout row>
-                <v-flex xs12 sm6 offset-sm3>
-                  <ButtonCounter
-                    v-if="choiceTest === true"
-                    v-on:childToParent="onChildClick"
-                  ></ButtonCounter>
-                </v-flex>
-              </v-layout>
-            </v-flex>
-          </v-layout>
-          <p>{{ error }}</p>
-          <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
-              <v-btn
-                large
-                dark
-                block
-                style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
-                :disabled="!valid"
-                v-on:click="addQuestion"
-                >Add Question</v-btn
-              >
-            </v-flex>
-          </v-layout>
-        </form>
-      </v-flex>
-    </v-layout>
+      <v-switch v-model="shareable" label="Shareable"></v-switch>
+      <v-switch v-model="choiceTest" label="is choice test"></v-switch>
+      <ButtonCounter
+        v-if="choiceTest === true"
+        v-on:childToParent="onChildClick"
+      ></ButtonCounter>
+      <p>{{ error }}</p>
+      <v-btn
+        large
+        dark
+        block
+        style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
+        :disabled="!valid"
+        v-on:click="addQuestion"
+        >Add Question</v-btn
+      >
+    </form>
   </v-container>
 </template>
 
@@ -79,8 +57,6 @@ import ButtonCounter from './ButtonCounter';
 export default {
   components: { ButtonCounter },
   data: function() {
-    let math1;
-    let math2;
     return {
       subject: '',
       name: '',
@@ -92,8 +68,8 @@ export default {
       error: '',
       answers: null,
       items: [
-        (math1 = { id: 2, name: 'Math', year: 2 }),
-        (math2 = { id: 2, name: 'Math', year: 2 }),
+        { id: 1, name: 'Math', year: 2 },
+        { id: 2, name: 'Math', year: 2 },
       ],
       required,
     };
@@ -133,7 +109,7 @@ export default {
           }
         },
       });
-      console.log(this.rows[0].answerValue);
+      //console.log(this.rows[0].answerValue);
     },
   },
 };
