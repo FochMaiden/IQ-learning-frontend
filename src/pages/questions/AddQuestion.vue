@@ -90,7 +90,7 @@ export default {
       choiceTest: false,
       valid: true,
       error: '',
-      answers: [],
+      answers: null,
       items: [
         (math1 = { id: 2, name: 'Math', year: 2 }),
         (math2 = { id: 2, name: 'Math', year: 2 }),
@@ -124,7 +124,7 @@ export default {
         question: this.question,
         shareable: this.shareable,
         choiceTest: this.choiceTest,
-        //answers: [this.rows.correct,this.rows.answerValue],
+        answers: this.rows,
         success: async function(response) {
           this.question(response.data);
         },
