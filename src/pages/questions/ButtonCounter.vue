@@ -21,7 +21,7 @@
           id="answer"
           multi-line
           filled
-          v-model="row.answerValue"
+          v-model="row.answer"
         ></v-text-field>
         <v-switch v-model="row.correct" label="correct"></v-switch>
         <v-layout row>
@@ -53,8 +53,8 @@ export default {
   methods: {
     addRow: function(row) {
       this.rows.push({
-        answer: this.inputs[this.rows.indexOf(row)],
-        answerValue: '',
+        //answer: this.inputs[this.rows.indexOf(row)],
+        answer: null,
         correct: false,
       });
     },
