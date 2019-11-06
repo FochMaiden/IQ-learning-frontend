@@ -101,7 +101,6 @@ export default {
   methods: {
     onChildClick(value) {
       this.rows = value;
-      console.log(this.rows);
     },
     addQuestion() {
       /* axios
