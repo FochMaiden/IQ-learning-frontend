@@ -14,13 +14,20 @@
               <v-select
                 name="subject"
                 label="Subject"
-                id="subject"
+                id="id"
                 v-model="subject"
-                :item-text="name"
-                :rules="[required('subject')]"
                 :items="items"
+                item-value='id'
                 required
-              ></v-select>
+                return-object
+              >
+                <template slot="selection" slot-scope="data">
+                  {{ data.item.name }}, {{ data.item.year }}
+                </template>
+                <template slot="item" slot-scope="data">
+                  {{ data.item.name }}, {{ data.item.year }}
+                </template>
+              </v-select>
             </v-flex>
           </v-layout>
           <v-layout row>
@@ -79,8 +86,6 @@ import ButtonCounter from './ButtonCounter';
 export default {
   components: { ButtonCounter },
   data: function() {
-    let math1;
-    let math2;
     return {
       subject: '',
       name: '',
@@ -92,8 +97,8 @@ export default {
       error: '',
       answers: [],
       items: [
-        (math1 = { id: 2, name: 'Math', year: 2 }),
-        (math2 = { id: 2, name: 'Math', year: 2 }),
+        { id: 1, name: 'Math', year: 2 },
+        { id: 2, name: 'Math', year: 2 },
       ],
       required,
     };
@@ -134,7 +139,7 @@ export default {
           }
         },
       });
-      console.log(this.rows[0].answerValue);
+      //console.log(this.rows[0].answerValue);
     },
   },
 };
