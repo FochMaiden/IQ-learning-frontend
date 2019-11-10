@@ -1,6 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-container>
-    <v-dialog v-model="dialog" max-width="600" overlay-opacity="0.2">
+    <v-dialog v-model="dialog" max-width="800" overlay-opacity="0.2">
       <template v-slot:activator="{ on }">
         <v-btn color="primary" v-on="on">Add Question</v-btn>
       </template>
@@ -55,7 +55,7 @@ loading: true,
     };
   },
   mounted() {
-    axios
+/*    axios
       .get('/question/get/user')
       .then(response => {
         console.log(response.data);
@@ -67,7 +67,7 @@ loading: true,
       .catch(err => {
         this.error = err.response;
         console.log(err);
-      });
+      });*/
   },
   methods: {},
 };

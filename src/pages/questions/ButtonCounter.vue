@@ -1,38 +1,58 @@
 <template>
   <div>
-    <v-btn
-      v-on:click="addRow"
-      large
-      dark
-      block
-      style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
-      >Add Answer</v-btn
-    >
-    <v-text-field
-      v-for="row in rows"
-      :name="row.answer"
-      v-on:change="emitToParent"
-      label="Answer"
-      id="answer"
-      multi-line
-      filled
-      v-model="row.answer"
-    ></v-text-field>
-    <v-switch
-      v-model="row.correct"
-      label="correct"
-      v-for="row in rows"
-    ></v-switch>
-    <v-btn
-      v-for="row in rows"
-      v-bind="row.answer"
-      v-on:click="removeRow(row)"
-      large
-      dark
-      block
-      style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
-      >remove Answer</v-btn
-    >
+    <v-row v-for="row in rows" >
+      <v-col class='flex justify-center ma-auto'>
+        <v-btn
+          v-model="row.correct"
+          v-on:click="row.correct = !row.correct"
+          :color="row.correct ? 'green' : 'red'"
+          width='125px'
+          outlined
+          small
+        >
+          <v-icon>
+            {{ row.correct ? 'mdi-check' : 'mdi-block-helper' }}
+          </v-icon>
+          &nbsp
+          {{ row.correct ? 'CORRECT' : 'INCORRECT' }}
+        </v-btn>
+      </v-col>
+      <v-col cols="12" sm="6" md="8">
+        <v-text-field
+          :name="row.answer"
+          v-on:change="emitToParent"
+          label="Answer"
+          id="answer"
+          dense
+          hide-details
+          v-model="row.answer"
+        ></v-text-field>
+      </v-col>
+      <v-col class='flex justify-center ma-auto'>
+        <v-btn
+          v-if="rows.length !== 1"
+          v-bind="row.answer"
+          v-on:click="removeRow(row)"
+          color="red"
+          outlined
+          fab
+          small
+        >
+          <v-icon>mdi-delete-empty</v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-row class='flex justify-center ma-auto'>
+      <v-btn
+              v-on:click="addRow"
+              color="secondary"
+              outlined
+              fab
+              small
+      >
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </v-row>
   </div>
 </template>
 <script>
@@ -40,7 +60,7 @@ export default {
   data() {
     return {
       inputs: ['answer'],
-      rows: [],
+      rows: [{ answer: null, correct: false }],
       values: [],
     };
   },
