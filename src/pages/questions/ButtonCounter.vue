@@ -1,12 +1,12 @@
 <template>
   <div>
-    <v-row v-for="row in rows" >
-      <v-col class='flex justify-center ma-auto'>
+    <v-row v-for="row in rows">
+      <v-col class="flex justify-center ma-auto">
         <v-btn
           v-model="row.correct"
           v-on:click="row.correct = !row.correct"
           :color="row.correct ? 'green' : 'red'"
-          width='125px'
+          width="125px"
           outlined
           small
         >
@@ -28,7 +28,7 @@
           v-model="row.answer"
         ></v-text-field>
       </v-col>
-      <v-col class='flex justify-center ma-auto'>
+      <v-col class="flex justify-center ma-auto">
         <v-btn
           v-if="rows.length !== 1"
           v-bind="row.answer"
@@ -42,14 +42,8 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-row class='flex justify-center ma-auto'>
-      <v-btn
-              v-on:click="addRow"
-              color="secondary"
-              outlined
-              fab
-              small
-      >
+    <v-row class="flex justify-center ma-auto">
+      <v-btn v-on:click="addRow" color="secondary" outlined fab small>
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-row>

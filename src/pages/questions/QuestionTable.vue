@@ -1,6 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-container>
-    <v-dialog v-model="dialog" max-width="800" overlay-opacity="0.2">
+    <v-dialog v-model="dialog" max-width="600" overlay-opacity="0.2">
       <template v-slot:activator="{ on }">
         <v-btn color="primary" v-on="on">Add Question</v-btn>
       </template>
@@ -17,17 +17,32 @@
     </v-dialog>
 
     <v-data-table
-            :loading="loading"
+      :loading="loading"
       :headers="headers"
       :items="questions"
       :items-per-page="5"
       class="elevation-1"
-    > <template v-slot:question.shareable="{ question }" >
+    >
+      <template v-slot:item.shareable="{ item }">
         <v-icon>
-            {{ question.shareable ? "mdi-checkbox-marked" : "mdi-checkbox-blank-outline" }}
+          {{
+            item.shareable
+              ? 'mdi-checkbox-marked'
+              : 'mdi-checkbox-blank-outline'
+          }}
         </v-icon>
-    </template></v-data-table
-  ></v-container>
+      </template>
+      <template v-slot:item.choiceTest="{ item }">
+        <v-icon>
+          {{
+            item.choiceTest
+              ? 'mdi-checkbox-marked'
+              : 'mdi-checkbox-blank-outline'
+          }}
+        </v-icon>
+      </template>
+    </v-data-table></v-container
+  >
 </template>
 
 <script>
@@ -40,7 +55,7 @@ export default {
     return {
       dialog: false,
       questions: [],
-loading: true,
+      loading: true,
       headers: [
         {
           text: 'Questions',
@@ -49,25 +64,25 @@ loading: true,
           value: 'name',
         },
         { text: 'choice question', value: 'choiceTest' },
+        { text: 'subject', value: 'subject.name' },
         { text: 'shareable', value: 'shareable' },
-          { text: 'question', value: 'question' },
+        { text: 'question', value: 'question' },
       ],
     };
   },
   mounted() {
-/*    axios
+    axios
       .get('/question/get/user')
       .then(response => {
         console.log(response.data);
-        this.loading=false;
+        this.loading = false;
         this.questions = response.data;
-	      console.log(this.questions[0].question);
         return response.data;
       })
       .catch(err => {
         this.error = err.response;
         console.log(err);
-      });*/
+      });
   },
   methods: {},
 };
