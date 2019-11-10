@@ -47,14 +47,12 @@ export default {
   methods: {
     addRow: function(row) {
       this.rows.push({
-        //answer: this.inputs[this.rows.indexOf(row)],
         answer: null,
         correct: false,
       });
     },
     removeRow(row) {
       this.rows.splice(this.rows.indexOf(row), 1);
-      console.log(this.rows);
     },
     emitToParent(row) {
       this.$emit('childToParent', this.rows);

@@ -79,22 +79,7 @@ export default {
       this.rows = value;
     },
     addQuestion() {
-      /* axios
-		    .put('/question/add', {
-				    subject: this.subject,
-				    question: this.question,
-				    shareable: this.shareable,
-				    choiceTest: this.choiceTest,
-            answer: this.answer,
-            answer1: this.answer1})
-		    .then(response => {
-			    this.question(response.data);
-			    this.error= (response.data.message)
-		    })
-		    .catch(err => {
-			    this.error = err.response.data.error;
-		    })*/
-      axios.put('http://localhost:8080/question/add', {
+      axios.put('/question/add', {
         subject: this.subject,
         question: this.question,
         shareable: this.shareable,
