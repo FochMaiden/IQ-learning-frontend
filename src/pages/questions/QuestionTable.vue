@@ -63,10 +63,11 @@ export default {
           sortable: false,
           value: 'name',
         },
+        { text: 'question', value: 'question' },
         { text: 'choice question', value: 'choiceTest' },
         { text: 'subject', value: 'subject.name' },
+        { text: 'year', value: 'subject.year' },
         { text: 'shareable', value: 'shareable' },
-        { text: 'question', value: 'question' },
       ],
     };
   },
@@ -74,7 +75,7 @@ export default {
     axios
       .get('/question/get/user')
       .then(response => {
-        console.log(response.data);
+        //console.log(response.data);
         this.loading = false;
         this.questions = response.data;
         return response.data;
