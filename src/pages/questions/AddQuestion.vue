@@ -1,8 +1,7 @@
 <template>
   <v-container>
-      <p>{{ msg }}</p>
+    <p>{{ msg }}</p>
     <form class="pa-6 primary--text" v-model="valid">
-
       <v-select
         name="subject"
         label="Subject"
@@ -78,11 +77,11 @@
 </template>
 
 <script>
-	import {required} from '../../util/validationFunctions.js';
-	import axios from 'axios';
-	import ButtonCounter from './ButtonCounter';
+import { required } from '../../util/validationFunctions.js';
+import axios from 'axios';
+import ButtonCounter from './ButtonCounter';
 
-	export default {
+export default {
   components: { ButtonCounter },
   data: function() {
     return {
@@ -94,14 +93,23 @@
       choiceTest: false,
       valid: true,
       error: '',
-        msg: '',
+      msg: '',
       answers: null,
-      items: [
-        { id: 1, name: 'Math', year: 2 },
-        { id: 2, name: 'Math', year: 2 },
-      ],
+      items: [],
       required,
     };
+  },
+  mounted() {
+    axios
+      .get('/subject/get')
+      .then(response => {
+        this.items = response.data;
+        return response.data;
+      })
+      .catch(err => {
+        this.error = err.response.data;
+        console.log(err);
+      });
   },
   methods: {
     onChildClick(value) {
@@ -116,7 +124,7 @@
         answers: this.rows,
         success: async function(response) {
           this.question(response.data);
-          this.msg ='Question added'
+          this.msg = 'Question added';
         },
         error: function(err) {
           if (err.response.data) {

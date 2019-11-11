@@ -20,9 +20,9 @@
 </template>
 
 <script>
-	import Navbar from './pages/nav/Navbar';
+import Navbar from './pages/nav/Navbar';
 
-	export default {
+export default {
   name: 'App',
   components: {
     Navbar,
