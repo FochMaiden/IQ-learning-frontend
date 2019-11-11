@@ -1,5 +1,22 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-container>
+      <v-select
+              name="subject"
+              label="Subject"
+              id="id"
+              v-model="subject"
+              :items="subjects"
+              item-value="id"
+              required
+              return-object
+      >
+          <template slot="selection" slot-scope="data">
+              {{ data.item.name }}, {{ data.item.year }}
+          </template>
+          <template slot="item" slot-scope="data">
+              {{ data.item.name }} year {{ data.item.year }}
+          </template>
+      </v-select>
     <v-dialog v-model="dialog" max-width="600" overlay-opacity="0.2">
       <template v-slot:activator="{ on }">
         <v-btn color="primary" v-on="on">Add Question</v-btn>
@@ -46,16 +63,17 @@
 </template>
 
 <script>
-import AddQuestion from './AddQuestion';
-import axios from 'axios';
+	import AddQuestion from './AddQuestion';
+	import axios from 'axios';
 
-export default {
+	export default {
   components: { AddQuestion },
   data() {
     return {
       dialog: false,
       questions: [],
       loading: true,
+        subjects:[],
       headers: [
         {
           text: 'Questions',
@@ -84,6 +102,20 @@ export default {
         this.error = err.response;
         console.log(err);
       });
+	  axios
+		  .get('/subject/get')
+		  .then(response => {
+			  console.log(response.data);
+			  //this.loading = false;
+			  this.subjects = response.data;
+			  return response.data;
+		  })
+		  .catch(err => {
+			  this.error = err.response;
+			  console.log(err);
+		  });
+
+
   },
   methods: {},
 };
