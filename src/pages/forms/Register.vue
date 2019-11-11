@@ -108,6 +108,7 @@ import {
   regexEmail,
   regexUsername,
 } from '../../util/validationFunctions';
+import { restApi } from '../../api/restApi';
 
 export default {
   name: 'Register',
@@ -132,26 +133,15 @@ export default {
   },
   methods: {
     register() {
-      this.$auth.register({
-        data: {
-          username: this.username,
-          email: this.email,
-          name: this.name,
-          surname: this.surname,
-          password: this.password,
-        },
-        autoLogin: this.autoLogin,
-        rememberMe: true,
-        success: async function(response) {
-          this.$auth.user(response.data);
-          this.$auth.token(null, response.data.sessionID);
-        },
-        error: function(err) {
-          if (err.response.data) {
-            this.error = err.response.data;
-          }
-        },
-      });
+      restApi
+        .register(
+          this.username,
+          this.email,
+          this.name,
+          this.surname,
+          this.password
+        )
+        .catch(err => (this.error = err));
     },
   },
 };

@@ -71,7 +71,7 @@
 
 <script>
 import AddQuestion from './AddQuestion';
-import axios from 'axios';
+import { restApi } from '../../api/restApi';
 
 export default {
   components: { AddQuestion },
@@ -99,46 +99,24 @@ export default {
     };
   },
   mounted() {
-    axios
-      .get('/question/get/user')
+    restApi
+      .getUserQuestions()
       .then(response => {
-        //console.log(response.data);
         this.loading = false;
-        this.questions = response.data;
-        return response.data;
+        this.questions = response;
       })
-      .catch(err => {
-        this.error = err.response;
-        console.log(err);
-      });
-    axios
-      .get('/subject/get')
-      .then(response => {
-        this.subjects = response.data;
-        return response.data;
-      })
-      .catch(err => {
-        this.error = err.response.data;
-        console.log(err);
-      });
+      .catch(err => (this.error = err));
+    restApi
+      .getSubjects()
+      .then(response => (this.subjects = response))
+      .catch(err => (this.error = err));
   },
   methods: {
     filterBySubject() {
-      let url1 = '/question/get/subject/';
-      let id = this.subject.id;
-      let url = url1.concat(id);
-      axios
-        .get(url)
-        .then(response => {
-          console.log(this.subject.id);
-          this.error = null;
-          this.questions = response.data;
-          return response.data;
-        })
-        .catch(err => {
-          this.error = err.response.data;
-          console.log(err);
-        });
+      restApi
+        .filterQuestionsBySubject(this.subject.id)
+        .then(response => (this.questions = response))
+        .catch(err => (this.error = err));
     },
   },
 };

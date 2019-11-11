@@ -80,6 +80,7 @@
 import { required } from '../../util/validationFunctions.js';
 import axios from 'axios';
 import ButtonCounter from './ButtonCounter';
+import { restApi } from '../../api/restApi';
 
 export default {
   components: { ButtonCounter },
@@ -100,16 +101,7 @@ export default {
     };
   },
   mounted() {
-    axios
-      .get('/subject/get')
-      .then(response => {
-        this.items = response.data;
-        return response.data;
-      })
-      .catch(err => {
-        this.error = err.response.data;
-        console.log(err);
-      });
+    restApi.getSubjects().then(response => (this.items = response)).catch(err=>this.error = err);
   },
   methods: {
     onChildClick(value) {
