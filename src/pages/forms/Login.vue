@@ -80,6 +80,7 @@ import {
   passwordUppercase,
   regexUsername,
 } from '../../util/validationFunctions';
+import {restApi} from "../../api/restApi";
 
 export default {
   data: function() {
@@ -98,22 +99,9 @@ export default {
   },
   methods: {
     login() {
-      this.$auth.login({
-        data: {
-          username: this.username,
-          password: this.password,
-        },
-        rememberMe: this.rememberMe,
-        success: async function(response) {
-          this.$auth.user(response.data);
-          this.$auth.token(null, response.data.sessionID);
-        },
-        error: function(err) {
-          if (err.response.data) {
-            this.error = err.response.data;
-          }
-        },
-      });
+    restApi.login(this.username, this.password,this.rememberMe).catch((error)=>{
+      this.error = error;
+    })
     },
   },
 };

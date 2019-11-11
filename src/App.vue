@@ -21,11 +21,19 @@
 
 <script>
 import Navbar from './pages/nav/Navbar';
+import { restApi } from './api/restApi';
 
 export default {
   name: 'App',
   components: {
     Navbar,
+  },
+  created() {
+    let token = localStorage.getItem('default_auth_token');
+    if (token) {
+      restApi.createAxiosProxy(token);
+      restApi.interceptor();
+    } else restApi.createAxiosProxy(null);
   },
   data() {
     return {};

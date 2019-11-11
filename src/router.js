@@ -43,6 +43,11 @@ const router = new Router({
           name: 'Settings',
           component: () => import('./pages/user/Settings'),
         },
+        {
+          path: 'q',
+          name: 'QuestionTable',
+          component: () => import('./pages/questions/QuestionTable'),
+        },
       ],
       redirect: { name: 'Dashboard' },
       meta: { auth: true },
@@ -70,7 +75,7 @@ Vue.use(require('@websanova/vue-auth'), {
       Authorization: 'bearer null',
     },
     fetchUser: false,
-    redirect: {name: 'Home'}
+    redirect: { name: 'Home' },
   },
   registerData: {
     url: '/user/register',
