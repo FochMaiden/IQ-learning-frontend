@@ -120,7 +120,7 @@ export default {
           this.rows
         )
         .then(response => {
-          this.question(response.rsp);
+          this.question = response.q;
           this.msg = response.msg;
         })
         .catch(err => {

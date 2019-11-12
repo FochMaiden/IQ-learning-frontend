@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row v-for="row in rows" key="row">
+    <v-row v-for="row in rows" :key="row.id">
       <v-col class="flex justify-center ma-auto">
         <v-btn
           v-model="row.correct"
@@ -54,13 +54,16 @@ export default {
   data() {
     return {
       inputs: ['answer'],
-      rows: [{ answer: null, correct: false }],
+      rows: [{ id: 0, answer: null, correct: false }],
       values: [],
+      id: 0
     };
   },
   methods: {
-    addRow: function(row) {
+    addRow: function() {
+      this.id +=1;
       this.rows.push({
+        id: this.id,
         answer: null,
         correct: false,
       });

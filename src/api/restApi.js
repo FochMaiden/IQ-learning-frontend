@@ -99,10 +99,13 @@ export const restApi = {
         answers: answers,
       })
       .then(response => {
-        return { rsp: response.data, msg: 'Question Added' };
+        console.log(response);
+        return {q :response.data.question, msg: 'Question Added'};
       })
       .catch(err => {
-        return err.response.data.error;
+        if (err.response.data) {
+          return err.response.data.error;
+        }
       });
   },
   filterQuestionsBySubject(id) {
