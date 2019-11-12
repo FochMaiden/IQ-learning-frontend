@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12" sm="4" md="6">
-        <v-dialog v-model="dialog" max-width="600" overlay-opacity="0.2">
+        <v-dialog v-model="dialog" max-width="800" overlay-opacity="0.6">
           <template v-slot:activator="{ on }">
             <v-btn color="primary" v-on="on">Add Question</v-btn>
           </template>
@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import AddQuestion from './AddQuestion';
+import AddQuestion from '../../templates/QuestionsTemplates/AddQuestion';
 import { restApi } from '../../api/restApi';
 
 export default {

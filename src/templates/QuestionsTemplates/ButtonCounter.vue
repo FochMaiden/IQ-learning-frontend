@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row v-for="row in rows">
+    <v-row v-for="row in rows" key="row">
       <v-col class="flex justify-center ma-auto">
         <v-btn
           v-model="row.correct"

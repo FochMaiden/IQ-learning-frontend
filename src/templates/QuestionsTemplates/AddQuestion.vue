@@ -101,30 +101,31 @@ export default {
     };
   },
   mounted() {
-    restApi.getSubjects().then(response => (this.items = response)).catch(err=>this.error = err);
+    restApi
+      .getSubjects()
+      .then(response => (this.items = response))
+      .catch(err => (this.error = err));
   },
   methods: {
     onChildClick(value) {
       this.rows = value;
     },
     addQuestion() {
-      axios.put('/question/add', {
-        subject: this.subject,
-        question: this.question,
-        shareable: this.shareable,
-        choiceTest: this.choiceTest,
-        answers: this.rows,
-        success: async function(response) {
-          this.question(response.data);
-          this.msg = 'Question added';
-        },
-        error: function(err) {
-          if (err.response.data) {
-            this.error = err.response.data.error;
-          }
-        },
-      });
-      //console.log(this.rows[0].answerValue);
+      restApi
+        .addQuestion(
+          this.subject,
+          this.question,
+          this.shareable,
+          this.choiceTest,
+          this.rows
+        )
+        .then(response => {
+          this.question(response);
+          this.msg = msg;
+        })
+        .catch(err => {
+          this.error = err;
+        });
     },
   },
 };

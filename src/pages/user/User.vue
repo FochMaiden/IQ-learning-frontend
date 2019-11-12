@@ -7,8 +7,8 @@
 </template>
 
 <script>
-	import RightNav from '../../templates/RightNav';
-	import LeftNav from '../../templates/LeftNav';
+	import RightNav from '../../templates/NavTemplates/RightNav';
+	import LeftNav from '../../templates/NavTemplates/LeftNav';
 
 	export default {
   name: 'User',
