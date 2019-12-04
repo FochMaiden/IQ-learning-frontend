@@ -27,12 +27,9 @@
               :rules="[
                 regexUsername(),
                 required('username'),
-                minLength('username', 3)
+                minLength('username', 3),
               ]"
             >
-              <v-icon slot="append" color="accent">
-                fas fa-user-tie
-              </v-icon>
             </v-text-field>
             <v-text-field
               label="E-mail"
@@ -42,10 +39,21 @@
               :rules="[required('email'), regexEmail()]"
               filled
             >
-              <v-icon slot="append" color="accent">
-                fas fa-envelope
-              </v-icon>
             </v-text-field>
+            <v-text-field
+              id="password"
+              label="Password"
+              name="password"
+              v-model="password"
+              type="password"
+              :rules="[
+                required('password'),
+                minLength(password, 8),
+                passwordNumber(),
+                passwordUppercase(),
+              ]"
+              filled
+            ></v-text-field>
             <v-text-field
               label="Name"
               name="name"
@@ -61,20 +69,6 @@
               type="text"
               filled
               :rules="[isName()]"
-            ></v-text-field>
-            <v-text-field
-              id="password"
-              label="Password"
-              name="password"
-              v-model="password"
-              type="password"
-              :rules="[
-                required('password'),
-                minLength(password, 8),
-                passwordNumber(),
-                passwordUppercase()
-              ]"
-              filled
             ></v-text-field>
             <p>{{ error }}</p>
             <v-checkbox
@@ -105,18 +99,19 @@
 </template>
 
 <script>
-	import {required} from "./validationFunctions.js";
-	import {
-		isName,
-		minLength,
-		passwordNumber,
-		passwordUppercase,
-		regexEmail,
-		regexUsername
-	} from "./validationFunctions";
+import { required } from '../../util/validationFunctions.js';
+import {
+  isName,
+  minLength,
+  passwordNumber,
+  passwordUppercase,
+  regexEmail,
+  regexUsername,
+} from '../../util/validationFunctions';
+import { restApi } from '../../api/restApi';
 
-	export default {
-  name: "Register",
+export default {
+  name: 'Register',
   data: function() {
     return {
       username: null,
@@ -126,49 +121,29 @@
       password: null,
       autoLogin: true,
       valid: false,
-      error: "",
+      error: '',
       required,
       regexEmail,
       passwordNumber,
       regexUsername,
       minLength,
       passwordUppercase,
-      isName
+      isName,
     };
   },
   methods: {
     register() {
-      this.$auth.register({
-        url: "/user/register",
-        method: "POST",
-        headers: {
-          authorization: "bearer null"
-        },
-        data: {
-          username: this.username,
-          email: this.email,
-          name: this.name,
-          surname: this.surname,
-          password: this.password
-        },
-        autoLogin: this.autoLogin,
-        rememberMe: true,
-        success: async function(response) {
-          if (!response.data.isError) {
-            this.$auth.user(response.data);
-            this.$auth.token(null, response.data.sessionID);
-          } else {
-            this.$router.push("/login");
-          }
-        },
-        error: function(err) {
-          if (err.response.data) {
-            this.error = err.response.data;
-          }
-        }
-      });
-    }
-  }
+      restApi
+        .register(
+          this.username,
+          this.email,
+          this.name,
+          this.surname,
+          this.password
+        )
+        .catch(err => (this.error = err));
+    },
+  },
 };
 </script>
 <style scoped></style>

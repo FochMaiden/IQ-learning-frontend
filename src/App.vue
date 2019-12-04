@@ -5,26 +5,38 @@
     </v-navigation-drawer>-->
     <Navbar />
     <!-- Sizes your content based upon application pages -->
-    <v-content id="content">
+    <v-content
+      id="content"
+      style="background: rgba(229,237,251,0.8)"
+      class="pt-0"
+    >
       <router-view />
     </v-content>
 
-    <v-footer app>
-      <!-- -->
-    </v-footer>
+    <!--    <v-footer app>
+      &lt;!&ndash; &ndash;&gt;
+    </v-footer>-->
   </v-app>
 </template>
 
 <script>
-	import Navbar from "./pages/nav/Navbar";
+import Navbar from './pages/nav/Navbar';
+import { restApi } from './api/restApi';
 
-	export default {
-  name: "App",
+export default {
+  name: 'App',
   components: {
-    Navbar
+    Navbar,
   },
-  data: () => ({
-    //
-  })
+  created() {
+    let token = localStorage.getItem('default_auth_token');
+    if (token) {
+      restApi.createAxiosProxy(token);
+      restApi.interceptor();
+    } else restApi.createAxiosProxy(null);
+  },
+  data() {
+    return {};
+  },
 };
 </script>

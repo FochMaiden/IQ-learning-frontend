@@ -1,12 +1,23 @@
 <template>
   <nav style="height: auto">
-    <v-app-bar fixed app>
+    <v-app-bar
+      v-if="!isUserRoute"
+      color="rgb(255, 255, 255, 0.5)"
+      fixed
+      app
+      flat
+    >
       <!-- <v-app-bar-nav-icon v-on:click="drawer = !drawer"> </v-app-bar-nav-icon>-->
-      <v-toolbar-title>IQ Learning</v-toolbar-title>
+      <v-toolbar-title v-on:click.prevent="$router.push('/').catch(e => {})">
+        <v-avatar class="profile ma-auto">
+          <v-img :src="ico"></v-img>
+        </v-avatar>
+        IQ Learning</v-toolbar-title
+      >
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn text color="primary" v-if="this.$auth.check()"
-          >{{ this.$auth.user().username }}
+        <v-btn to="/user" text color="primary" v-if="this.$auth.check()"
+          >{{ $username }}
         </v-btn>
         <v-btn
           text
@@ -14,7 +25,7 @@
           v-if="this.$auth.check()"
           v-on:click="logout"
         >
-          <v-icon small color="primary">fas fa-sign-out-alt</v-icon>
+          <v-icon color="primary">mdi-logout-variant</v-icon>
         </v-btn>
         <v-btn
           v-else
@@ -27,6 +38,9 @@
           {{ link.title }}
         </v-btn>
       </v-toolbar-items>
+    </v-app-bar>
+    <v-app-bar v-else color="rgb(255, 255, 255, 0)" fixed app flat>
+      <v-toolbar-title>{{ this.$router.currentRoute.name }}</v-toolbar-title>
     </v-app-bar>
     <!--    <v-navigation-drawer v-model="drawer" app>
       <p>aaa</p>
@@ -44,26 +58,18 @@ export default {
         { title: 'Login', link: '/login' },
         { title: 'Register', link: '/register' },
       ],
+      ico: require('../../assets/wisdom.svg'),
     };
   },
   methods: {
     logout() {
-      this.$auth.logout({
-        makeRequest: true,
-        url: '/user/logout',
-        method: 'POST',
-        data: {
-          token: localStorage.getItem('default_auth_token'),
-        },
-        //redirect: { name: "home" }
-        success: async function(response) {
-          console.log('Logout successful');
-        },
-        error: function(err) {
-          console.log('Error during logout');
-        },
-        redirect: { name: 'login' },
-      });
+      this.$auth.logout();
+    },
+  },
+  computed: {
+    isUserRoute() {
+      const path = this.$route.path;
+      return path.split('/')[1] === 'user';
     },
   },
 };
