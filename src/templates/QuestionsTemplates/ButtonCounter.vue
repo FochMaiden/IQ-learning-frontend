@@ -56,12 +56,12 @@ export default {
       inputs: ['answer'],
       rows: [{ id: 0, answer: null, correct: false }],
       values: [],
-      id: 0
+      id: 0,
     };
   },
   methods: {
     addRow: function() {
-      this.id +=1;
+      this.id += 1;
       this.rows.push({
         id: this.id,
         answer: null,

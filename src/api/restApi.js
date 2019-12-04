@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Vue from 'vue';
+
 const errorHandler = error => {
   //console.log('Error response',error.response, 'code' , error.response.status);
   if (error.response.status === 401) {
@@ -83,7 +84,7 @@ export const restApi = {
   },
   getUserQuestions() {
     return this.axiosProxy
-      .get('/question/get/user')
+      .get('/questions/get/user')
       .then(response => {
         return response.data;
       })
@@ -100,7 +101,7 @@ export const restApi = {
       })
       .then(response => {
         console.log(response);
-        return {q :response.data.question, msg: 'Question Added'};
+        return { q: response.data.question, msg: 'Question Added' };
       })
       .catch(err => {
         if (err.response.data) {

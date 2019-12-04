@@ -75,7 +75,7 @@ Vue.use(require('@websanova/vue-auth'), {
       Authorization: 'bearer null',
     },
     fetchUser: false,
-    redirect: {name: 'Home'}
+    redirect: { name: 'Home' },
   },
   registerData: {
     url: '/user/register',

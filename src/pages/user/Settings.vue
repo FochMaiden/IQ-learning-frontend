@@ -1,13 +1,14 @@
 <template>
   <v-container fluid>
-    <v-row >
+    <v-row>
       <v-col cols="12" sm="12" md="12">
         <v-card flat color="primary--text" class="pa-5">
           <v-list-item-title class="primary2--text"
-            >Hello {{ $username }}, you can change your avatar and other user setting here!
+            >Hello {{ $username }}, you can change your avatar and other user
+            setting here!
           </v-list-item-title>
           <v-divider></v-divider>
-          <v-row >
+          <v-row>
             <v-col class="d-flex flex-wrap">
               <v-avatar color="primary" size="120" class="ma-auto">
                 <v-btn dark x-small absolute bottom right fab>
@@ -102,8 +103,6 @@ import {
   minLength,
   passwordNumber,
   passwordUppercase,
-  regexEmail,
-  regexUsername,
   required,
 } from '../../util/validationFunctions';
 import axios from 'axios';
@@ -140,28 +139,26 @@ export default {
         },
       })
         .then(response => {
-	        this.$auth.user(response.data)
+          this.$auth.user(response.data);
         })
         .catch(e => {
-        	console.log('Enon in settings', e)
+          console.log('Enon in settings', e);
         });
     },
     savePassword() {
-	    let token = localStorage.getItem('default_auth_token');
-	    axios({
-		    method: 'post', //you can set what request you want to be
-		    url: 'http://localhost:8080/user/password',
-		    data: { currentPass: this.password, newPass: this.newPassword },
-		    headers: {
-			    Authorization: 'Bearer ' + token,
-		    },
-	    })
-		    .then(response => {
-
-		    })
-		    .catch(e => {
-			    console.log('Enon in settings', e)
-		    });
+      let token = localStorage.getItem('default_auth_token');
+      axios({
+        method: 'post', //you can set what request you want to be
+        url: 'http://localhost:8080/user/password',
+        data: { currentPass: this.password, newPass: this.newPassword },
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
+        .then(response => {})
+        .catch(e => {
+          console.log('Enon in settings', e);
+        });
     },
   },
 };

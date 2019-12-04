@@ -104,6 +104,7 @@ export default {
       .then(response => {
         this.loading = false;
         this.questions = response;
+        console.log(response);
       })
       .catch(err => (this.error = err));
     restApi

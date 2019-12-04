@@ -17,9 +17,9 @@
     </template>
     <v-list class="d-flex flex-wrap">
       <v-avatar color="primary" size="120" class="ma-auto">
-          <v-btn dark small absolute bottom right fab to="/user/settings">
-            <v-icon>settings</v-icon>
-          </v-btn>
+        <v-btn dark small absolute bottom right fab to="/user/settings">
+          <v-icon>settings</v-icon>
+        </v-btn>
         <span class="white--text headline">
           {{ initials }}
         </span>

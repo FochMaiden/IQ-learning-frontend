@@ -78,7 +78,6 @@
 
 <script>
 import { required } from '../../util/validationFunctions.js';
-import axios from 'axios';
 import ButtonCounter from './ButtonCounter';
 import { restApi } from '../../api/restApi';
 
