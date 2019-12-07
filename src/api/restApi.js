@@ -109,6 +109,26 @@ export const restApi = {
         }
       });
   },
+	updateQuestion(subject, question, shareable, choiceTest, answers,id) {
+    return this.axiosProxy
+      .post('/question/update', {
+        subject: subject,
+        question: question,
+        shareable: shareable,
+        choiceTest: choiceTest,
+        answers: answers,
+	      id: id
+      })
+      .then(response => {
+        console.log(response);
+        return { q: response.data.question, msg: 'Question updated' };
+      })
+      .catch(err => {
+        if (err.response.data) {
+          return err.response.data.error;
+        }
+      });
+  },
   filterQuestionsBySubject(id) {
     return this.axiosProxy
       .get(`/question/get/subject/` + id)

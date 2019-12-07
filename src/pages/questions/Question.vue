@@ -17,6 +17,7 @@
             <AddQuestion></AddQuestion>
           </v-card>
         </v-dialog>
+
       </v-col>
       <v-col class="flex justify-center ma-auto">
         <v-select
@@ -66,22 +67,24 @@
           }}
         </v-icon>
       </template>
-      <!-- <template  slot="item.actions" slot-scope="questions">
-            <v-btn
-
-                    v-on:click="removeQuestion"
-                    color="red"
-                    outlined
-                    fab
-                    small
-            >
-                <v-icon>mdi-delete-empty</v-icon>
-            </v-btn>
-</template>-->
       <template v-slot:item.action="{ item }">
-        <v-icon small class="mr-2" @click="editQuestion(item)">
-          edit
-        </v-icon>
+          <v-dialog v-model="dialog" max-width="800" overlay-opacity="0.6">
+              <template v-slot:activator="{ on }">
+                  <v-icon small class="mr-2" v-on="on">
+                      edit
+                  </v-icon>
+              </template>
+              <v-card>
+                  <v-toolbar>
+                      <v-toolbar-title>Edit Question</v-toolbar-title>
+                      <v-spacer></v-spacer>
+                      <v-toolbar-items>
+                          <v-btn dark text @click="dialog = false">Save</v-btn>
+                      </v-toolbar-items>
+                  </v-toolbar>
+                  <EditQuestion  :editedItem="editedItem"></EditQuestion>
+              </v-card>
+          </v-dialog>
         <v-icon small @click="removeQuestion(item)">
           mdi-delete-empty
         </v-icon>
@@ -91,11 +94,20 @@
 </template>
 
 <script>
-import AddQuestion from '../../templates/QuestionsTemplates/AddQuestion';
-import { restApi } from '../../api/restApi';
+	import AddQuestion from '../../templates/QuestionsTemplates/AddQuestion';
+	import {restApi} from '../../api/restApi';
+	import EditQuestion from "../../templates/QuestionsTemplates/EditQuestion";
 
-export default {
-  components: { AddQuestion },
+	export default {
+  components: {EditQuestion, AddQuestion },
+    props:{
+	    editedItem: {
+		    date: 'lolz',
+		    link: 'lolx',
+		    news: 'loool',
+		    id: 0,
+	    },
+    },
   data() {
     return {
       selected: [],
@@ -123,6 +135,7 @@ export default {
   created() {
     this.getQuestions();
     this.getAllSubjects();
+    console.log(this.props)
   },
   methods: {
     getAllSubjects() {
