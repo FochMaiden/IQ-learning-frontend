@@ -109,7 +109,7 @@ export const restApi = {
         }
       });
   },
-	updateQuestion(subject, question, shareable, choiceTest, answers,id) {
+  updateQuestion(subject, question, shareable, choiceTest, answers, id) {
     return this.axiosProxy
       .post('/question/update', {
         subject: subject,
@@ -117,7 +117,7 @@ export const restApi = {
         shareable: shareable,
         choiceTest: choiceTest,
         answers: answers,
-	      id: id
+        id: id,
       })
       .then(response => {
         console.log(response);

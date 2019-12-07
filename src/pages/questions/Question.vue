@@ -17,7 +17,6 @@
             <AddQuestion></AddQuestion>
           </v-card>
         </v-dialog>
-
       </v-col>
       <v-col class="flex justify-center ma-auto">
         <v-select
@@ -68,23 +67,23 @@
         </v-icon>
       </template>
       <template v-slot:item.action="{ item }">
-          <v-dialog v-model="dialog" max-width="800" overlay-opacity="0.6">
-              <template v-slot:activator="{ on }">
-                  <v-icon small class="mr-2" v-on="on">
-                      edit
-                  </v-icon>
-              </template>
-              <v-card>
-                  <v-toolbar>
-                      <v-toolbar-title>Edit Question</v-toolbar-title>
-                      <v-spacer></v-spacer>
-                      <v-toolbar-items>
-                          <v-btn dark text @click="dialog = false">Save</v-btn>
-                      </v-toolbar-items>
-                  </v-toolbar>
-                  <EditQuestion  :editedItem="editedItem"></EditQuestion>
-              </v-card>
-          </v-dialog>
+        <v-dialog v-model="dialog" max-width="800" overlay-opacity="0.6">
+          <template v-slot:activator="{ on }">
+            <v-icon small class="mr-2" v-on="on">
+              edit
+            </v-icon>
+          </template>
+          <v-card>
+            <v-toolbar>
+              <v-toolbar-title>Edit Question</v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-toolbar-items>
+                <v-btn dark text @click="dialog = false">Save</v-btn>
+              </v-toolbar-items>
+            </v-toolbar>
+            <EditQuestion :propObj="editedItem"></EditQuestion>
+          </v-card>
+        </v-dialog>
         <v-icon small @click="removeQuestion(item)">
           mdi-delete-empty
         </v-icon>
@@ -96,18 +95,10 @@
 <script>
 	import AddQuestion from '../../templates/QuestionsTemplates/AddQuestion';
 	import {restApi} from '../../api/restApi';
-	import EditQuestion from "../../templates/QuestionsTemplates/EditQuestion";
+	import EditQuestion from '../../templates/QuestionsTemplates/EditQuestion';
 
 	export default {
-  components: {EditQuestion, AddQuestion },
-    props:{
-	    editedItem: {
-		    date: 'lolz',
-		    link: 'lolx',
-		    news: 'loool',
-		    id: 0,
-	    },
-    },
+  components: { EditQuestion, AddQuestion },
   data() {
     return {
       selected: [],
@@ -117,6 +108,13 @@
       loading: true,
       subjects: [],
       error: '',
+      editedItem: {
+        date: 'lolz',
+        link: 'lolx',
+        news: 'loool',
+        id: 0,
+        subject: 'twoaj stara',
+      },
       headers: [
         {
           align: 'left',
@@ -135,7 +133,7 @@
   created() {
     this.getQuestions();
     this.getAllSubjects();
-    console.log(this.props)
+    console.log(this.props);
   },
   methods: {
     getAllSubjects() {
