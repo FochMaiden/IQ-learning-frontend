@@ -46,6 +46,7 @@
       :items="questions"
       :items-per-page="5"
       class="elevation-1"
+      v-model="selected"
     >
       <template v-slot:item.shareable="{ item }">
         <v-icon>
@@ -65,6 +66,26 @@
           }}
         </v-icon>
       </template>
+      <!-- <template  slot="item.actions" slot-scope="questions">
+            <v-btn
+
+                    v-on:click="removeQuestion"
+                    color="red"
+                    outlined
+                    fab
+                    small
+            >
+                <v-icon>mdi-delete-empty</v-icon>
+            </v-btn>
+</template>-->
+      <template v-slot:item.action="{ item }">
+        <v-icon small class="mr-2" @click="editQuestion(item)">
+          edit
+        </v-icon>
+        <v-icon small @click="removeQuestion(item)">
+          mdi-delete-empty
+        </v-icon>
+      </template>
     </v-data-table></v-container
   >
 </template>
@@ -77,6 +98,7 @@ export default {
   components: { AddQuestion },
   data() {
     return {
+      selected: [],
       subject: '',
       dialog: false,
       questions: [],
@@ -85,7 +107,6 @@ export default {
       error: '',
       headers: [
         {
-          text: 'Questions',
           align: 'left',
           sortable: false,
           value: 'name',
@@ -95,29 +116,46 @@ export default {
         { text: 'subject', value: 'subject.name' },
         { text: 'year', value: 'subject.year' },
         { text: 'shareable', value: 'shareable' },
+        { text: 'Actions', value: 'action', sortable: false },
       ],
     };
   },
-  mounted() {
-    restApi
-      .getUserQuestions()
-      .then(response => {
-        this.loading = false;
-        this.questions = response;
-        console.log(response);
-      })
-      .catch(err => (this.error = err));
-    restApi
-      .getSubjects()
-      .then(response => (this.subjects = response))
-      .catch(err => (this.error = err));
+  created() {
+    this.getQuestions();
+    this.getAllSubjects();
   },
   methods: {
+    getAllSubjects() {
+      restApi
+        .getSubjects()
+        .then(response => (this.subjects = response))
+        .catch(err => (this.error = err));
+    },
     filterBySubject() {
       restApi
         .filterQuestionsBySubject(this.subject.id)
         .then(response => (this.questions = response))
         .catch(err => (this.error = err));
+    },
+    getQuestions() {
+      restApi
+        .getUserQuestions()
+        .then(response => {
+          this.loading = false;
+          this.questions = response;
+          console.log(response);
+        })
+        .catch(err => (this.error = err));
+    },
+    removeQuestion(item) {
+      console.log('item', item);
+      console.log('item.id', item.id);
+      restApi
+        .removeQuestion(item.id)
+        .then(response => this.getQuestions())
+        .catch(err => {
+          this.error = err;
+        });
     },
   },
 };

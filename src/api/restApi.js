@@ -119,4 +119,14 @@ export const restApi = {
         return err.response.data;
       });
   },
+  removeQuestion(id) {
+    return this.axiosProxy
+      .delete(`/question/delete/` + id)
+      .then(response => {
+        return response.data;
+      })
+      .catch(err => {
+        return err.response.data;
+      });
+  },
 };
