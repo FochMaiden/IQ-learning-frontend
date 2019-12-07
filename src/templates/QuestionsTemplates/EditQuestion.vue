@@ -79,14 +79,14 @@
 </template>
 
 <script>
-	import {required} from '../../util/validationFunctions.js';
-	import ButtonCounter from './ButtonCounter';
-	import {restApi} from '../../api/restApi';
+import { required } from '../../util/validationFunctions.js';
+import ButtonCounter from './ButtonCounter';
+import { restApi } from '../../api/restApi';
 
-	export default {
+export default {
   components: { ButtonCounter },
   props: {
-	  propObj:{
+    propObj: {
       type: Object,
       required: false,
       default: () => {
@@ -97,6 +97,8 @@
   data: function() {
     return {
       subject: '',
+      id: '',
+      owner: '',
       name: '',
       correct: '',
       question: '',
@@ -121,22 +123,33 @@
       this.rows = value;
     },
     editQuestion() {
-      console.log('kupa',this.propObj.date);
-      /*restApi
-					.updateQuestion(
-						this.subject,
-						this.question,
-						this.shareable,
-						this.choiceTest,
-						this.rows
-					)
-					.then(response => {
-						this.question = response.q;
-						this.msg = response.msg;
-					})
-					.catch(err => {
-						this.error = err;
-					});*/
+      console.log('kupa', this.propObj.question);
+      //item.subject, item.question, item.shareable, item.choiceTest, item.answers, item.id
+      this.subject = this.propObj.subject;
+      this.question = this.propObj.question;
+      this.shareable = this.propObj.shareable;
+      this.choiceTest = this.propObj.choiceTest;
+      this.answers = this.propObj.answers;
+      this.owner = 10;
+      this.id = this.propObj.id;
+      console.log('wiesza kupa', this.id);
+      restApi
+        .updateQuestion(
+          this.subject,
+          this.question,
+          this.shareable,
+          this.choiceTest,
+          this.answers,
+          this.owner,
+          this.propObj.id
+        )
+        .then(response => {
+          this.question = response.q;
+          this.msg = response.msg;
+        })
+        .catch(err => {
+          this.error = err;
+        });
     },
   },
 };

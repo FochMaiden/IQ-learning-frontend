@@ -69,7 +69,7 @@
       <template v-slot:item.action="{ item }">
         <v-dialog v-model="dialog" max-width="800" overlay-opacity="0.6">
           <template v-slot:activator="{ on }">
-            <v-icon small class="mr-2" v-on="on">
+            <v-icon small class="mr-2" @click="editQuestion(item)" v-on="on">
               edit
             </v-icon>
           </template>
@@ -93,11 +93,11 @@
 </template>
 
 <script>
-	import AddQuestion from '../../templates/QuestionsTemplates/AddQuestion';
-	import {restApi} from '../../api/restApi';
-	import EditQuestion from '../../templates/QuestionsTemplates/EditQuestion';
+import AddQuestion from '../../templates/QuestionsTemplates/AddQuestion';
+import { restApi } from '../../api/restApi';
+import EditQuestion from '../../templates/QuestionsTemplates/EditQuestion';
 
-	export default {
+export default {
   components: { EditQuestion, AddQuestion },
   data() {
     return {
@@ -109,11 +109,13 @@
       subjects: [],
       error: '',
       editedItem: {
-        date: 'lolz',
-        link: 'lolx',
-        news: 'loool',
+        //subject, question, shareable, choiceTest, answers, id
+        subject: '',
+        question: '',
+        shareable: '',
+        choiceTest: '',
+        answers: '',
         id: 0,
-        subject: 'twoaj stara',
       },
       headers: [
         {
@@ -133,7 +135,6 @@
   created() {
     this.getQuestions();
     this.getAllSubjects();
-    console.log(this.props);
   },
   methods: {
     getAllSubjects() {
@@ -159,14 +160,21 @@
         .catch(err => (this.error = err));
     },
     removeQuestion(item) {
-      console.log('item', item);
-      console.log('item.id', item.id);
       restApi
         .removeQuestion(item.id)
         .then(response => this.getQuestions())
         .catch(err => {
           this.error = err;
         });
+    },
+    editQuestion(item) {
+      this.editedItem.subject = item.subject;
+      this.editedItem.question = item.question;
+      this.editedItem.shareable = item.shareable;
+      this.editedItem.choiceTest = item.choiceTest;
+      this.editedItem.answers = item.answers;
+      this.editedItem.owner = item.owner;
+      this.editedItem.id = item.id;
     },
   },
 };
