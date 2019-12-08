@@ -66,9 +66,9 @@ export default {
   computed: {
     notNullRows() {
       if (this.rows === null) {
-        return this.rows = [{ id: 0, answer: null, correct: false }];
-      } else return this.rows
-    }
+        return (this.rows = [{ id: 0, answer: null, correct: false }]);
+      } else return this.rows;
+    },
   },
   methods: {
     addRow: function() {

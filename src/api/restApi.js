@@ -5,7 +5,7 @@ const errorHandler = error => {
   //console.log('Error response',error.response, 'code' , error.response.status);
   if (error.response.status === 401) {
     Vue.auth.logout();
-  } else return error
+  } else return error;
 };
 const successHandler = response => {
   return response;

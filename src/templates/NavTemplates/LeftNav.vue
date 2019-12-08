@@ -67,7 +67,7 @@ export default {
           to: '/user/tests',
           icon: 'mdi-file-question-outline',
         },
-       /* { title: 'Chat', to: '/user/chat', icon: 'mdi-forum-outline' },*/
+        /* { title: 'Chat', to: '/user/chat', icon: 'mdi-forum-outline' },*/
       ],
       ico: require('../../assets/wisdom.svg'),
     };
