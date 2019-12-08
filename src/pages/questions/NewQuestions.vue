@@ -199,20 +199,22 @@ export default {
       ],
       editedIndex: -1,
       editedItem: {
+	      id: 0,
         question: '',
         choiceTest: '',
         subject: '',
+	      owner: 0,
         year: 0,
         shareable: false,
-        id: 0,
       },
       defaultItem: {
+	      id: 0,
         question: '',
         choiceTest: '',
         subject: '',
-        year: 1,
+	      year: 1,
+	      owner: 0,
         shareable: false,
-        id: 0,
       },
     };
   },
@@ -300,8 +302,8 @@ export default {
             });
           this.close();
         } else {
-        	console.log(this.$auth.user())
         	//edit question
+	        console.log(this.editedItem)
           restApi
             .updateQuestion(
               this.editedItem.subject,
@@ -309,7 +311,6 @@ export default {
               this.editedItem.shareable,
               this.editedItem.choiceTest,
               this.editedItem.answers,
-              10,
               this.editedItem.id
             )
             .then(response => {

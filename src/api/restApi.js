@@ -120,7 +120,7 @@ export const restApi = {
         id: id,
       })
       .then(response => {
-        //console.log(response);
+        console.log(response);
         return { q: response.data.question, msg: 'Question updated' };
       })
       .catch(err => {
