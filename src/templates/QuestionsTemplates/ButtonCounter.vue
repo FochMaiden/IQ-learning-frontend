@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row v-bind="row" v-for="row in rows" :key="row.id">
+    <v-row v-for="row in notNullRows" v-bind="row" :key="row.id">
       <v-col class="flex justify-center ma-auto">
         <v-btn
           v-model="row.correct"
@@ -62,6 +62,13 @@ export default {
       type: Array,
       default: () => [{ id: 0, answer: null, correct: false }],
     },
+  },
+  computed: {
+    notNullRows() {
+      if (this.rows === null) {
+        return this.rows = [{ id: 0, answer: null, correct: false }];
+      } else return this.rows
+    }
   },
   methods: {
     addRow: function() {

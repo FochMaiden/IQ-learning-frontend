@@ -59,10 +59,15 @@ export default {
         { title: 'Dashboard', to: '/user', icon: 'mdi-view-dashboard-outline' },
         {
           title: 'Questions',
-          to: '/user/q',
+          to: '/user/questions',
           icon: 'mdi-file-question-outline',
         },
-        { title: 'Chat', to: '/user/s', icon: 'mdi-forum-outline' },
+        {
+          title: 'Tests',
+          to: '/user/tests',
+          icon: 'mdi-file-question-outline',
+        },
+       /* { title: 'Chat', to: '/user/chat', icon: 'mdi-forum-outline' },*/
       ],
       ico: require('../../assets/wisdom.svg'),
     };

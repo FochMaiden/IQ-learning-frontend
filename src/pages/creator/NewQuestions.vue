@@ -1,45 +1,46 @@
 <template>
   <v-container>
-    <v-col class="flex justify-center ma-auto">
-      <v-select
-        name="subject"
-        label="Filter by subject"
-        id="id"
-        v-model="subject"
-        :items="subjects"
-        item-value="id"
-        @change="filterBySubject"
-        return-object
-      >
-        <template slot="selection" slot-scope="data">
-          {{ data.item.name }}, {{ data.item.year }}
-        </template>
-        <template slot="item" slot-scope="data">
-          {{ data.item.name }} year {{ data.item.year }}
-        </template>
-      </v-select>
-    </v-col>
     <v-data-table
       :headers="headers"
       :items="questions"
       :loading="loading"
       no-data-text="It seems empty here, maybe try adding something"
-      class="ma-2 elevation-6"
+      class="pa-6 ma-2 elevation-1"
     >
       <template v-slot:top>
         <v-toolbar-title>Questions</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
-        <div class="flex-grow-1"></div>
+        <v-row>
+          <v-col>
+            <v-select
+              name="subject"
+              label="Filter by subject"
+              id="id"
+              v-model="subject"
+              :items="subjects"
+              item-value="id"
+              @change="filterBySubject"
+              return-object
+            >
+              <template slot="selection" slot-scope="data">
+                {{ data.item.name }}, {{ data.item.year }}
+              </template>
+              <template slot="item" slot-scope="data">
+                {{ data.item.name }} year {{ data.item.year }}
+              </template>
+            </v-select></v-col
+          >
+          <v-col>
+            <v-switch
+              v-model="seePublic"
+              label="Show public questions"
+              class="pa-3"
+            ></v-switch
+          ></v-col>
+        </v-row>
         <v-dialog v-model="dialog" max-width="800px">
           <template v-slot:activator="{ on }">
-            <v-btn
-              rounded
-              style="background-image: linear-gradient(to right top, #846be6, #0795ff, #00b4fe, #00cdee, #6be1dd);!important"
-              dark
-              class="mb-2"
-              v-on="on"
-              >New Item</v-btn
-            >
+            <v-btn color="primary" v-on="on">New Item</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -75,6 +76,7 @@
                         auto-grow
                         rows="1"
                         v-model="editedItem.question"
+                        :rules="[required('question')]"
                       ></v-textarea>
                     </v-col>
                     <v-col class="flex justify-center ma-auto">
@@ -124,15 +126,8 @@
             <v-card-text>{{ error }}</v-card-text>
             <v-card-actions>
               <div class="flex-grow-1"></div>
-              <v-btn color="red darken-1" rounded text @click="close"
-                >Cancel</v-btn
-              >
-              <v-btn
-                style="background-image: linear-gradient(to right top, #846be6, #0795ff, #00b4fe, #00cdee, #6be1dd);!important"
-                rounded
-                @click="save"
-                >Save</v-btn
-              >
+              <v-btn color="red" rounded text @click="close">Cancel</v-btn>
+              <v-btn class="primary" rounded @click="save">Save</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -168,6 +163,7 @@
 </template>
 
 <script>
+import { required } from '../../util/validationFunctions';
 import { restApi } from '../../api/restApi';
 import ButtonCounter from '../../templates/QuestionsTemplates/ButtonCounter';
 
@@ -177,12 +173,14 @@ export default {
   data() {
     return {
       dialog: false,
+      seePublic: false,
       loading: true,
       error: '',
       msg: '',
       questions: [],
+      publicQuestions: [],
       subjects: [],
-	    subject: '',
+      subject: '',
       questionAnswers: [],
       headers: [
         {
@@ -190,32 +188,33 @@ export default {
           sortable: false,
           value: 'name',
         },
-        { text: 'question', value: 'question' },
-        { text: 'choice question', value: 'choiceTest' },
-        { text: 'subject', value: 'subject.name' },
-        { text: 'year', value: 'subject.year' },
-        { text: 'shareable', value: 'shareable' },
+        { text: 'Question', value: 'question' },
+        { text: 'Subject', value: 'subject.name' },
+        { text: 'Year', value: 'subject.year' },
+        { text: 'Choice question', value: 'choiceTest' },
+        { text: 'Shareable', value: 'shareable' },
         { text: 'Actions', value: 'action', sortable: false },
       ],
       editedIndex: -1,
       editedItem: {
-	      id: 0,
+        id: 0,
         question: '',
         choiceTest: '',
         subject: '',
-	      owner: 0,
+        owner: 0,
         year: 0,
         shareable: false,
       },
       defaultItem: {
-	      id: 0,
+        id: 0,
         question: '',
         choiceTest: '',
         subject: '',
-	      year: 1,
-	      owner: 0,
+        year: 1,
+        owner: 0,
         shareable: false,
       },
+      required,
     };
   },
   computed: {
@@ -229,7 +228,7 @@ export default {
     },
   },
   created() {
-    this.getQuestions();
+    this.getUserQuestions();
     this.getAllSubjects();
   },
   methods: {
@@ -248,7 +247,7 @@ export default {
         .then(response => (this.questions = response))
         .catch(err => (this.error = err));
     },
-    getQuestions() {
+    getUserQuestions() {
       restApi
         .getUserQuestions()
         .then(response => {
@@ -268,7 +267,7 @@ export default {
     deleteItem(item) {
       restApi
         .removeQuestion(item.id)
-        .then(response => this.getQuestions())
+        .then(response => this.getUserQuestions())
         .catch(err => {
           this.error = err;
         });
@@ -294,7 +293,7 @@ export default {
               this.questionAnswers
             )
             .then(response => {
-              this.getQuestions();
+              this.getUserQuestions();
               this.msg = response.msg;
             })
             .catch(err => {
@@ -302,19 +301,19 @@ export default {
             });
           this.close();
         } else {
-        	//edit question
-	        console.log(this.editedItem)
+          //edit question
+          console.log(this.editedItem);
           restApi
             .updateQuestion(
               this.editedItem.subject,
               this.editedItem.question,
               this.editedItem.shareable,
               this.editedItem.choiceTest,
-              this.editedItem.answers,
+              this.questionAnswers,
               this.editedItem.id
             )
             .then(response => {
-              this.getQuestions();
+              this.getUserQuestions();
               this.msg = response.msg;
             })
             .catch(err => {

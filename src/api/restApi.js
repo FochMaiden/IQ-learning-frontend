@@ -129,25 +129,33 @@ export const restApi = {
         }
       });
   },
+  removeQuestion(id) {
+    return this.axiosProxy
+      .delete(`/question/delete/` + id)
+      .then(response => {
+        return response;
+      })
+      .catch(err => {
+        return err;
+      });
+  },
   filterQuestionsForUserBySubject(id) {
     return this.axiosProxy
       .get(`/questions/get/user/subject/` + id)
       .then(response => {
-          return response.data;
+        return response.data;
       })
       .catch(err => {
         console.log('enon', err);
         return err.response.data;
       });
   },
-  removeQuestion(id) {
+  getPublicQuestions() {
     return this.axiosProxy
-      .delete(`/question/delete/` + id)
+      .get('/questions/get/public')
       .then(response => {
         return response.data;
       })
-      .catch(err => {
-        return err.response.data;
-      });
+      .catch(err => err.response);
   },
 };

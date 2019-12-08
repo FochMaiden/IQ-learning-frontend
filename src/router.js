@@ -44,9 +44,14 @@ const router = new Router({
           component: () => import('./pages/user/Settings'),
         },
         {
-          path: 'q',
-          name: 'QuestionTable',
-          component: () => import('./pages/questions/NewQuestions'),
+          path: 'questions',
+          name: 'Questions',
+          component: () => import('./pages/creator/NewQuestions'),
+        },
+        {
+          path: 'tests',
+          name: 'Tests',
+          component: () => import('./pages/creator/Tests'),
         },
       ],
       redirect: { name: 'Dashboard' },
