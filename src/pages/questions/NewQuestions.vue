@@ -1,5 +1,24 @@
 <template>
-  <v-container fluid>
+  <v-container>
+    <v-col class="flex justify-center ma-auto">
+      <v-select
+        name="subject"
+        label="Filter by subject"
+        id="id"
+        v-model="subject"
+        :items="subjects"
+        item-value="id"
+        @change="filterBySubject"
+        return-object
+      >
+        <template slot="selection" slot-scope="data">
+          {{ data.item.name }}, {{ data.item.year }}
+        </template>
+        <template slot="item" slot-scope="data">
+          {{ data.item.name }} year {{ data.item.year }}
+        </template>
+      </v-select>
+    </v-col>
     <v-data-table
       :headers="headers"
       :items="questions"
@@ -163,6 +182,7 @@ export default {
       msg: '',
       questions: [],
       subjects: [],
+	    subject: '',
       questionAnswers: [],
       headers: [
         {
@@ -222,7 +242,7 @@ export default {
     },
     filterBySubject() {
       restApi
-        .filterQuestionsBySubject(this.subject.id)
+        .filterQuestionsForUserBySubject(this.subject.id)
         .then(response => (this.questions = response))
         .catch(err => (this.error = err));
     },
@@ -234,7 +254,7 @@ export default {
           if (response === 'Question list empty') {
             this.questions = [];
           } else this.questions = response;
-          console.log(response);
+          //console.log(response);
         })
         .catch(err => (this.error = err));
     },
@@ -280,6 +300,8 @@ export default {
             });
           this.close();
         } else {
+        	console.log(this.$auth.user())
+        	//edit question
           restApi
             .updateQuestion(
               this.editedItem.subject,

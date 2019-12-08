@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row v-for="row in rows" :key="row.id">
+    <v-row v-bind="row" v-for="row in rows" :key="row.id">
       <v-col class="flex justify-center ma-auto">
         <v-btn
           v-model="row.correct"
@@ -31,7 +31,6 @@
       <v-col class="flex justify-center ma-auto">
         <v-btn
           v-if="rows.length !== 1"
-          v-bind="row.answer"
           v-on:click="removeRow(row)"
           color="red"
           outlined
@@ -54,7 +53,6 @@ export default {
   data() {
     return {
       inputs: ['answer'],
-      rows: [{ id: 0, answer: null, correct: false }],
       values: [],
       id: 0,
     };
@@ -62,7 +60,7 @@ export default {
   props: {
     rows: {
       type: Array,
-      default: [{ id: 0, answer: null, correct: false }],
+      default: () => [{ id: 0, answer: null, correct: false }],
     },
   },
   methods: {

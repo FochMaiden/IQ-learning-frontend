@@ -100,7 +100,7 @@ export const restApi = {
         answers: answers,
       })
       .then(response => {
-        console.log(response);
+        //console.log(response);
         return { q: response.data.question, msg: 'Question Added' };
       })
       .catch(err => {
@@ -120,7 +120,7 @@ export const restApi = {
         id: id,
       })
       .then(response => {
-        console.log(response);
+        //console.log(response);
         return { q: response.data.question, msg: 'Question updated' };
       })
       .catch(err => {
@@ -129,15 +129,14 @@ export const restApi = {
         }
       });
   },
-  filterQuestionsBySubject(id) {
+  filterQuestionsForUserBySubject(id) {
     return this.axiosProxy
-      .get(`/question/get/subject/` + id)
+      .get(`/questions/get/user/subject/` + id)
       .then(response => {
-          console.log('resp', response.response.data);
           return response.data;
       })
       .catch(err => {
-          console.log('enon', err);
+        console.log('enon', err);
         return err.response.data;
       });
   },

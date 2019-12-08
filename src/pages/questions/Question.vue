@@ -145,7 +145,7 @@ export default {
     },
     filterBySubject() {
       restApi
-        .filterQuestionsBySubject(this.subject.id)
+        .filterQuestionsForUserBySubject(this.subject.id)
         .then(response => (this.questions = response))
         .catch(err => (this.error = err));
     },
