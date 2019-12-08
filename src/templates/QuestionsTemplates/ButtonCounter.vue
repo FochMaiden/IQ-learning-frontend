@@ -59,6 +59,12 @@ export default {
       id: 0,
     };
   },
+  props: {
+    rows: {
+      type: Array,
+      default: [{ id: 0, answer: null, correct: false }],
+    },
+  },
   methods: {
     addRow: function() {
       this.id += 1;
