@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <p>{{ msg }}</p>
+    <p>{{ propObj }}</p>
+    <p>{{ propObj }}</p>
     <form class="pa-6 primary--text" v-model="valid">
       <v-select
         name="subject"
@@ -21,6 +22,7 @@
       </v-select>
       <v-row>
         <v-col cols="12" sm="4" md="6">
+          <p>{{ editedItem }}</p>
           <v-textarea
             name="question"
             label="Question"
@@ -69,8 +71,8 @@
         block
         style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
         :disabled="!valid"
-        v-on:click="addQuestion"
-        >Add Question</v-btn
+        v-on:click="editQuestion"
+        >Update Question</v-btn
       >
     </form>
   </v-container>
@@ -83,9 +85,20 @@ import { restApi } from '../../api/restApi';
 
 export default {
   components: { ButtonCounter },
+  props: {
+    propObj: {
+      type: Object,
+      required: false,
+      default: () => {
+        return { date: 'chuj', link: '', news: '', subject: 'pabloo', id: 0 };
+      },
+    },
+  },
   data: function() {
     return {
       subject: '',
+      id: '',
+      owner: '',
       name: '',
       correct: '',
       question: '',
@@ -109,14 +122,26 @@ export default {
     onChildClick(value) {
       this.rows = value;
     },
-    addQuestion() {
+    editQuestion() {
+      console.log('kupa', this.propObj.question);
+      //item.subject, item.question, item.shareable, item.choiceTest, item.answers, item.id
+      this.subject = this.propObj.subject;
+      this.question = this.propObj.question;
+      this.shareable = this.propObj.shareable;
+      this.choiceTest = this.propObj.choiceTest;
+      this.answers = this.propObj.answers;
+      this.owner = 10;
+      this.id = this.propObj.id;
+      console.log('wiesza kupa', this.id);
       restApi
-        .addQuestion(
+        .updateQuestion(
           this.subject,
           this.question,
           this.shareable,
           this.choiceTest,
-          this.rows
+          this.answers,
+          this.owner,
+          this.propObj.id
         )
         .then(response => {
           this.question = response.q;

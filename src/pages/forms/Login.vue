@@ -80,7 +80,7 @@ import {
   passwordUppercase,
   regexUsername,
 } from '../../util/validationFunctions';
-import {restApi} from "../../api/restApi";
+import { restApi } from '../../api/restApi';
 
 export default {
   data: function() {
@@ -99,9 +99,11 @@ export default {
   },
   methods: {
     login() {
-    restApi.login(this.username, this.password,this.rememberMe).catch((error)=>{
-      this.error = error;
-    })
+      restApi
+        .login(this.username, this.password, this.rememberMe)
+        .catch(error => {
+          this.error = error;
+        });
     },
   },
 };

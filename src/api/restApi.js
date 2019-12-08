@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Vue from 'vue';
+
 const errorHandler = error => {
   //console.log('Error response',error.response, 'code' , error.response.status);
   if (error.response.status === 401) {
@@ -83,7 +84,7 @@ export const restApi = {
   },
   getUserQuestions() {
     return this.axiosProxy
-      .get('/question/get/user')
+      .get('/questions/get/user')
       .then(response => {
         return response.data;
       })
@@ -100,7 +101,27 @@ export const restApi = {
       })
       .then(response => {
         console.log(response);
-        return {q :response.data.question, msg: 'Question Added'};
+        return { q: response.data.question, msg: 'Question Added' };
+      })
+      .catch(err => {
+        if (err.response.data) {
+          return err.response.data.error;
+        }
+      });
+  },
+  updateQuestion(subject, question, shareable, choiceTest, answers, id) {
+    return this.axiosProxy
+      .post('/question/update', {
+        subject: subject,
+        question: question,
+        shareable: shareable,
+        choiceTest: choiceTest,
+        answers: answers,
+        id: id,
+      })
+      .then(response => {
+        console.log(response);
+        return { q: response.data.question, msg: 'Question updated' };
       })
       .catch(err => {
         if (err.response.data) {
@@ -117,6 +138,16 @@ export const restApi = {
       })
       .catch(err => {
           console.log('enon', err);
+        return err.response.data;
+      });
+  },
+  removeQuestion(id) {
+    return this.axiosProxy
+      .delete(`/question/delete/` + id)
+      .then(response => {
+        return response.data;
+      })
+      .catch(err => {
         return err.response.data;
       });
   },
