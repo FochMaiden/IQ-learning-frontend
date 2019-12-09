@@ -1,24 +1,27 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-container>
     <v-data-table
       :headers="headers"
       :items="questions"
       :loading="loading"
+      :expanded.sync="expanded"
+      show-expand
       no-data-text="It seems empty here, maybe try adding something"
     >
       <template v-slot:top>
-        <v-toolbar dark color="primary">
-          <v-toolbar-title dark color="primary">Questions</v-toolbar-title>
+        <v-toolbar>
+          <v-toolbar-title color="primary">Questions</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-select
             name="subject"
             label="Filter by subject"
-            id="id"
             v-model="subject"
             :items="subjects"
             item-value="id"
             @change="filterBySubject"
+            class="ma-auto"
             return-object
+            hide-details
           >
             <template slot="selection" slot-scope="data">
               {{ data.item.name }}, {{ data.item.year }}
@@ -27,21 +30,17 @@
               {{ data.item.name }} year {{ data.item.year }}
             </template>
           </v-select>
+          <v-divider class="mx-4" inset vertical></v-divider>
           <v-switch
             v-model="seePublic"
             label="Show public questions"
-            class="pa-3"
+            hide-details
           ></v-switch>
-
+          <v-divider class="mx-4" inset vertical></v-divider>
           <v-dialog v-model="dialog" max-width="800px">
             <template v-slot:activator="{ on }">
-              <v-btn
-                rounded
-                style="background-image:linear-gradient(to right top, #846be6, #0795ff, #00b4fe, #00cdee, #6be1dd);;!important"
-                dark
-                class="mb-2"
-                v-on="on"
-                ><v-icon>mdi-plus</v-icon></v-btn
+              <v-btn outlined small v-on="on"
+                ><v-icon>mdi-plus</v-icon>Add question</v-btn
               >
             </template>
             <v-card>
@@ -128,14 +127,19 @@
               <v-card-text>{{ error }}</v-card-text>
               <v-card-actions>
                 <div class="flex-grow-1"></div>
-                <v-btn color="red" rounded text @click="close">Cancel</v-btn>
-                <v-btn class="primary" rounded @click="save">Save</v-btn>
+                <v-btn color="red" outlined @click="close">Cancel</v-btn>
+                <v-btn class="primary" dark outlined @click="save">Save</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
         </v-toolbar>
       </template>
-
+      <template v-slot:expanded-item="{ item }">
+        <div :colspan="headers.length" v-for="answer in item.answers">
+          {{ answer.answer }}
+          {{answer.correct}}
+        </div>
+      </template>
       <template v-slot:item.shareable="{ item }">
         <v-icon>
           {{
@@ -186,6 +190,7 @@ export default {
       subjects: [],
       subject: '',
       questionAnswers: [],
+      expanded: [],
       headers: [
         {
           align: 'left',
@@ -198,6 +203,7 @@ export default {
         { text: 'Choice question', value: 'choiceTest' },
         { text: 'Shareable', value: 'shareable' },
         { text: 'Actions', value: 'action', sortable: false },
+        { text: '', value: 'data-table-expand' },
       ],
       editedIndex: -1,
       editedItem: {
@@ -205,7 +211,6 @@ export default {
         question: '',
         choiceTest: '',
         subject: '',
-        owner: 0,
         year: 0,
         shareable: false,
       },
@@ -215,7 +220,6 @@ export default {
         choiceTest: '',
         subject: '',
         year: 1,
-        owner: 0,
         shareable: false,
       },
       required,
@@ -306,7 +310,6 @@ export default {
           this.close();
         } else {
           //edit question
-          console.log(this.editedItem);
           restApi
             .updateQuestion(
               this.editedItem.subject,
