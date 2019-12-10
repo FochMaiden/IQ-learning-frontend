@@ -153,9 +153,9 @@
       </template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
-          <v-item class="ma-auto d-inline" v-for="(answer, index) in item.answers">
+          <v-list-item class="ma-auto d-inline" v-for="(answer, index) in item.answers">
             Answer {{index+1}} {{ answer.answer }} <v-icon small :color="answer.correct ? 'green' : 'red'">{{ answer.correct ? 'mdi-check' : 'mdi-block-helper'}}</v-icon>
-          </v-item>
+          </v-list-item>
         </td>
       </template>
       <template v-slot:item.shareable="{ item }">
