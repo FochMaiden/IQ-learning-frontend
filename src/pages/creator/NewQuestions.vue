@@ -34,6 +34,7 @@
           <v-switch
             v-model="seePublic"
             label="Show public questions"
+            v-on:change="getQuestions"
             hide-details
           ></v-switch>
           <v-divider class="mx-4" inset vertical></v-divider>
@@ -137,7 +138,7 @@
       <template v-slot:expanded-item="{ item }">
         <div :colspan="headers.length" v-for="answer in item.answers">
           {{ answer.answer }}
-          {{answer.correct}}
+          {{ answer.correct }}
         </div>
       </template>
       <template v-slot:item.shareable="{ item }">
@@ -174,6 +175,7 @@
 import { required } from '../../util/validationFunctions';
 import { restApi } from '../../api/restApi';
 import ButtonCounter from '../../templates/QuestionsTemplates/ButtonCounter';
+import {merge} from "../../util/utilFunctions";
 
 export default {
   name: 'NewQuestions',
@@ -236,7 +238,7 @@ export default {
     },
   },
   created() {
-    this.getUserQuestions();
+    this.getQuestions();
     this.getAllSubjects();
   },
   methods: {
@@ -254,6 +256,20 @@ export default {
         .filterQuestionsForUserBySubject(this.subject.id)
         .then(response => (this.questions = response))
         .catch(err => (this.error = err));
+    },
+
+    getQuestions() {
+      if (this.seePublic) {
+        restApi
+          .getPublicQuestions()
+          .then(response => {
+            let tempQ = this.questions;
+            let tempPQ = response;
+            let merged = merge(tempQ, tempPQ, 'id');
+            this.questions = merged;
+          })
+          .catch(err => (this.error = err));
+      } else this.getUserQuestions();
     },
     getUserQuestions() {
       restApi
@@ -275,7 +291,7 @@ export default {
     deleteItem(item) {
       restApi
         .removeQuestion(item.id)
-        .then(response => this.getUserQuestions())
+        .then(response => this.getQuestions())
         .catch(err => {
           this.error = err;
         });
@@ -301,7 +317,7 @@ export default {
               this.questionAnswers
             )
             .then(response => {
-              this.getUserQuestions();
+              this.getQuestions();
               this.msg = response.msg;
             })
             .catch(err => {
@@ -320,7 +336,7 @@ export default {
               this.editedItem.id
             )
             .then(response => {
-              this.getUserQuestions();
+              this.getQuestions();
               this.msg = response.msg;
             })
             .catch(err => {
