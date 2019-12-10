@@ -12,12 +12,9 @@
     </template>
     <v-list class="pt-12">
       <v-list-item
-        v-for="item in items"
-        :key="item.title"
-        :to="item.to"
-        link
+        to="/user"
         :style="
-          item.to === $route.path
+          '/user' === $route.path
             ? 'color: #fe7676 !important; border-width: 0 !important; border-right: 0.1em solid !important; background-color: rgba(0,0,0,0) !important;'
             : 'color: rgb(0,0,0,0) !important;  border-width: 0 !important; border-right: 0.1em solid !important;'
         "
@@ -25,24 +22,69 @@
         <v-list-item-icon>
           <v-icon
             :style="
-              item.to === $route.path
+              '/user' === $route.path
                 ? 'color: #fe7676 !important;'
                 : 'color: rgb(0,0,0, 0.4) !important;'
             "
-            >{{ item.icon }}</v-icon
+            >mdi-view-dashboard-outline</v-icon
           >
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title
             :style="
-              item.to === $route.path
+              '/user' === $route.path
                 ? 'color: black !important;'
                 : 'color: rgb(0,0,0, 0.4) !important;'
             "
-            >{{ item.title }}</v-list-item-title
+            >Dashboard</v-list-item-title
           >
         </v-list-item-content>
       </v-list-item>
+      <v-list-group
+        v-for="item in items"
+        :key="item.title"
+        :prepend-icon="item.icon"
+        @click
+      >
+        <template v-slot:activator>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title"></v-list-item-title>
+          </v-list-item-content>
+        </template>
+        <v-list-item
+          v-for="subLink in item.items"
+          :key="subLink.title"
+          :to="subLink.to"
+          active-class="kupa"
+          :style="
+            subLink.to === $route.path
+              ? 'color: #fe7676 !important; border-width: 0 !important; border-right: 0.1em solid !important; background-color: rgba(0,0,0,0) !important;'
+              : 'color: rgb(0,0,0,0) !important;  border-width: 0 !important; border-right: 0.1em solid !important;'
+          "
+          link
+        >
+          <v-list-item-icon>
+            <v-icon
+              :style="
+                subLink.to === $route.path
+                  ? 'color: #fe7676 !important;'
+                  : 'color: rgb(0,0,0, 0.4) !important;'
+              "
+              >{{ subLink.icon }}</v-icon
+            >
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title
+              :style="
+                subLink.to === $route.path
+                  ? 'color: black !important;'
+                  : 'color: rgb(0,0,0, 0.4) !important;'
+              "
+              >{{ subLink.title }}</v-list-item-title
+            >
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
     </v-list>
     <!--				<template v-slot:append>
 						HELLO
@@ -56,17 +98,24 @@ export default {
   data() {
     return {
       items: [
-        { title: 'Dashboard', to: '/user', icon: 'mdi-view-dashboard-outline' },
         {
-          title: 'Questions',
+          title: 'Creator',
           to: '/user/questions',
-          icon: 'mdi-file-question-outline',
+          icon: 'mdi-pencil-outline',
+          items: [
+            {
+              title: 'Questions',
+              to: '/user/questions',
+              icon: 'mdi-file-edit-outline',
+            },
+            {
+              title: 'Tests',
+              to: '/user/tests',
+              icon: 'mdi-clipboard-list-outline',
+            },
+          ],
         },
-        {
-          title: 'Tests',
-          to: '/user/tests',
-          icon: 'mdi-file-question-outline',
-        },
+
         /* { title: 'Chat', to: '/user/chat', icon: 'mdi-forum-outline' },*/
       ],
       ico: require('../../assets/wisdom.svg'),
