@@ -135,35 +135,48 @@
           </v-dialog>
         </v-toolbar>
       </template>
-      <template v-slot:expanded-item="{ item }">
-        <div :colspan="headers.length" v-for="answer in item.answers">
-          {{ answer.answer }}
-          {{ answer.correct }}
-        </div>
+      <template v-slot:item.data-table-expand="{ item, isExpanded, expand }">
+        <v-icon
+          small
+          color="primary"
+          @click="expand(true)"
+          v-if="item.choiceTest && !isExpanded"
+          >mdi-chevron-down</v-icon
+        >
+        <v-icon
+          small
+          color="primary"
+          @click="expand(false)"
+          v-if="item.choiceTest && isExpanded"
+          >mdi-chevron-up</v-icon
+        >
+      </template>
+      <template v-slot:expanded-item="{ headers, item }">
+        <td :colspan="headers.length">
+          <v-item class="ma-auto d-inline" v-for="(answer, index) in item.answers">
+            Answer {{index+1}} {{ answer.answer }} <v-icon small :color="answer.correct ? 'green' : 'red'">{{ answer.correct ? 'mdi-check' : 'mdi-block-helper'}}</v-icon>
+          </v-item>
+        </td>
       </template>
       <template v-slot:item.shareable="{ item }">
         <v-icon>
-          {{
-            item.shareable
-              ? 'mdi-checkbox-marked'
-              : 'mdi-checkbox-blank-outline'
-          }}
+          {{ item.shareable ? 'mdi-cloud-outline' : 'mdi-cloud-off-outline' }}
         </v-icon>
       </template>
       <template v-slot:item.choiceTest="{ item }">
         <v-icon>
           {{
             item.choiceTest
-              ? 'mdi-checkbox-marked'
-              : 'mdi-checkbox-blank-outline'
+              ? 'mdi-playlist-check'
+              : 'mdi-playlist-minus'
           }}
         </v-icon>
       </template>
       <template v-slot:item.action="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)">
+        <v-icon small color="secondary" class="mr-2" @click="editItem(item)">
           edit
         </v-icon>
-        <v-icon small @click="deleteItem(item)">
+        <v-icon small color="red" @click="deleteItem(item)">
           delete
         </v-icon>
       </template>
@@ -175,7 +188,7 @@
 import { required } from '../../util/validationFunctions';
 import { restApi } from '../../api/restApi';
 import ButtonCounter from '../../templates/QuestionsTemplates/ButtonCounter';
-import {merge} from "../../util/utilFunctions";
+import { merge } from '../../util/utilFunctions';
 
 export default {
   name: 'NewQuestions',
@@ -195,17 +208,17 @@ export default {
       expanded: [],
       headers: [
         {
-          align: 'left',
+          align: 'center',
           sortable: false,
           value: 'name',
         },
-        { text: 'Question', value: 'question' },
-        { text: 'Subject', value: 'subject.name' },
-        { text: 'Year', value: 'subject.year' },
-        { text: 'Choice question', value: 'choiceTest' },
-        { text: 'Shareable', value: 'shareable' },
-        { text: 'Actions', value: 'action', sortable: false },
-        { text: '', value: 'data-table-expand' },
+        { text: 'Question', value: 'question', align: 'center' },
+        { text: 'Subject', value: 'subject.name', align: 'center' },
+        { text: 'Year', value: 'subject.year', align: 'center' },
+        { text: 'Choice question', value: 'choiceTest', align: 'center' },
+        { text: 'Shared', value: 'shareable', align: 'center' },
+        { text: 'Actions', value: 'action', sortable: false, align: 'center' },
+        { text: ' ', value: 'data-table-expand', align: 'center' },
       ],
       editedIndex: -1,
       editedItem: {
