@@ -173,10 +173,10 @@
         </v-icon>
       </template>
       <template v-slot:item.action="{ item }">
-        <v-icon small color="secondary" class="mr-2" @click="editItem(item)">
+        <v-icon v-if="$auth.user().id === item.owner" small color="secondary" class="mr-2" @click="editItem(item)">
           edit
         </v-icon>
-        <v-icon small color="red" @click="deleteItem(item)">
+        <v-icon v-if="$auth.user().id === item.owner" small color="red" @click="deleteItem(item)">
           delete
         </v-icon>
       </template>
