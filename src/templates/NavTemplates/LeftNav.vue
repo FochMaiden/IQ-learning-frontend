@@ -55,7 +55,6 @@
           v-for="subLink in item.items"
           :key="subLink.title"
           :to="subLink.to"
-          active-class="kupa"
           :style="
             subLink.to === $route.path
               ? 'color: #fe7676 !important; border-width: 0 !important; border-right: 0.1em solid !important; background-color: rgba(0,0,0,0) !important;'

@@ -5,7 +5,9 @@
       :items="questions"
       :loading="loading"
       :expanded.sync="expanded"
+      v-model="selected"
       show-expand
+      show-select
       no-data-text="It seems empty here, maybe try adding something"
     >
       <template v-slot:top>
@@ -14,7 +16,7 @@
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-select
             name="subject"
-            label="Filter by subject"
+            label="Select subject"
             v-model="subject"
             :items="subjects"
             item-value="id"
@@ -40,8 +42,8 @@
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-dialog v-model="dialog" max-width="800px">
             <template v-slot:activator="{ on }">
-              <v-btn outlined small v-on="on"
-                ><v-icon>mdi-plus</v-icon>Add question</v-btn
+              <v-btn outlined small fab v-on="on"
+                ><v-icon>mdi-plus</v-icon></v-btn
               >
             </template>
             <v-card>
@@ -153,11 +155,20 @@
       </template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
-          <v-list-item class="ma-auto d-inline" v-for="(answer, index) in item.answers">
-            Answer {{index+1}} {{ answer.answer }} <v-icon small :color="answer.correct ? 'green' : 'red'">{{ answer.correct ? 'mdi-check' : 'mdi-block-helper'}}</v-icon>
+          <v-list-item
+            class="ma-auto d-inline"
+            v-for="(answer, index) in item.answers"
+          >
+            {{ index + 1 }}. {{ answer.answer }}
+            <v-icon small :color="answer.correct ? 'green' : 'red'">{{
+              answer.correct ? 'mdi-check' : 'mdi-block-helper'
+            }}</v-icon>
           </v-list-item>
         </td>
       </template>
+      <!--      <template v-slot:item.data-table-select="{ isSelected, select }">
+        <v-simple-checkbox :value="isSelected" @input="select($event)"></v-simple-checkbox>
+      </template>-->
       <template v-slot:item.shareable="{ item }">
         <v-icon>
           {{ item.shareable ? 'mdi-cloud-outline' : 'mdi-cloud-off-outline' }}
@@ -165,20 +176,48 @@
       </template>
       <template v-slot:item.choiceTest="{ item }">
         <v-icon>
-          {{
-            item.choiceTest
-              ? 'mdi-playlist-check'
-              : 'mdi-playlist-minus'
-          }}
+          {{ item.choiceTest ? 'mdi-playlist-check' : 'mdi-playlist-minus' }}
         </v-icon>
       </template>
       <template v-slot:item.action="{ item }">
-        <v-icon v-if="$auth.user().id === item.owner" small color="secondary" class="mr-2" @click="editItem(item)">
+        <v-icon
+          v-if="$auth.user().id === item.owner"
+          small
+          color="secondary"
+          class="mr-2"
+          @click="editItem(item)"
+        >
           edit
         </v-icon>
-        <v-icon v-if="$auth.user().id === item.owner" small color="red" @click="deleteItem(item)">
+        <v-icon
+          v-if="$auth.user().id === item.owner"
+          small
+          color="red"
+          @click="deleteItem(item)"
+        >
           delete
         </v-icon>
+      </template>
+      <template v-slot:footer="{ headers }">
+        <v-divider class="mb-4" horizontal></v-divider>
+        <v-dialog v-model="testDialog" max-width="800px">
+          <template v-slot:activator="{ on }">
+            <v-btn class="flex ma-auto" outlined small v-on="on"
+              ><v-icon>mdi-plus</v-icon>Create test from selection</v-btn
+            ></template
+          > <v-card>
+          <v-card-title>
+            Test
+          </v-card-title>
+          <v-card-text>
+            <v-col v-for='question in selected'>
+              {{question}}
+            </v-col>
+          </v-card-text>
+          <v-btn color="red" outlined @click="testDialog=false">Cancel</v-btn>
+          <v-btn class="primary" dark outlined @click="addTest">Save</v-btn>
+        </v-card>
+        </v-dialog>
       </template>
     </v-data-table>
   </v-container>
@@ -189,6 +228,7 @@ import { required } from '../../util/validationFunctions';
 import { restApi } from '../../api/restApi';
 import ButtonCounter from '../../templates/QuestionsTemplates/ButtonCounter';
 import { merge } from '../../util/utilFunctions';
+import { questionsHeaders } from '../../util/headers';
 
 export default {
   name: 'NewQuestions',
@@ -196,6 +236,7 @@ export default {
   data() {
     return {
       dialog: false,
+      testDialog:false,
       seePublic: false,
       loading: true,
       error: '',
@@ -206,20 +247,8 @@ export default {
       subject: '',
       questionAnswers: [],
       expanded: [],
-      headers: [
-        {
-          align: 'center',
-          sortable: false,
-          value: 'name',
-        },
-        { text: 'Question', value: 'question', align: 'center' },
-        { text: 'Subject', value: 'subject.name', align: 'center' },
-        { text: 'Year', value: 'subject.year', align: 'center' },
-        { text: 'Choice question', value: 'choiceTest', align: 'center' },
-        { text: 'Shared', value: 'shareable', align: 'center' },
-        { text: 'Actions', value: 'action', sortable: false, align: 'center' },
-        { text: ' ', value: 'data-table-expand', align: 'center' },
-      ],
+      selected: [],
+      headers: questionsHeaders,
       editedIndex: -1,
       editedItem: {
         id: 0,
@@ -270,16 +299,13 @@ export default {
         .then(response => (this.questions = response))
         .catch(err => (this.error = err));
     },
-
     getQuestions() {
       if (this.seePublic) {
         restApi
           .getPublicQuestions()
           .then(response => {
             let tempQ = this.questions;
-            let tempPQ = response;
-            let merged = merge(tempQ, tempPQ, 'id');
-            this.questions = merged;
+            this.questions = merge(tempQ, response, 'id');
           })
           .catch(err => (this.error = err));
       } else this.getUserQuestions();
@@ -358,6 +384,13 @@ export default {
           this.close();
         }
       } else this.error = `Can't b empti`;
+    },
+    addTest() {
+      let questionIds = [];
+      this.selected.forEach(item => {
+        questionIds.push(item.id);
+      });
+      restApi.addTest(this.subject.id, true, questionIds);
     },
   },
 };

@@ -158,4 +158,15 @@ export const restApi = {
       })
       .catch(err => err.response);
   },
+  addTest(subjectId,shareable, questions) {
+    return this.axiosProxy
+      .put('/test/add', {
+          subjectId: subjectId,
+          shareable: shareable,
+        questions: questions,
+      })
+      .then(response => {
+        console.log(response);
+      });
+  },
 };
