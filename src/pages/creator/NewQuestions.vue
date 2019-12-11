@@ -205,18 +205,26 @@
             <v-btn class="flex ma-auto" outlined small v-on="on"
               ><v-icon>mdi-plus</v-icon>Create test from selection</v-btn
             ></template
-          > <v-card>
-          <v-card-title>
-            Test
-          </v-card-title>
-          <v-card-text>
-            <v-col v-for='question in selected'>
-              {{question}}
-            </v-col>
-          </v-card-text>
-          <v-btn color="red" outlined @click="testDialog=false">Cancel</v-btn>
-          <v-btn class="primary" dark outlined @click="addTest">Save</v-btn>
-        </v-card>
+          >
+          <v-card>
+            <v-card-title>
+              Test
+            </v-card-title>
+            <v-card-text>
+              <v-row class="ma-3" v-for="(question, index) in selected">
+                {{ index + 1 }}. {{ question.question }}
+                <v-col
+                  class="mt-4"
+                  v-if="question.choiceTest"
+                  v-for="answer in question.answers"
+                >
+                  {{ answer.answer }}
+                </v-col>
+              </v-row>
+            </v-card-text>
+            <v-btn color="red" outlined @click="closeTest">Cancel</v-btn>
+            <v-btn class="primary" dark outlined @click="addTest">Save</v-btn>
+          </v-card>
         </v-dialog>
       </template>
     </v-data-table>
@@ -236,7 +244,7 @@ export default {
   data() {
     return {
       dialog: false,
-      testDialog:false,
+      testDialog: false,
       seePublic: false,
       loading: true,
       error: '',
@@ -244,7 +252,7 @@ export default {
       questions: [],
       publicQuestions: [],
       subjects: [],
-      subject: '',
+      subject: { id: 1, name: 'Math', year: 1 },
       questionAnswers: [],
       expanded: [],
       selected: [],
@@ -385,12 +393,17 @@ export default {
         }
       } else this.error = `Can't b empti`;
     },
+    closeTest() {
+      this.testDialog = false;
+    },
     addTest() {
       let questionIds = [];
       this.selected.forEach(item => {
         questionIds.push(item.id);
       });
-      restApi.addTest(this.subject.id, true, questionIds);
+      restApi.addTest(this.subject.id, true, questionIds).then(() => {
+        this.testDialog = false;
+      });
     },
   },
 };
