@@ -169,4 +169,17 @@ export const restApi = {
         console.log(response);
       });
   },
+  getUserTests() {
+    return this.axiosProxy.get('/tests/get/user').then(response => {
+      return response.data;
+    });
+  },
+  getUserTestsById(id){
+    return this.axiosProxy.get(`/tests/get/user/subject/`+id).then((response)=>{
+      return response.data
+    })
+  },
+  editTest() {
+
+  },
 };

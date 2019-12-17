@@ -14,6 +14,9 @@ function initialState() {
     publicQuestions: [],
     allQuestions: [],
     filteredQuestions: [],
+
+    userTests:[],
+    filteredUserTests: []
   };
 }
 
@@ -26,6 +29,9 @@ export default new Vuex.Store({
     publicQuestions: state => state.publicQuestions,
     allQuestions: state => state.allQuestions,
     filteredQuestions: state => state.filteredQuestions,
+
+    userTests: state => state.userTests,
+    filteredUserTests: state => state.filteredUserTests
   },
   mutations: {
     setSubjects(state, data) {
@@ -54,6 +60,12 @@ export default new Vuex.Store({
         return item.subject.id === data;
       });
     },
+    setUserTests(state, data){
+      state.userTests = data
+    },
+    setFilteredUserTests(state, data){
+      state.filteredUserTests = data
+    },
   },
   actions: {
     loadSubjects({ commit }) {
@@ -74,5 +86,15 @@ export default new Vuex.Store({
         commit('setAllQuestions');
       });
     },
+    loadUserTests({commit}){
+      restApi.getUserTests().then((response=>{
+      commit('setUserTests', response)
+      }))
+    },
+    loadFilteredUserTests({commit, state}, id){
+      restApi.getUserTestsById(id).then((response=>{
+        commit('setFilteredUserTests', response)
+      }))
+    }
   },
 });

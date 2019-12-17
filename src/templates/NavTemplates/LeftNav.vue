@@ -109,7 +109,7 @@ export default {
             },
             {
               title: 'Tests',
-              to: '/user/tests',
+              to: '/user/tests/',
               icon: 'mdi-clipboard-list-outline',
             },
           ],

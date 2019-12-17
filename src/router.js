@@ -46,13 +46,18 @@ const router = new Router({
         {
           path: 'questions',
           name: 'Questions',
-          component: () => import('./pages/creator/NewQuestions'),
+          component: () => import('./pages/creator/Questions'),
         },
         {
           path: 'tests',
-          name: 'Tests',
+          name: 'Subjects',
           component: () => import('./pages/creator/Tests'),
         },
+        {
+          path: 'tests/:subject',
+          name: 'Test',
+          component: ()=>import('./pages/creator/Test')
+        }
       ],
       redirect: { name: 'Dashboard' },
       meta: { auth: true },
