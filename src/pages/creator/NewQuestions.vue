@@ -3,25 +3,24 @@
     <v-data-table
       :headers="headers"
       :items="questions"
-      :loading="loading"
+      :loading="$store.state.loadingQuestions"
       :expanded.sync="expanded"
       v-model="selected"
       show-expand
       show-select
-      no-data-text="It seems empty here, maybe try adding something"
+      no-data-text="It seems empty here, try adding something"
     >
       <template v-slot:top>
-        <v-toolbar>
-          <v-toolbar-title color="primary">Questions</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider>
+        <v-toolbar flat>
           <v-select
             name="subject"
             label="Select subject"
             v-model="subject"
-            :items="subjects"
+            v-bind:items="$store.state.subjects"
             item-value="id"
             @change="filterBySubject"
             class="ma-auto"
+            clearable
             return-object
             hide-details
           >
@@ -36,7 +35,6 @@
           <v-switch
             v-model="seePublic"
             label="Show public questions"
-            v-on:change="getQuestions"
             hide-details
           ></v-switch>
           <v-divider class="mx-4" inset vertical></v-divider>
@@ -59,7 +57,7 @@
                       label="Subject"
                       id="id"
                       v-model="editedItem.subject"
-                      :items="subjects"
+                      :items="$store.getters.subjects"
                       item-value="id"
                       required
                       return-object
@@ -211,7 +209,7 @@
               Test
             </v-card-title>
             <v-card-text>
-              <v-row class="ma-3" v-for="(question, index) in selected">
+              <v-row class="ma-3" v-for="(question, index) in filteredSelect">
                 {{ index + 1 }}. {{ question.question }}
                 <v-col
                   class="mt-4"
@@ -235,8 +233,8 @@
 import { required } from '../../util/validationFunctions';
 import { restApi } from '../../api/restApi';
 import ButtonCounter from '../../templates/QuestionsTemplates/ButtonCounter';
-import { merge } from '../../util/utilFunctions';
 import { questionsHeaders } from '../../util/headers';
+import store from '../../store/store';
 
 export default {
   name: 'NewQuestions',
@@ -246,13 +244,9 @@ export default {
       dialog: false,
       testDialog: false,
       seePublic: false,
-      loading: true,
       error: '',
       msg: '',
-      questions: [],
-      publicQuestions: [],
-      subjects: [],
-      subject: { id: 1, name: 'Math', year: 1 },
+      subject: null,
       questionAnswers: [],
       expanded: [],
       selected: [],
@@ -278,6 +272,18 @@ export default {
     };
   },
   computed: {
+    questions() {
+      if (this.seePublic && this.subject)
+        return this.$store.state.filteredQuestions;
+      if (this.seePublic) return this.$store.state.allQuestions;
+      if (this.subject) return this.$store.state.filteredQuestions;
+      else return this.$store.state.userQuestions;
+    },
+    filteredSelect(){
+     return this.questions.filter((q)=>{
+        return this.selected.includes(q)
+      })
+    },
     formTitle() {
       return this.editedIndex === -1 ? 'Add question' : 'Edit question';
     },
@@ -288,47 +294,20 @@ export default {
     },
   },
   created() {
-    this.getQuestions();
-    this.getAllSubjects();
+    store.dispatch('loadSubjects');
+    store.dispatch('loadUserQuestions');
+    store.dispatch('loadPublicQuestions');
   },
   methods: {
     onChildClick(value) {
       this.questionAnswers = value;
     },
-    getAllSubjects() {
-      restApi
-        .getSubjects()
-        .then(response => (this.subjects = response))
-        .catch(err => (this.error = err));
-    },
     filterBySubject() {
-      restApi
-        .filterQuestionsForUserBySubject(this.subject.id)
-        .then(response => (this.questions = response))
-        .catch(err => (this.error = err));
-    },
-    getQuestions() {
-      if (this.seePublic) {
-        restApi
-          .getPublicQuestions()
-          .then(response => {
-            let tempQ = this.questions;
-            this.questions = merge(tempQ, response, 'id');
-          })
-          .catch(err => (this.error = err));
-      } else this.getUserQuestions();
-    },
-    getUserQuestions() {
-      restApi
-        .getUserQuestions()
-        .then(response => {
-          this.loading = false;
-          if (response === 'Question list empty') {
-            this.questions = [];
-          } else this.questions = response;
-          //console.log(response);
-        })
-        .catch(err => (this.error = err));
+      if (this.subject && this.seePublic) {
+        store.commit('filterAllQuestions', this.subject.id);
+      } else if (this.subject) {
+        store.commit('filterUserQuestions', this.subject.id);
+      }
     },
     editItem(item) {
       this.editedIndex = this.questions.indexOf(item);
@@ -338,7 +317,7 @@ export default {
     deleteItem(item) {
       restApi
         .removeQuestion(item.id)
-        .then(response => this.getQuestions())
+        .then(() => store.dispatch('loadUserQuestions'))
         .catch(err => {
           this.error = err;
         });
@@ -364,7 +343,7 @@ export default {
               this.questionAnswers
             )
             .then(response => {
-              this.getQuestions();
+              store.dispatch('loadUserQuestions');
               this.msg = response.msg;
             })
             .catch(err => {
@@ -383,7 +362,7 @@ export default {
               this.editedItem.id
             )
             .then(response => {
-              this.getQuestions();
+              store.dispatch('loadUserQuestions');
               this.msg = response.msg;
             })
             .catch(err => {
@@ -398,7 +377,7 @@ export default {
     },
     addTest() {
       let questionIds = [];
-      this.selected.forEach(item => {
+      this.filteredSelect.forEach(item => {
         questionIds.push(item.id);
       });
       restApi.addTest(this.subject.id, true, questionIds).then(() => {

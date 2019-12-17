@@ -79,7 +79,7 @@ export const restApi = {
         return response.data;
       })
       .catch(err => {
-        return err.response.data;
+        if (err.response) return err.response.data;
       });
   },
   getUserQuestions() {
@@ -100,7 +100,6 @@ export const restApi = {
         answers: answers,
       })
       .then(response => {
-        //console.log(response);
         return { q: response.data.question, msg: 'Question Added' };
       })
       .catch(err => {
@@ -158,11 +157,11 @@ export const restApi = {
       })
       .catch(err => err.response);
   },
-  addTest(subjectId,shareable, questions) {
+  addTest(subjectId, shareable, questions) {
     return this.axiosProxy
       .put('/test/add', {
-          subjectId: subjectId,
-          shareable: shareable,
+        subjectId: subjectId,
+        shareable: shareable,
         questions: questions,
       })
       .then(response => {

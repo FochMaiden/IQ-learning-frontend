@@ -22,7 +22,7 @@
 <script>
 import Navbar from './pages/nav/Navbar';
 import { restApi } from './api/restApi';
-
+import store from './store/store'
 export default {
   name: 'App',
   components: {
@@ -33,6 +33,9 @@ export default {
     if (token) {
       restApi.createAxiosProxy(token);
       restApi.interceptor();
+      store.dispatch('loadSubjects');
+      store.dispatch('loadUserQuestions');
+      store.dispatch('loadPublicQuestions');
     } else restApi.createAxiosProxy(null);
   },
   data() {
