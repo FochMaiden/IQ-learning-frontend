@@ -86,7 +86,8 @@ export const restApi = {
     return this.axiosProxy
       .get('/questions/get/user')
       .then(response => {
-        return response.data;
+        if (response.data === 'Question list empty') return [];
+        else return response.data;
       })
       .catch(err => err.response);
   },
