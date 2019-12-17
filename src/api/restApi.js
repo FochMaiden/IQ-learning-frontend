@@ -174,12 +174,17 @@ export const restApi = {
       return response.data;
     });
   },
-  getUserTestsById(id){
-    return this.axiosProxy.get(`/tests/get/user/subject/`+id).then((response)=>{
-      return response.data
-    })
+  getUserTestsById(id) {
+    return this.axiosProxy
+      .get(`/tests/get/user/subject/` + id)
+      .then(response => {
+        return response.data;
+      });
   },
-  editTest() {
-
+  editTest() {},
+  removeTest(id) {
+    return this.axiosProxy.delete('/test/delete/' + id).then(response => {
+      return response.data;
+    });
   },
 };
