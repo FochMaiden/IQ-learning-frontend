@@ -1,5 +1,10 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-container>
+    <v-expand-transition>
+      <v-alert v-show="!subject" type="warning" border="left">
+        You must select subject to create test from selected questions.
+      </v-alert>
+    </v-expand-transition>
     <v-data-table
       :headers="headers"
       :items="questions"
@@ -33,8 +38,9 @@
           </v-select>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-switch
-            v-model="seePublic"
+            v-model.sync="seePublic"
             label="Show public questions"
+            @change="filterBySubject"
             hide-details
           ></v-switch>
           <v-divider class="mx-4" inset vertical></v-divider>
@@ -200,7 +206,12 @@
         <v-divider class="mb-4" horizontal></v-divider>
         <v-dialog v-model="testDialog" max-width="800px">
           <template v-slot:activator="{ on }">
-            <v-btn class="flex ma-auto" outlined small v-on="on"
+            <v-btn
+              class="flex ma-auto"
+              :disabled="!subject"
+              outlined
+              small
+              v-on="on"
               ><v-icon>mdi-plus</v-icon>Create test from selection</v-btn
             ></template
           >
@@ -279,10 +290,10 @@ export default {
       if (this.subject) return this.$store.state.filteredQuestions;
       else return this.$store.state.userQuestions;
     },
-    filteredSelect(){
-     return this.questions.filter((q)=>{
-        return this.selected.includes(q)
-      })
+    filteredSelect() {
+      return this.questions.filter(q => {
+        return this.selected.includes(q);
+      });
     },
     formTitle() {
       return this.editedIndex === -1 ? 'Add question' : 'Edit question';
