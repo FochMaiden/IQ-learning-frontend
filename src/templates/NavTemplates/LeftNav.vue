@@ -112,6 +112,11 @@ export default {
               to: '/user/tests/',
               icon: 'mdi-clipboard-list-outline',
             },
+            {
+              title: 'Articles',
+              to: '/user/articles/',
+              icon: 'mdi-clipboard-text-outline',
+            },
           ],
         },
 

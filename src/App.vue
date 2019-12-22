@@ -22,7 +22,8 @@
 <script>
 import Navbar from './pages/nav/Navbar';
 import { restApi } from './api/restApi';
-import store from './store/store'
+import store from './store/store';
+
 export default {
   name: 'App',
   components: {

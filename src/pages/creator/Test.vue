@@ -56,6 +56,7 @@
 <script>
 import store from '../../store/store';
 import { restApi } from '../../api/restApi';
+
 export default {
   name: 'Test',
   created() {
