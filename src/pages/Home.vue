@@ -1,11 +1,10 @@
 <template>
   <v-container fluid class="fill-height">
-    <BrowseArticles />
   </v-container>
 </template>
 
 <script>
-import BrowseArticles from './creator/Articles/BrowseArticles';
+import BrowseArticles from './BrowseArticles';
 
 export default {
   name: 'Home',

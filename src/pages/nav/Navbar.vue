@@ -12,8 +12,11 @@
         <v-avatar class="profile ma-auto">
           <v-img :src="ico"></v-img>
         </v-avatar>
-        IQ Learning</v-toolbar-title
-      >
+        IQ Learning
+      </v-toolbar-title>
+      <v-toolbar-items class="pl-4">
+        <v-btn to="/articles" text color="primary">Articles</v-btn>
+      </v-toolbar-items>
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn to="/user" text color="primary" v-if="this.$auth.check()"

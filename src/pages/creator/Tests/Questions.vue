@@ -241,11 +241,11 @@
 </template>
 
 <script>
-import { required } from '../../util/validationFunctions';
-import { restApi } from '../../api/restApi';
-import ButtonCounter from '../../templates/QuestionsTemplates/ButtonCounter';
-import { questionsHeaders } from '../../util/headers';
-import store from '../../store/store';
+import { required } from '../../../util/validationFunctions';
+import { restApi } from '../../../api/restApi';
+import ButtonCounter from '../../../templates/QuestionsTemplates/ButtonCounter';
+import { questionsHeaders } from '../../../util/headers';
+import store from '../../../store/store';
 
 export default {
   name: 'NewQuestions',
