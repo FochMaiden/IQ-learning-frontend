@@ -181,7 +181,16 @@ export const restApi = {
         return response.data;
       });
   },
-  editTest() {},
+  editTest(test, questions) {
+  	return this.axiosProxy.post("/test/update",{
+  		id: test.id,
+	    owner: test.owner,
+	    subject: test.subject,
+	    questions: questions,
+	    shareable: test.shareable
+    })
+
+  },
   removeTest(id) {
     return this.axiosProxy.delete('/test/delete/' + id).then(response => {
       return response.data;

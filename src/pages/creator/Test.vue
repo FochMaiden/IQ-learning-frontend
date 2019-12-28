@@ -22,8 +22,8 @@
               </v-card-text>
             </v-list-item-content>
             <v-btn
-              v-if="editing"
-              v-on:click="removeQuestion(question.id)"
+              v-if="isEditedTest(test.id)"
+              @click="removeQuestion(question.id)"
               color="red"
               outlined
               fab
@@ -34,7 +34,7 @@
           </v-list-item>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn v-on:click="isEditing" color="blue" outlined fab small>
+            <v-btn v-on:click="isEditing(test)" color="blue" outlined fab small>
               <v-icon>mdi-pencil-outline</v-icon>
             </v-btn>
             <v-btn
@@ -66,12 +66,19 @@ export default {
   },
   data() {
     return {
-      editing: false,
+      editedTest: null,
     };
   },
   methods: {
-    isEditing() {
-      this.editing = !this.editing;
+    isEditing(test) {
+      if (test === this.editedTest) {
+        return (this.editedTest = null);
+      } else this.editedTest = test;
+    },
+    isEditedTest(id) {
+      if (this.editedTest && id) {
+        return this.editedTest.id === id;
+      } else return false;
     },
     removeTest(id) {
       restApi.removeTest(id).then(response => {
@@ -82,7 +89,15 @@ export default {
       });
     },
     removeQuestion(id) {
-      console.log(id);
+      let questions = this.editedTest.questions.map(o => o.id);
+      questions = questions.filter(o => o !== id);
+      restApi.editTest(this.editedTest, questions).then(response => {
+        this.editedTest = null;
+        store.dispatch(
+                'loadFilteredUserTests',
+                this.$route.params.subject.split('=')[1]
+        );
+      })
     },
   },
 };

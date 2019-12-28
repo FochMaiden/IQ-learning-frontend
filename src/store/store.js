@@ -1,6 +1,7 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
-import { restApi } from '../api/restApi';
+import {restApi} from '../api/restApi';
+import {merge} from "../util/utilFunctions";
 
 Vue.use(Vuex);
 
@@ -48,7 +49,7 @@ export default new Vuex.Store({
       state.publicQuestions = data;
     },
     setAllQuestions(state) {
-      state.allQuestions = state.userQuestions.concat(state.publicQuestions);
+      state.allQuestions = merge(state.userQuestions, state.publicQuestions, 'id');
     },
     filterAllQuestions(state, data) {
       state.filteredQuestions = state.allQuestions.filter(item => {
@@ -64,7 +65,7 @@ export default new Vuex.Store({
       state.userTests = data
     },
     setFilteredUserTests(state, data){
-      state.filteredUserTests = data
+      state.filteredUserTests = data.sort((a, b) => (a.id > b.id) ? 1 : -1);
     },
   },
   actions: {

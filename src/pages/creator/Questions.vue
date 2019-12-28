@@ -1,10 +1,13 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-container>
-    <v-expand-transition>
-      <v-alert v-show="!subject" type="warning" border="left">
-        You must select subject to create test from selected questions.
-      </v-alert>
-    </v-expand-transition>
+    <v-alert
+      v-show="!subject"
+      type="warning"
+      border="left"
+      transition="scale-transition"
+    >
+      You must select subject to create test from selected questions.
+    </v-alert>
     <v-data-table
       :headers="headers"
       :items="questions"
@@ -267,7 +270,7 @@ export default {
         id: 0,
         question: '',
         choiceTest: '',
-        subject: '',
+        subject: null,
         year: 0,
         shareable: false,
       },
@@ -275,7 +278,7 @@ export default {
         id: 0,
         question: '',
         choiceTest: '',
-        subject: '',
+        subject: null,
         year: 1,
         shareable: false,
       },
@@ -328,7 +331,11 @@ export default {
     deleteItem(item) {
       restApi
         .removeQuestion(item.id)
-        .then(() => store.dispatch('loadUserQuestions'))
+        .then(() => {
+          store.dispatch('loadUserQuestions');
+          store.dispatch('loadPublicQuestions');
+          store.commit('setAllQuestions');
+        })
         .catch(err => {
           this.error = err;
         });
@@ -355,6 +362,7 @@ export default {
             )
             .then(response => {
               store.dispatch('loadUserQuestions');
+              store.dispatch('loadPublicQuestions');
               this.msg = response.msg;
             })
             .catch(err => {
@@ -374,6 +382,7 @@ export default {
             )
             .then(response => {
               store.dispatch('loadUserQuestions');
+              store.dispatch('loadPublicQuestions');
               this.msg = response.msg;
             })
             .catch(err => {
