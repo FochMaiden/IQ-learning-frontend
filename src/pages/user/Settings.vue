@@ -10,7 +10,7 @@
           <v-divider></v-divider>
           <v-row>
             <v-col class="d-flex flex-wrap">
-              <v-avatar color="primary" size="120" class="ma-auto">
+              <v-avatar color="primary" size="100" class="ma-auto">
                 <v-btn dark x-small absolute bottom right fab>
                   <v-icon>add</v-icon>
                 </v-btn>
@@ -18,7 +18,20 @@
                   {{ initials }}
                 </span>
               </v-avatar>
+              <v-divider vertical></v-divider>
+              <v-btn
+                      v-for="(social, i) in socials"
+                      :key="i"
+                      :color="social.color"
+                      class="white--text"
+                      fab
+                      icon
+                      small
+              >
+                <v-icon>{{ social.icon }}</v-icon>
+              </v-btn>
             </v-col>
+
           </v-row>
           <v-form v-model="validName">
             <v-list-item-title class="primary2--text"
@@ -118,6 +131,24 @@ export default {
       password: null,
       newPassword: null,
       initials: '',
+      socials: [
+        {
+          icon: 'mdi-linkedin-box',
+          color: 'cyan darken-1',
+        },
+        {
+          icon: 'mdi-twitter-box',
+          color: 'blue lighten-3',
+        },
+        {
+          icon: 'mdi-reddit',
+          color: 'red lighten-2',
+        },
+        {
+          icon: 'mdi-youtube',
+          color: 'red',
+        }
+      ],
       validName: false,
       validPass: false,
       required,
