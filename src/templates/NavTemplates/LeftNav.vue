@@ -2,7 +2,7 @@
   <v-navigation-drawer :mini-variant.sync="isMobile" floating permanent app>
     <template v-slot:prepend>
       <v-list class="pt-10 p">
-        <v-list-item>
+        <v-list-item to='/'>
           <v-avatar class="profile ma-auto" to="/">
             <v-img :src="ico"></v-img>
           </v-avatar>
@@ -111,6 +111,11 @@ export default {
               title: 'Tests',
               to: '/user/tests/',
               icon: 'mdi-clipboard-list-outline',
+            },
+            {
+              title: 'Articles',
+              to: '/user/articles/',
+              icon: 'mdi-clipboard-text-outline',
             },
           ],
         },

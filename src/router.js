@@ -19,6 +19,11 @@ const router = new Router({
       component: () => import('./pages/Home'),
     },
     {
+      path: '/articles',
+      name: 'Articles',
+      component: () => import('./pages/BrowseArticles'),
+    },
+    {
       path: '/login',
       name: 'Login',
       meta: { auth: false },
@@ -46,18 +51,23 @@ const router = new Router({
         {
           path: 'questions',
           name: 'Questions',
-          component: () => import('./pages/creator/Questions'),
+          component: () => import('./pages/creator/Tests/Questions'),
+        },
+        {
+          path: 'articles',
+          name: 'Articles',
+          component: () => import('./pages/creator/Articles/AddArticle'),
         },
         {
           path: 'tests',
           name: 'Subjects',
-          component: () => import('./pages/creator/Tests'),
+          component: () => import('./pages/creator/Tests/Tests'),
         },
         {
           path: 'tests/:subject',
           name: 'Test',
-          component: ()=>import('./pages/creator/Test')
-        }
+          component: () => import('./pages/creator/Tests/Test'),
+        },
       ],
       redirect: { name: 'Dashboard' },
       meta: { auth: true },
