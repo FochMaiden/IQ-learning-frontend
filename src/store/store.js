@@ -1,7 +1,7 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
-import {restApi} from '../api/restApi';
-import {merge} from "../util/utilFunctions";
+import { restApi } from '../api/restApi';
+import { merge } from '../util/utilFunctions';
 
 Vue.use(Vuex);
 
@@ -50,7 +50,11 @@ export default new Vuex.Store({
       state.publicQuestions = data;
     },
     setAllQuestions(state) {
-      state.allQuestions = merge(state.userQuestions, state.publicQuestions, 'id');
+      state.allQuestions = merge(
+        state.userQuestions,
+        state.publicQuestions,
+        'id'
+      );
     },
     filterAllQuestions(state, data) {
       state.filteredQuestions = state.allQuestions.filter(item => {
@@ -65,8 +69,8 @@ export default new Vuex.Store({
     setUserTests(state, data) {
       state.userTests = data;
     },
-    setFilteredUserTests(state, data){
-      state.filteredUserTests = data.sort((a, b) => (a.id > b.id) ? 1 : -1);
+    setFilteredUserTests(state, data) {
+      state.filteredUserTests = data.sort((a, b) => (a.id > b.id ? 1 : -1));
     },
   },
   actions: {
@@ -77,9 +81,10 @@ export default new Vuex.Store({
     },
     loadUserQuestions({ commit }) {
       commit('setQuestionsLoading', true);
-      restApi.getUserQuestions().then(response => {
+      restApi.getUserQuestions().then(async response => {
         commit('setQuestionsLoading', false);
-        return commit('setUserQuestions', response);
+        await commit('setUserQuestions', response);
+        commit('setAllQuestions');
       });
     },
     loadPublicQuestions({ commit }) {

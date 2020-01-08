@@ -323,6 +323,10 @@ export default {
         store.commit('filterUserQuestions', this.subject.id);
       }
     },
+    async loadAllQuestions() {
+      await store.dispatch('loadUserQuestions');
+      await store.dispatch('loadPublicQuestions');
+    },
     editItem(item) {
       this.editedIndex = this.questions.indexOf(item);
       this.editedItem = Object.assign({}, item);
@@ -332,9 +336,7 @@ export default {
       restApi
         .removeQuestion(item.id)
         .then(() => {
-          store.dispatch('loadUserQuestions');
-          store.dispatch('loadPublicQuestions');
-          store.commit('setAllQuestions');
+          this.loadAllQuestions();
         })
         .catch(err => {
           this.error = err;
@@ -361,8 +363,7 @@ export default {
               this.questionAnswers
             )
             .then(response => {
-              store.dispatch('loadUserQuestions');
-              store.dispatch('loadPublicQuestions');
+              this.loadAllQuestions();
               this.msg = response.msg;
             })
             .catch(err => {
@@ -381,8 +382,7 @@ export default {
               this.editedItem.id
             )
             .then(response => {
-              store.dispatch('loadUserQuestions');
-              store.dispatch('loadPublicQuestions');
+              this.loadAllQuestions();
               this.msg = response.msg;
             })
             .catch(err => {
