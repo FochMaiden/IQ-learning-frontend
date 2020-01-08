@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="6" v-for="test in $store.state.filteredUserTests">
+      <v-col cols="6" v-for="test in tests">
         <v-card>
           <v-card-title> Test number {{ test.id }} </v-card-title>
           <v-list-item v-for="question in test.questions">
@@ -60,10 +60,16 @@ import { restApi } from '../../../api/restApi';
 export default {
   name: 'Test',
   created() {
-    store.dispatch(
-      'loadFilteredUserTests',
-      this.$route.params.subject.split('=')[1]
-    );
+    this.getTests();
+  },
+  computed: {
+    tests() {
+      if (this.route === 'all') return this.$store.state.userTests;
+      else return this.$store.state.filteredUserTests;
+    },
+    route() {
+      return this.$route.params.subject.split('=')[1];
+    },
   },
   data() {
     return {
@@ -71,6 +77,15 @@ export default {
     };
   },
   methods: {
+    getTests() {
+      if (this.route === 'all') {
+        store.dispatch('loadUserTests');
+      } else
+        store.dispatch(
+          'loadFilteredUserTests',
+          this.$route.params.subject.split('=')[1]
+        );
+    },
     isEditing(test) {
       if (test === this.editedTest) {
         return (this.editedTest = null);
@@ -83,10 +98,7 @@ export default {
     },
     removeTest(id) {
       restApi.removeTest(id).then(response => {
-        store.dispatch(
-          'loadFilteredUserTests',
-          this.$route.params.subject.split('=')[1]
-        );
+        this.getTests();
       });
     },
     removeQuestion(id) {
@@ -94,11 +106,8 @@ export default {
       questions = questions.filter(o => o !== id);
       restApi.editTest(this.editedTest, questions).then(response => {
         this.editedTest = null;
-        store.dispatch(
-                'loadFilteredUserTests',
-                this.$route.params.subject.split('=')[1]
-        );
-      })
+        this.getTests();
+      });
     },
   },
 };

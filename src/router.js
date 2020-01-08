@@ -60,12 +60,17 @@ const router = new Router({
         },
         {
           path: 'tests',
-          name: 'Subjects',
+          name: 'Test',
           component: () => import('./pages/creator/Tests/Tests'),
         },
         {
-          path: 'tests/:subject',
-          name: 'Test',
+          path: 'tests/user/:subject',
+          name: 'User tests',
+          component: () => import('./pages/creator/Tests/Test'),
+        },
+        {
+          path: 'tests/public/:subject',
+          name: 'Public tests',
           component: () => import('./pages/creator/Tests/Test'),
         },
       ],
