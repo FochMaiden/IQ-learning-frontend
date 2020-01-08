@@ -18,6 +18,9 @@ function initialState() {
 
     userTests: [],
     filteredUserTests: [],
+    publicTests: [],
+    filteredPublicTests: [],
+
     articles: [],
   };
 }
@@ -72,6 +75,12 @@ export default new Vuex.Store({
     setFilteredUserTests(state, data) {
       state.filteredUserTests = data.sort((a, b) => (a.id > b.id ? 1 : -1));
     },
+    setPublicTests(state, data) {
+      state.publicTests = data;
+    },
+    setFilteredPublicTests(state, data) {
+      state.filteredPublicTests = data.sort((a, b) => (a.id > b.id ? 1 : -1));
+    },
   },
   actions: {
     loadSubjects({ commit }) {
@@ -98,9 +107,19 @@ export default new Vuex.Store({
         commit('setUserTests', response);
       });
     },
-    loadFilteredUserTests({ commit, state }, id) {
+    loadFilteredUserTests({ commit }, id) {
       restApi.getUserTestsById(id).then(response => {
         commit('setFilteredUserTests', response);
+      });
+    },
+    loadPublicTests({ commit }) {
+      restApi.getPublicTests().then(response => {
+        commit('setPublicTests', response);
+      });
+    },
+    loadFilteredPublicTests({ commit }, id) {
+      restApi.getPublicTestsById(id).then(response => {
+        commit('setFilteredPublicTests', response);
       });
     },
   },

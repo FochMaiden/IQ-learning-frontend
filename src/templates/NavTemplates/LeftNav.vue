@@ -4,7 +4,7 @@
       <v-list class="pt-10 p">
         <v-list-item to='/'>
           <v-avatar class="profile ma-auto" to="/">
-            <v-img :src="ico"></v-img>
+            <v-img :src="ico" alt='"Icon made by Freepik from www.flaticon.com"'></v-img>
           </v-avatar>
           <v-list-item-title>IQ Learning</v-list-item-title>
         </v-list-item>

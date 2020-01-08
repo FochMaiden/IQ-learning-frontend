@@ -4,7 +4,7 @@ import Vue from 'vue';
 const errorHandler = error => {
   //console.log('Error response',error.response, 'code' , error.response.status);
   if (error.response.status === 401) {
-   // Vue.auth.logout();
+    // Vue.auth.logout();
   } else return error;
 };
 const successHandler = response => {
@@ -182,18 +182,29 @@ export const restApi = {
       });
   },
   editTest(test, questions) {
-  	return this.axiosProxy.post("/test/update",{
-  		id: test.id,
-	    owner: test.owner,
-	    subject: test.subject,
-	    questions: questions,
-	    shareable: test.shareable
-    })
-
+    return this.axiosProxy.post('/test/update', {
+      id: test.id,
+      owner: test.owner,
+      subject: test.subject,
+      questions: questions,
+      shareable: test.shareable,
+    });
   },
   removeTest(id) {
     return this.axiosProxy.delete('/test/delete/' + id).then(response => {
       return response.data;
     });
+  },
+  getPublicTests() {
+    return this.axiosProxy.get('/tests/get/public').then(response => {
+      return response.data;
+    });
+  },
+  getPublicTestsById(id) {
+    return this.axiosProxy
+      .get(`/tests/get/public/subject/` + id)
+      .then(response => {
+        return response.data;
+      });
   },
 };
