@@ -6,7 +6,6 @@
     <Navbar />
     <!-- Sizes your content based upon application pages -->
     <v-content
-      id="content-blep"
       style="background: rgba(229,237,251,0.8)"
       class="pt-0"
     >

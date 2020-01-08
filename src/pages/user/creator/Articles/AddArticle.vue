@@ -1,7 +1,6 @@
 <template>
-  <v-form ref="form" v-model="valid" :lazy-validation="lazy">
+  <v-form ref="form">
     <v-text-field
-      v-model="title"
       :counter="104"
       label="Title"
       required
@@ -17,14 +16,10 @@
       filled
     ></v-textarea>
     <v-select
-      v-model="select"
-      :items="items"
-      :rules="[v => !!v || 'Item is required']"
       label="Tags"
       required
     ></v-select>
-
-    <v-btn color="primary" class="mr-4" @click="Submit">
+    <v-btn color="primary" class="mr-4">
       Add article
     </v-btn>
   </v-form>

@@ -1,5 +1,13 @@
 <template>
   <v-container>
+    <v-alert color="#2A3B4D" outlined dark dense>
+      <v-row align="center">
+        <v-col class="grow"> <v-icon color='#2A3B4D'>mdi-school</v-icon> You could also browse other people tests!</v-col>
+        <v-col class="shrink">
+          <v-btn to='/user/tests/public' small>check </v-btn>
+        </v-col>
+      </v-row>
+    </v-alert>
     <v-toolbar-title align="center" class="primary--text"
       >Browse all of your tests</v-toolbar-title
     >
@@ -49,23 +57,13 @@
 </template>
 
 <script>
-import store from '../../../store/store';
-
 export default {
   name: 'Tests',
   data() {
     return {
       expand: false,
     };
-  },
-  created() {
-    store.dispatch('loadUserTests');
-  },
-  methods: {
-    goTo(subject) {
-      console.log(subject);
-    },
-  },
+  }
 };
 </script>
 

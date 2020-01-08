@@ -51,27 +51,27 @@ const router = new Router({
         {
           path: 'questions',
           name: 'Questions',
-          component: () => import('./pages/creator/Tests/Questions'),
+          component: () => import('./pages/user/creator/Tests/Questions'),
         },
         {
           path: 'articles',
           name: 'Articles',
-          component: () => import('./pages/creator/Articles/AddArticle'),
+          component: () => import('./pages/user/creator/Articles/AddArticle'),
         },
         {
           path: 'tests',
           name: 'Test',
-          component: () => import('./pages/creator/Tests/Tests'),
+          component: () => import('./pages/user/creator/Tests/Tests'),
         },
         {
           path: 'tests/user/:subject',
           name: 'User tests',
-          component: () => import('./pages/creator/Tests/Test'),
+          component: () => import('./pages/user/creator/Tests/Test'),
         },
         {
-          path: 'tests/public/:subject',
+          path: 'tests/public',
           name: 'Public tests',
-          component: () => import('./pages/creator/Tests/Test'),
+          component: () => import('./pages/BrowseTests'),
         },
       ],
       redirect: { name: 'Dashboard' },

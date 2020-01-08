@@ -244,11 +244,10 @@
 </template>
 
 <script>
-import { required } from '../../../util/validationFunctions';
-import { restApi } from '../../../api/restApi';
-import ButtonCounter from '../../../templates/QuestionsTemplates/ButtonCounter';
-import { questionsHeaders } from '../../../util/headers';
-import store from '../../../store/store';
+import { required } from '../../../../util/validationFunctions';
+import { restApi } from '../../../../api/restApi';
+import ButtonCounter from '../../../../templates/QuestionsTemplates/ButtonCounter';
+import { questionsHeaders } from '../../../../util/headers';
 
 export default {
   name: 'NewQuestions',
@@ -308,9 +307,8 @@ export default {
     },
   },
   created() {
-    store.dispatch('loadSubjects');
-    store.dispatch('loadUserQuestions');
-    store.dispatch('loadPublicQuestions');
+    this.$store.dispatch('loadSubjects');
+    this.loadAllQuestions()
   },
   methods: {
     onChildClick(value) {
@@ -324,8 +322,8 @@ export default {
       }
     },
     async loadAllQuestions() {
-      await store.dispatch('loadUserQuestions');
-      await store.dispatch('loadPublicQuestions');
+      await this.$store.dispatch('loadUserQuestions');
+      await this.$store.dispatch('loadPublicQuestions');
     },
     editItem(item) {
       this.editedIndex = this.questions.indexOf(item);
