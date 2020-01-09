@@ -1,12 +1,28 @@
 <template>
   <v-container>
-    <v-toolbar dense floating>
-      <v-text-field
-        hide-details
-        prepend-icon="search"
-        single-line
-      ></v-text-field>
-    </v-toolbar>
+      <v-combobox
+              v-model="chips"
+              :items="$store.getters.subjects"
+              chips
+              clearable
+              label="Your favorite hobbies"
+              multiple
+              prepend-icon="filter_list"
+              solo
+      >
+        <template v-slot:selection="{ attrs, item, select, selected }">
+          <v-chip
+                  v-bind="attrs"
+                  :input-value="selected"
+                  close
+                  @click="select"
+                  @click:close="remove(item)"
+          >
+            <strong>{{ item }}</strong>&nbsp;
+            <span>(interest)</span>
+          </v-chip>
+        </template>
+      </v-combobox>
     <v-row>
       <v-col cols="6" v-for="test in $store.state.publicTests">
         <v-card>
@@ -39,7 +55,21 @@
 export default {
   name: 'BrowseTests',
   created() {
+    this.$store.dispatch('loadSubjects');
     this.$store.dispatch('loadPublicTests');
+  },
+  data () {
+    return {
+      chips: ['Programming', 'Playing video games', 'Watching movies', 'Sleeping'],
+      items: ['Streaming', 'Eating'],
+    }
+  },
+
+  methods: {
+    remove (item) {
+      this.chips.splice(this.chips.indexOf(item), 1)
+      this.chips = [...this.chips]
+    },
   },
 };
 </script>
