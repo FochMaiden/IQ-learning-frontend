@@ -43,33 +43,33 @@ export default {
     return {
       articles: [
         {
-          title: 'Debile, debile wszedzie',
+          title: 'mondry artykuu',
           description: 'tak, tak ty teszz',
           imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
           upvotes: 15,
         },
         {
           title:
-            'Debile, debile wszedzie Debile, debile wszedzie Debile, debile wszedzie Debile, debile wszedzie',
+            'mondry artykuu 2',
           description: 'tak, tak ty teszz',
           imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
           upvotes: 15,
         },
         {
-          title: 'Debile, debile wszedzie',
+          title: 'mondry artykuu 3',
           description: 'tak, tak ty teszz',
           imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
           upvotes: 15,
         },
 
         {
-          title: 'Debile, debile wszedzie',
+          title: 'mondry artykuu 4',
           description: 'tak, tak ty teszz',
           imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
           upvotes: 15,
         },
         {
-          title: 'Debile, debile wszedzie',
+          title: 'mondry artykuu 5',
           description: 'tak, tak ty teszz',
           imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
           upvotes: 15,
