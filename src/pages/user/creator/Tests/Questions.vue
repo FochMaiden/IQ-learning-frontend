@@ -316,9 +316,9 @@ export default {
     },
     filterBySubject() {
       if (this.subject && this.seePublic) {
-        store.commit('filterAllQuestions', this.subject.id);
+        this.$store.commit('filterAllQuestions', this.subject.id);
       } else if (this.subject) {
-        store.commit('filterUserQuestions', this.subject.id);
+        this.$store.commit('filterUserQuestions', this.subject.id);
       }
     },
     async loadAllQuestions() {
