@@ -91,7 +91,7 @@ export const restApi = {
         surname: surname,
         avatar: avatar,
         bio: bio,
-        linkedin: linkedIn,
+        linkedIn: linkedIn,
         twitter: twitter,
         reddit: reddit,
         youtube: youtube,
