@@ -73,6 +73,11 @@ const router = new Router({
           name: 'Public tests',
           component: () => import('./pages/BrowseTests'),
         },
+        {
+          path: 'chat',
+          name: 'Chat',
+          component: () => import('./pages/user/Chat'),
+        },
       ],
       redirect: { name: 'Dashboard' },
       meta: { auth: true },

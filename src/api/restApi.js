@@ -3,9 +3,10 @@ import Vue from 'vue';
 
 const errorHandler = error => {
   //console.log('Error response',error.response, 'code' , error.response.status);
-  if (error.response.status === 401) {
+  /*if (error.response.status === 401) {
     Vue.auth.logout();
-  } else return error;
+  } else */
+  return error;
 };
 const successHandler = response => {
   return response;
@@ -70,6 +71,49 @@ export const restApi = {
       })
       .catch(err => {
         return err.response.data;
+      });
+  },
+  saveSettings(
+    email,
+    name,
+    surname,
+    avatar,
+    bio,
+    linkedIn,
+    twitter,
+    reddit,
+    youtube
+  ) {
+    return this.axiosProxy
+      .post('/user/update', {
+        email: email,
+        name: name,
+        surname: surname,
+        avatar: avatar,
+        bio: bio,
+        linkedin: linkedIn,
+        twitter: twitter,
+        reddit: reddit,
+        youtube: youtube,
+      })
+      .then(response => {
+        return response.data;
+      })
+      .catch(err => {
+        return err;
+      });
+  },
+  changePassword(pass, newPass) {
+    return this.axiosProxy
+      .post('/user/password', {
+        currentPass: pass,
+        newPass: newPass,
+      })
+      .then(response => {
+        //return response.data;
+      })
+      .catch(err => {
+        console.log(err, 'in change password');
       });
   },
   getSubjects() {

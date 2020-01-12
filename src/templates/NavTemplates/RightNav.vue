@@ -16,11 +16,12 @@
       </v-list>
     </template>
     <v-list class="d-flex flex-wrap">
-      <v-avatar color="primary" size="120" class="ma-auto">
+      <v-avatar color='accent' size="120" class="ma-auto">
         <v-btn dark small absolute bottom right fab to="/user/settings">
           <v-icon>settings</v-icon>
         </v-btn>
-        <span class="white--text headline">
+        <v-img class='ma-auto' v-if='$auth.user().avatar' :src='$auth.user().avatar'></v-img>
+        <span v-else class="white--text headline">
           {{ initials }}
         </span>
       </v-avatar>
