@@ -60,7 +60,6 @@ import { restApi } from '../../../../api/restApi';
 export default {
   name: 'Test',
   created() {
-    this.$store.dispatch('loadSubjects');
     this.getTests();
   },
   computed: {

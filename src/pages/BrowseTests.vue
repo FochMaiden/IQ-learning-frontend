@@ -65,7 +65,6 @@
 export default {
   name: 'BrowseTests',
   created() {
-    this.$store.dispatch('loadSubjects');
     this.$store.dispatch('loadPublicTests');
   },
   data() {

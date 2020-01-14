@@ -8,7 +8,7 @@
     app
   >
     <template v-slot:prepend> </template>
-      <v-list class="d-flex flex-wrap">
+      <v-list class="d-flex flex-wrap mt-12">
         <v-avatar color="accent" size="120" class="ma-auto">
           <v-btn dark small absolute bottom right fab to="/user/settings">
             <v-icon>settings</v-icon>

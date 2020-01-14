@@ -18,6 +18,9 @@ export default {
     LeftNav,
     RightNav,
   },
+  created(){
+    this.$store.dispatch('loadSubjects');
+  },
   data() {
     return {};
   },

@@ -29,81 +29,81 @@
                         </v-avatar>
                         <form class="ma-auto py-8 overflow-auto">
                           <v-select
-                            :items="itemsTop"
-                            v-model="selectedItemTop"
+                            :items="avatar.itemsTop"
+                            v-model="avatar.selectedItemTop"
                             label="Top"
                             dense
                           ></v-select>
                           <v-select
-                            :items="itemsAccessories"
-                            v-model="selectedItemAccessories"
+                            :items="avatar.itemsAccessories"
+                            v-model="avatar.selectedItemAccessories"
                             label="Accessories"
                             dense
                           ></v-select>
                           <v-select
-                            v-if="selectedItemTop.includes('Hair')"
-                            :items="itemsHairColor"
-                            v-model="selectedItemHairColor"
+                            v-if="avatar.selectedItemTop.includes('Hair')"
+                            :items="avatar.itemsHairColor"
+                            v-model="avatar.selectedItemHairColor"
                             label="Hair color"
                             dense
                           ></v-select>
                           <v-select
                             v-if="
-                              !selectedItemTop.includes('Hair') &&
-                                selectedItemTop !== 'Hat'
+                              !avatar.selectedItemTop.includes('Hair') &&
+                                avatar.selectedItemTop !== 'Hat'
                             "
-                            :items="itemsColorHat"
-                            v-model="selectedItemColorHat"
+                            :items="avatar.itemsColorHat"
+                            v-model="avatar.selectedItemColorHat"
                             label="Hat color"
                             dense
                           ></v-select>
                           <v-select
-                            :items="itemsFacialHair"
-                            v-model="selectedItemFacialHair"
+                            :items="avatar.itemsFacialHair"
+                            v-model="avatar.selectedItemFacialHair"
                             label="Facial hair"
                             dense
                           ></v-select>
                           <v-select
-                            :items="itemsClothes"
-                            v-model="selectedItemClothes"
+                            :items="avatar.itemsClothes"
+                            v-model="avatar.selectedItemClothes"
                             label="Clothes"
                             dense
                           ></v-select>
                           <v-select
-                            v-if="!selectedItemClothes.includes('Blazer')"
-                            :items="itemsColorClothes"
-                            v-model="selectedItemColorClothes"
+                            v-if="!avatar.selectedItemClothes.includes('Blazer')"
+                            :items="avatar.itemsColorClothes"
+                            v-model="avatar.selectedItemColorClothes"
                             label="Clothes color"
                             dense
                           ></v-select>
                           <v-select
-                            v-if="selectedItemClothes.includes('Graphic')"
-                            :items="itemsGraphicClothes"
-                            v-model="selectedItemGraphicClothes"
+                            v-if="avatar.selectedItemClothes.includes('Graphic')"
+                            :items="avatar.itemsGraphicClothes"
+                            v-model="avatar.selectedItemGraphicClothes"
                             label="Clothes Graphic"
                             dense
                           ></v-select>
                           <v-select
-                            :items="itemsEyes"
-                            v-model="selectedItemEyes"
+                            :items="avatar.itemsEyes"
+                            v-model="avatar.selectedItemEyes"
                             label="Eyes"
                             dense
                           ></v-select>
                           <v-select
-                            :items="itemsEyebrows"
-                            v-model="selectedItemEyebrows"
+                            :items="avatar.itemsEyebrows"
+                            v-model="avatar.selectedItemEyebrows"
                             label="Eyebrows"
                             dense
                           ></v-select>
                           <v-select
-                            :items="itemsMouth"
-                            v-model="selectedItemMouth"
+                            :items="avatar.itemsMouth"
+                            v-model="avatar.selectedItemMouth"
                             label="Mouth"
                             dense
                           ></v-select>
                           <v-select
-                            :items="itemsSkinColor"
-                            v-model="selectedItemSkinColor"
+                            :items="avatar.itemsSkinColor"
+                            v-model="avatar.selectedItemSkinColor"
                             label="Skin color"
                             dense
                           ></v-select>
@@ -303,41 +303,43 @@ export default {
   name: 'Settings',
   data() {
     return {
-      selectedItemTop: 'LongHairBigHair',
-      itemsTop: topAvatart,
+      avatar: {
+        selectedItemTop: 'LongHairBigHair',
+        itemsTop: topAvatart,
 
-      selectedItemAccessories: 'Blank',
-      itemsAccessories: accessoriesAvatar,
+        selectedItemAccessories: 'Blank',
+        itemsAccessories: accessoriesAvatar,
 
-      selectedItemColorHat: 'Black',
-      itemsColorHat: colorAvatar,
+        selectedItemColorHat: 'Black',
+        itemsColorHat: colorAvatar,
 
-      selectedItemHairColor: 'Brown',
-      itemsHairColor: hairColorAvatar,
+        selectedItemHairColor: 'Brown',
+        itemsHairColor: hairColorAvatar,
 
-      selectedItemFacialHair: 'Blank',
-      itemsFacialHair: facialHairAvatar,
+        selectedItemFacialHair: 'Blank',
+        itemsFacialHair: facialHairAvatar,
 
-      selectedItemClothes: 'BlazerShirt',
-      itemsClothes: clothesAvatar,
+        selectedItemClothes: 'BlazerShirt',
+        itemsClothes: clothesAvatar,
 
-      selectedItemColorClothes: 'Black',
-      itemsColorClothes: colorAvatar,
+        selectedItemColorClothes: 'Black',
+        itemsColorClothes: colorAvatar,
 
-      selectedItemGraphicClothes: 'Bat',
-      itemsGraphicClothes: clothesGraphicAvatar,
+        selectedItemGraphicClothes: 'Bat',
+        itemsGraphicClothes: clothesGraphicAvatar,
 
-      selectedItemEyes: 'Default',
-      itemsEyes: eyesAvatar,
+        selectedItemEyes: 'Default',
+        itemsEyes: eyesAvatar,
 
-      selectedItemEyebrows: 'Default',
-      itemsEyebrows: eyebrowsAvatar,
+        selectedItemEyebrows: 'Default',
+        itemsEyebrows: eyebrowsAvatar,
 
-      selectedItemMouth: 'Default',
-      itemsMouth: mouthAvatar,
+        selectedItemMouth: 'Default',
+        itemsMouth: mouthAvatar,
 
-      selectedItemSkinColor: 'Light',
-      itemsSkinColor: skinColorAvatar,
+        selectedItemSkinColor: 'Light',
+        itemsSkinColor: skinColorAvatar,
+      },
 
       dialog: null,
 
@@ -395,27 +397,27 @@ export default {
         `https://avataaars.io/?avatarStyle=Transparent&topType=` +
         this.selectedItemTop +
         `&accessoriesType=` +
-        this.selectedItemAccessories +
+        this.avatar.selectedItemAccessories +
         `&hairColor=` +
-        this.selectedItemHairColor +
+        this.avatar.selectedItemHairColor +
         `&hatColor=` +
-        this.selectedItemColorHat +
+        this.avatar.selectedItemColorHat +
         `&facialHairType=` +
-        this.selectedItemFacialHair +
+        this.avatar.selectedItemFacialHair +
         `&clotheType=` +
-        this.selectedItemClothes +
+        this.avatar.selectedItemClothes +
         `&clotheColor=` +
-        this.selectedItemColorClothes +
+        this.avatar.selectedItemColorClothes +
         `&graphicType=` +
-        this.selectedItemGraphicClothes +
+        this.avatar.selectedItemGraphicClothes +
         `&eyeType=` +
-        this.selectedItemEyes +
+        this.avatar.selectedItemEyes +
         `&eyebrowType=` +
-        this.selectedItemEyebrows +
+        this.avatar.selectedItemEyebrows +
         `&mouthType=` +
-        this.selectedItemMouth +
+        this.avatar.selectedItemMouth +
         `&skinColor=` +
-        this.selectedItemSkinColor
+        this.avatar.selectedItemSkinColor
       );
     },
   },

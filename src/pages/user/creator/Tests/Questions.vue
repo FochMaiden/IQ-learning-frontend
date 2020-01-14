@@ -307,7 +307,6 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('loadSubjects');
     this.loadAllQuestions()
   },
   methods: {
