@@ -251,4 +251,7 @@ export const restApi = {
         return response.data;
       });
   },
+    sendMessage(){
+
+    }
 };

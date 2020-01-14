@@ -22,7 +22,7 @@
             {{ initials }}
           </span>
         </v-avatar>
-        <v-list-item two-line align="center" class="mt-3 flex flex-wrap">
+        <v-list-item two-line align="center" class="mt-6 flex flex-wrap">
           <v-list-item-title class="headline">
             {{ this.getName }}
           </v-list-item-title>
@@ -31,12 +31,22 @@
           </v-list-item-subtitle>
         </v-list-item>
       </v-list>
+    <v-divider>
+
+    </v-divider>
+
+    <v-list>
+      <v-list-item  to='/user/chat' dense>
+        <v-icon class='ma-auto'>mdi-chat</v-icon>
+      </v-list-item>
+    </v-list>
+
 
       <template v-slot:append>
         <v-list>
           <v-list-item class="flex justify-space-between" v-on:click="logout">
-            <v-list-item-title style="color: grey">Logout</v-list-item-title>
-            <v-icon color="primary">mdi-logout-variant</v-icon>
+            <v-list-item class='overline' style="color: grey">Logout</v-list-item>
+            <v-icon small color="primary">mdi-logout-variant</v-icon>
           </v-list-item>
         </v-list>
       </template>

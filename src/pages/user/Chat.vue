@@ -1,25 +1,48 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="4">
+      <v-col cols="4s">
         <v-card>
-          <v-list>
-            <v-list-item v-for="user in users">
-              <v-list-item-title>
-                {{ user.name }}
-              </v-list-item-title>
-              <v-list-item-avatar class="elevation-6">
-                <v-img :src="user.avatar"> </v-img>
+          <v-list dense subheader>
+            <v-subheader>Recent chat</v-subheader>
+            <v-list-item dense v-for="user in users" :key="user.name" @click="selectUser(user)">
+              <v-list-item-avatar>
+                <v-img :src="user.avatar"></v-img>
               </v-list-item-avatar>
+
+              <v-list-item-content>
+                <v-list-item class='overline font-weight-bold' style='font-size: small !important;' v-text="user.name"></v-list-item>
+              </v-list-item-content>
+
+              <v-list-item-action class='overline'>
+                {{ user.date }}
+              </v-list-item-action>
             </v-list-item>
           </v-list>
+
+          <v-divider></v-divider>
+
+          <!--          <v-list subheader>
+            <v-subheader>Previous chats</v-subheader>
+
+            <v-list-item v-for="item in items2" :key="item.title" @click="">
+              <v-list-item-avatar>
+                <v-img :src="item.avatar"></v-img>
+              </v-list-item-avatar>
+
+              <v-list-item-content>
+                <v-list-item-title v-text="item.title"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+
+          </v-list>-->
         </v-card>
       </v-col>
-      <v-col cols="8">
+      <v-col cols="8" v-if='selectedUser'>
         <v-list>
-          <v-list-item v-for="user in users">
+          <v-list-item>
             <v-list-item-title>
-              {{ user.name }}
+              {{ selectedUser.name }}
             </v-list-item-title>
           </v-list-item>
         </v-list>
@@ -33,11 +56,11 @@ export default {
   name: 'Chat',
   data() {
     return {
+      selectedUser: null,
       users: [
         {
           name: 'huu',
-          avatar:
-            'https://avataaars.io/?avatarStyle=Transparent&topType=LongHairStraight&accessoriesType=Blank&hairColor=BrownDark&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light',
+          avatar: '',
           date: '21.06.2019',
         },
         { name: 'bleop', avatar: '', date: '21.06.2019' },
@@ -45,6 +68,12 @@ export default {
         { name: 'kiep', avatar: '', date: '21.06.2019' },
       ],
     };
+  },
+  methods: {
+    selectUser(user) {
+      this.selectedUser = user;
+
+    }
   },
 };
 </script>

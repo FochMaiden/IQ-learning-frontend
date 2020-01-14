@@ -2,19 +2,15 @@
   <v-container fluid>
     <v-row>
       <v-col>
-        <v-avatar
-          class="pt-0"
-          style="position: absolute !important; right: 10vh; z-index: 1"
-          width="10vh"
-          height="10vh"
-        >
-          <v-img
-            src="https://picsum.photos/id/11/500/300"
-          >
-          </v-img>
-        </v-avatar>
-
         <v-card flat class="mt-12" color="primary--text" height="35vh" shaped>
+          <v-sheet
+            class="v-sheet--offset mx-auto float-right"
+            color="transparent"
+          >
+            <v-avatar size="100">
+              <v-img src="https://picsum.photos/id/11/500/300"> </v-img>
+            </v-avatar>
+          </v-sheet>
           <v-card-title> Welcome back {{ $auth.user().name }}! </v-card-title>
           <v-card-text>Checkout your latest trending tests!</v-card-text>
         </v-card>
@@ -46,7 +42,18 @@
 <script>
 export default {
   name: 'Dashboard',
+  data() {
+    return {
+      labels: ['12am', '3am', '6am', '9am', '12pm', '3pm', '6pm', '9pm'],
+      value: [200, 675, 410, 390, 310, 460, 250, 240],
+    };
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.v-sheet--offset {
+  top: -24px;
+  position: relative;
+}
+</style>

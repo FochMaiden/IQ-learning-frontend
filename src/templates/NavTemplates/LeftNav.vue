@@ -2,59 +2,61 @@
   <v-navigation-drawer :mini-variant.sync="isMobile" floating permanent app>
     <template v-slot:prepend>
       <v-list class="pt-10 p">
-        <v-list-item to='/'>
+        <v-list-item to="/">
           <v-avatar class="profile ma-auto" to="/">
-            <v-img :src="ico" alt='"Icon made by Freepik from www.flaticon.com"'></v-img>
+            <v-img
+              :src="ico"
+              alt='"Icon made by Freepik from www.flaticon.com"'
+            ></v-img>
           </v-avatar>
           <v-list-item-title>IQ Learning</v-list-item-title>
         </v-list-item>
       </v-list>
     </template>
-    <v-list class="pt-12">
+    <v-list class="pt-12" dense>
       <v-list-item
-        to="/user"
+        v-for="item in otherItems"
+        :to="item.to"
         :style="
-          '/user' === $route.path
+          item.to === $route.path
             ? 'color: #fe7676 !important; border-width: 0 !important; border-right: 0.1em solid !important; background-color: rgba(0,0,0,0) !important;'
             : 'color: rgb(0,0,0,0) !important;  border-width: 0 !important; border-right: 0.1em solid !important;'
         "
       >
-        <v-list-item-icon>
+        <v-list-item-icon class="ma-auto">
           <v-icon
+            small
             :style="
-              '/user' === $route.path
+              item.to === $route.path
                 ? 'color: #fe7676 !important;'
                 : 'color: rgb(0,0,0, 0.4) !important;'
             "
-            >mdi-view-dashboard-outline</v-icon
+            >{{ item.icon }}</v-icon
           >
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title
+          <v-list-item
+            class="overline ma-auto"
             :style="
-              '/user' === $route.path
+              item.to === $route.path
                 ? 'color: black !important;'
                 : 'color: rgb(0,0,0, 0.4) !important;'
             "
-            >Dashboard</v-list-item-title
+            >{{ item.title }}</v-list-item
           >
         </v-list-item-content>
       </v-list-item>
-      <v-list-group
-        v-for="item in items"
-        :key="item.title"
-        :prepend-icon="item.icon"
-        @click
-      >
+      <v-list-group dense v-for="item in items" :key="item.title" @click>
         <template v-slot:activator>
           <v-list-item-content>
-            <v-list-item-title v-text="item.title"></v-list-item-title>
+            <v-list-item class="overline" v-text="item.title"></v-list-item>
           </v-list-item-content>
         </template>
         <v-list-item
           v-for="subLink in item.items"
           :key="subLink.title"
           :to="subLink.to"
+          class="overline"
           :style="
             subLink.to === $route.path
               ? 'color: #fe7676 !important; border-width: 0 !important; border-right: 0.1em solid !important; background-color: rgba(0,0,0,0) !important;'
@@ -62,8 +64,9 @@
           "
           link
         >
-          <v-list-item-icon>
+          <v-list-item-icon class="ma-auto">
             <v-icon
+              small
               :style="
                 subLink.to === $route.path
                   ? 'color: #fe7676 !important;'
@@ -73,13 +76,14 @@
             >
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title
+            <v-list-item
+              class="overline"
               :style="
                 subLink.to === $route.path
                   ? 'color: black !important;'
                   : 'color: rgb(0,0,0, 0.4) !important;'
               "
-              >{{ subLink.title }}</v-list-item-title
+              >{{ subLink.title }}</v-list-item
             >
           </v-list-item-content>
         </v-list-item>
@@ -96,6 +100,18 @@ export default {
   name: 'leftnav',
   data() {
     return {
+      otherItems: [
+        {
+          title: 'Dashboard',
+          to: '/user',
+          icon: 'mdi-view-dashboard-outline',
+        },
+        {
+          title: 'Public test browser',
+          to: '/user/tests/public',
+          icon: 'mdi-school',
+        },
+      ],
       items: [
         {
           title: 'Creator',
