@@ -36,11 +36,11 @@
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item
-            class="overline ma-auto"
+            class="overline ma-auto font-weight-bold"
             :style="
               item.to === $route.path
-                ? 'color: black !important;'
-                : 'color: rgb(0,0,0, 0.4) !important;'
+                ? 'color: black !important; font-size: small !important;'
+                : 'color: rgb(0,0,0, 0.4) !important; font-size: small !important;'
             "
             >{{ item.title }}</v-list-item
           >
@@ -49,7 +49,7 @@
       <v-list-group dense v-for="item in items" :key="item.title" @click>
         <template v-slot:activator>
           <v-list-item-content>
-            <v-list-item class="overline" v-text="item.title"></v-list-item>
+            <v-list-item class="overline font-weight-bold" v-text="item.title"></v-list-item>
           </v-list-item-content>
         </template>
         <v-list-item
@@ -77,11 +77,11 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item
-              class="overline"
+              class="overline font-weight-bold"
               :style="
                 subLink.to === $route.path
-                  ? 'color: black !important;'
-                  : 'color: rgb(0,0,0, 0.4) !important;'
+                  ? 'color: black !important; font-size: small !important;'
+                  : 'color: rgb(0,0,0, 0.4) !important; font-size: small !important;'
               "
               >{{ subLink.title }}</v-list-item
             >
