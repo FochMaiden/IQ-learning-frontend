@@ -1,30 +1,40 @@
 <template>
   <v-container>
-      <v-combobox
-              v-model="chips"
-              :items="$store.getters.subjects"
-              chips
-              clearable
-              label="Your favorite hobbies"
-              multiple
-              prepend-icon="filter_list"
-              solo
-      >
-        <template v-slot:selection="{ attrs, item, select, selected }">
-          <v-chip
-                  v-bind="attrs"
-                  :input-value="selected"
-                  close
-                  @click="select"
-                  @click:close="remove(item)"
-          >
-            <strong>{{ item }}</strong>&nbsp;
-            <span>(interest)</span>
-          </v-chip>
-        </template>
-      </v-combobox>
+    <v-combobox
+      label="Subjects"
+      v-model="selectedSubjects"
+      :items="$store.getters.subjects"
+      chips
+      item-value="id"
+      return-object
+      @click:clear="clear"
+      prepend-icon="filter_list"
+      solo
+      multiple
+      clearable
+    >
+      <template slot="selection" slot-scope="data">
+        {{ data.item.name }}, {{ data.item.year }}
+      </template>
+      <template slot="item" slot-scope="data">
+        {{ data.item.name }}, {{ data.item.year }}
+      </template>
+      <template v-slot:selection="{ attrs, item, select, selected }">
+        <v-chip
+          v-bind="attrs"
+          :input-value="selected"
+          close
+          @click="select"
+          @click:close="remove(item)"
+        >
+          <strong>{{ item.name }}</strong
+          >&nbsp;
+          <span>year {{ item.year }}</span>
+        </v-chip>
+      </template>
+    </v-combobox>
     <v-row>
-      <v-col cols="6" v-for="test in $store.state.publicTests">
+      <v-col cols="6" v-for="test in tests">
         <v-card>
           <v-card-title> Test number {{ test.id }} </v-card-title>
           <v-list-item v-for="question in test.questions">
@@ -58,17 +68,27 @@ export default {
     this.$store.dispatch('loadSubjects');
     this.$store.dispatch('loadPublicTests');
   },
-  data () {
+  data() {
     return {
-      chips: ['Programming', 'Playing video games', 'Watching movies', 'Sleeping'],
-      items: ['Streaming', 'Eating'],
-    }
+      selectedSubjects: null,
+    };
   },
-
+  computed: {
+    tests() {
+      if (this.selectedSubjects) {
+        let ids = this.selectedSubjects.map(item => {
+          return item.id;
+        });
+        this.$store.commit('filterPublicTests', ids);
+        return this.$store.getters.filteredPublicTests;
+      } else return this.$store.getters.publicTests;
+    },
+  },
   methods: {
-    remove (item) {
-      this.chips.splice(this.chips.indexOf(item), 1)
-      this.chips = [...this.chips]
+    clear() {},
+    remove(item) {
+      this.selectedSubjects.splice(this.selectedSubjects.indexOf(item), 1);
+      this.selectedSubjects = [...this.selectedSubjects];
     },
   },
 };

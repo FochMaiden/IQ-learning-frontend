@@ -301,9 +301,6 @@ import { restApi } from '../../api/restApi';
 
 export default {
   name: 'Settings',
-  mounted() {
-    console.log(this.$auth.user());
-  },
   data() {
     return {
       selectedItemTop: 'LongHairBigHair',
