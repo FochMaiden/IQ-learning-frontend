@@ -120,28 +120,28 @@
 </template>
 
 <script>
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
-import {
-  Blockquote,
-  Bold,
-  BulletList,
-  Code,
-  CodeBlock,
-  HardBreak,
-  Heading,
-  History,
-  Image,
-  Italic,
-  Link,
-  ListItem,
-  OrderedList,
-  Strike,
-  TodoItem,
-  TodoList,
-  Underline,
-} from 'tiptap-extensions';
+	import {Editor, EditorContent, EditorMenuBar} from 'tiptap';
+	import {
+		Blockquote,
+		Bold,
+		BulletList,
+		Code,
+		CodeBlock,
+		HardBreak,
+		Heading,
+		History,
+		Image,
+		Italic,
+		Link,
+		ListItem,
+		OrderedList,
+		Strike,
+		TodoItem,
+		TodoList,
+		Underline,
+	} from 'tiptap-extensions';
 
-export default {
+	export default {
   components: {
     EditorMenuBar,
     EditorContent,

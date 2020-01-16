@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="fill-height">
+  <v-container fluid class="ma-10">
     <v-layout row wrap align-center>
       <div v-for="article in loadArticles" :key="article.title">
         <v-container class="text-center" fluid>
