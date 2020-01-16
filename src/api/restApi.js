@@ -212,6 +212,7 @@ export const restApi = {
       content: article.content,
       title: article.title,
       tags: article.tags,
+      image: article.image,
     });
   },
   getArticles() {

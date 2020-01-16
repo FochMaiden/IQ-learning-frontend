@@ -17,9 +17,14 @@
           </template>
 
       </v-select>-->
-    <v-text-field :counter="104" label="Title" required></v-text-field>
+    <v-text-field
+      :counter="104"
+      v-model="article.title"
+      label="Title"
+      required
+    ></v-text-field>
 
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
+    <editor-floating-menu :editor="editor" v-slot="{ commands, isActive }">
       <div class="menubar">
         <v-btn
           icon
@@ -109,45 +114,55 @@
         <v-btn icon @click="commands.undo"> <v-icon>undo</v-icon></v-btn>
         <v-btn icon @click="commands.redo"> <v-icon>redo</v-icon></v-btn>
       </div>
-    </editor-menu-bar>
+    </editor-floating-menu>
     <!--<h3>JSON</h3>
       <pre><code v-html="json"></code></pre>
 
       <h3>HTML</h3>
       <pre><code>{{ html }}</code></pre>-->
-    <editor-content :editor="editor" />
+    <editor-content focused outlined :editor="editor" />
+    <v-btn class="primary" dark outlined @click="saveArticle">Save</v-btn>
   </v-container>
 </template>
 
 <script>
-	import {Editor, EditorContent, EditorMenuBar} from 'tiptap';
-	import {
-		Blockquote,
-		Bold,
-		BulletList,
-		Code,
-		CodeBlock,
-		HardBreak,
-		Heading,
-		History,
-		Image,
-		Italic,
-		Link,
-		ListItem,
-		OrderedList,
-		Strike,
-		TodoItem,
-		TodoList,
-		Underline,
-	} from 'tiptap-extensions';
+import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
+import {
+  Blockquote,
+  Bold,
+  BulletList,
+  Code,
+  CodeBlock,
+  HardBreak,
+  Heading,
+  History,
+  Image,
+  Italic,
+  Link,
+  ListItem,
+  OrderedList,
+  Strike,
+  TodoItem,
+  TodoList,
+  Underline,
+} from 'tiptap-extensions';
+import { restApi } from '../../../../api/restApi';
+import EditorFloatingMenu from 'tiptap/src/Components/EditorFloatingMenu';
 
-	export default {
+export default {
   components: {
     EditorMenuBar,
+    EditorFloatingMenu,
     EditorContent,
   },
   data() {
     return {
+      article: {
+        title: '',
+        content: '',
+        tags: [],
+        image: '',
+      },
       editor: new Editor({
         extensions: [
           new Blockquote(),
@@ -190,6 +205,17 @@
       if (src !== null) {
         command({ src });
       }
+    },
+    saveArticle() {
+      this.article.content = btoa(this.html);
+      restApi
+        .addArticle(this.article)
+        .then(response => {
+          this.msg = response.msg;
+        })
+        .catch(err => {
+          this.error = err;
+        });
     },
   },
 };

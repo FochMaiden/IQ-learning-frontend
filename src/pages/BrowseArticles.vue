@@ -37,6 +37,7 @@ export default {
   data() {
     return {
       imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
+
       articles: [
         /*[
 

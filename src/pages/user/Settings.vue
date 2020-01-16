@@ -110,10 +110,16 @@
 </template>
 
 <script>
-	import {isName, minLength, passwordNumber, passwordUppercase, required,} from '../../util/validationFunctions';
-	import axios from 'axios';
+import {
+  isName,
+  minLength,
+  passwordNumber,
+  passwordUppercase,
+  required,
+} from '../../util/validationFunctions';
+import axios from 'axios';
 
-	export default {
+export default {
   name: 'Settings',
   data() {
     return {
