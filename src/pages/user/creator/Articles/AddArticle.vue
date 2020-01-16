@@ -1,5 +1,24 @@
 <template>
   <v-container>
+    <!-- <v-select
+              name="tag"
+              label="Select tag"
+              v-model="tag"
+              v-bind:items="$store.state.tags"
+              item-value="id"
+              @change="filterBySubject"
+              class="ma-auto"
+              clearable
+              return-object
+              hide-details
+      >
+          <template slot="selection" slot-scope="data">
+              {{ data.item.name }}, {{ data.item.year }}
+          </template>
+
+      </v-select>-->
+    <v-text-field :counter="104" label="Title" required></v-text-field>
+
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
       <div class="menubar">
         <v-btn
@@ -84,6 +103,9 @@
         >
           <v-icon>format_quote</v-icon></v-btn
         >
+        <v-btn icon @click="showImagePrompt(commands.image)">
+          <v-icon>add_photo_alternate</v-icon></v-btn
+        >
         <v-btn icon @click="commands.undo"> <v-icon>undo</v-icon></v-btn>
         <v-btn icon @click="commands.redo"> <v-icon>redo</v-icon></v-btn>
       </div>
@@ -101,21 +123,22 @@
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import {
   Blockquote,
+  Bold,
+  BulletList,
+  Code,
   CodeBlock,
   HardBreak,
   Heading,
-  OrderedList,
-  BulletList,
-  ListItem,
-  TodoItem,
-  TodoList,
-  Bold,
-  Code,
+  History,
+  Image,
   Italic,
   Link,
+  ListItem,
+  OrderedList,
   Strike,
+  TodoItem,
+  TodoList,
   Underline,
-  History,
 } from 'tiptap-extensions';
 
 export default {
@@ -132,6 +155,7 @@ export default {
           new HardBreak(),
           new Heading({ levels: [1, 2, 3] }),
           new BulletList(),
+          new Image(),
           new OrderedList(),
           new ListItem(),
           new TodoItem(),
@@ -159,6 +183,14 @@ export default {
   },
   beforeDestroy() {
     this.editor.destroy();
+  },
+  methods: {
+    showImagePrompt(command) {
+      const src = prompt('Enter the url of your image here');
+      if (src !== null) {
+        command({ src });
+      }
+    },
   },
 };
 </script>

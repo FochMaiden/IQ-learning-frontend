@@ -1,15 +1,13 @@
 <template>
   <nav style="height: auto">
-    <v-app-bar
-            v-if="!isUserRoute"
-            fixed
-            app
-            elevate-on-scroll
-    >
+    <v-app-bar v-if="!isUserRoute" fixed app elevate-on-scroll>
       <!-- <v-app-bar-nav-icon v-on:click="drawer = !drawer"> </v-app-bar-nav-icon>-->
       <v-toolbar-title v-on:click.prevent="$router.push('/').catch(e => {})">
         <v-avatar class="profile ma-auto">
-          <v-img :src="ico" alt='"Icon made by Freepik from www.flaticon.com"'></v-img>
+          <v-img
+            :src="ico"
+            alt='"Icon made by Freepik from www.flaticon.com"'
+          ></v-img>
         </v-avatar>
         IQ Learning
       </v-toolbar-title>
@@ -78,12 +76,12 @@ export default {
 </script>
 
 <style>
-  .v-app-bar--hide-shadow{
-    background-color: transparent!important;
-    border-color: transparent!important;
-  }
-  .v-app-bar--is-scrolled {
-    background-color: #fff!important;
-    border-color: #fff!important;
-  }
+.v-app-bar--hide-shadow {
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+.v-app-bar--is-scrolled {
+  background-color: #fff !important;
+  border-color: #fff !important;
+}
 </style>

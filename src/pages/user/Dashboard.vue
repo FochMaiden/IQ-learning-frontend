@@ -8,10 +8,7 @@
           width="10vh"
           height="10vh"
         >
-          <v-img
-            src="https://picsum.photos/id/11/500/300"
-          >
-          </v-img>
+          <v-img src="https://picsum.photos/id/11/500/300"> </v-img>
         </v-avatar>
 
         <v-card flat class="mt-12" color="primary--text" height="35vh" shaped>

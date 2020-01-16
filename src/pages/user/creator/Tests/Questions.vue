@@ -308,7 +308,7 @@ export default {
   },
   created() {
     this.$store.dispatch('loadSubjects');
-    this.loadAllQuestions()
+    this.loadAllQuestions();
   },
   methods: {
     onChildClick(value) {

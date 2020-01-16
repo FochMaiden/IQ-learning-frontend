@@ -20,18 +20,17 @@
               </v-avatar>
               <v-divider vertical></v-divider>
               <v-btn
-                      v-for="(social, i) in socials"
-                      :key="i"
-                      :color="social.color"
-                      class="white--text"
-                      fab
-                      icon
-                      small
+                v-for="(social, i) in socials"
+                :key="i"
+                :color="social.color"
+                class="white--text"
+                fab
+                icon
+                small
               >
                 <v-icon>{{ social.icon }}</v-icon>
               </v-btn>
             </v-col>
-
           </v-row>
           <v-form v-model="validName">
             <v-list-item-title class="primary2--text"
@@ -147,7 +146,7 @@ export default {
         {
           icon: 'mdi-youtube',
           color: 'red',
-        }
+        },
       ],
       validName: false,
       validPass: false,

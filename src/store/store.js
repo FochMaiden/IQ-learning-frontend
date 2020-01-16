@@ -37,6 +37,7 @@ export default new Vuex.Store({
 
     userTests: state => state.userTests,
     filteredUserTests: state => state.filteredUserTests,
+    articles: state => state.articles,
   },
   mutations: {
     setSubjects(state, data) {
@@ -81,6 +82,9 @@ export default new Vuex.Store({
     setFilteredPublicTests(state, data) {
       state.filteredPublicTests = data.sort((a, b) => (a.id > b.id ? 1 : -1));
     },
+    setArticles(state, data) {
+      state.articles = data;
+    },
   },
   actions: {
     loadSubjects({ commit }) {
@@ -120,6 +124,11 @@ export default new Vuex.Store({
     loadFilteredPublicTests({ commit }, id) {
       restApi.getPublicTestsById(id).then(response => {
         commit('setFilteredPublicTests', response);
+      });
+    },
+    loadArticles({ commit }) {
+      restApi.getArticles().then(response => {
+        commit('setArticles', response);
       });
     },
   },

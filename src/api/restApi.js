@@ -207,4 +207,16 @@ export const restApi = {
         return response.data;
       });
   },
+  addArticle(article) {
+    return this.axiosProxy.post('/article/add', {
+      content: article.content,
+      title: article.title,
+      tags: article.tags,
+    });
+  },
+  getArticles() {
+    return this.axiosProxy.get('/article/get').then(response => {
+      return response.data;
+    });
+  },
 };

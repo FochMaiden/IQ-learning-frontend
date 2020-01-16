@@ -5,10 +5,7 @@
     </v-navigation-drawer>-->
     <Navbar />
     <!-- Sizes your content based upon application pages -->
-    <v-content
-      style="background: rgba(229,237,251,0.8)"
-      class="pt-0"
-    >
+    <v-content style="background: rgba(229,237,251,0.8)" class="pt-0">
       <router-view />
     </v-content>
 
@@ -36,6 +33,7 @@ export default {
       store.dispatch('loadSubjects');
       store.dispatch('loadUserQuestions');
       store.dispatch('loadPublicQuestions');
+      store.dispatch('loadArticles');
     } else restApi.createAxiosProxy(null);
   },
   data() {

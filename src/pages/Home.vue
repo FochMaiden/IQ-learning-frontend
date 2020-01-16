@@ -1,8 +1,8 @@
 <template>
-  <v-container fluid class="fill-height pa-0 ma-0" >
+  <v-container fluid class="fill-height pa-0 ma-0">
     <v-img
-            alt='This cover has been designed using resources from Freepik.com'
-            :src="background"
+      alt="This cover has been designed using resources from Freepik.com"
+      :src="background"
     ></v-img>
   </v-container>
 </template>
@@ -15,8 +15,8 @@ export default {
   components: { BrowseArticles },
   data() {
     return {
-      background: require('../assets/main-background.jpg')
-    }
+      background: require('../assets/main-background.jpg'),
+    };
   },
 };
 </script>

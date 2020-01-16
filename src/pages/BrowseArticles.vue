@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="fill-height">
     <v-layout row wrap align-center>
-      <div v-for="article in articles" :key="article.title">
+      <div v-for="article in loadArticles" :key="article.title">
         <v-container class="text-center" fluid>
           <v-row>
             <v-col>
@@ -9,20 +9,15 @@
                 <v-img
                   class="white--text align-end"
                   height="200px"
-                  v-bind:src="article.imgSrc"
+                  :src="imgSrc"
                 >
                   <v-card-title> {{ article.title }}! </v-card-title>
                 </v-img>
                 <v-card-text>
-                  {{ article.description }}
+                  {{ article.content.substring(0, 300) + '...' }}
                 </v-card-text>
                 <v-card-actions>
-                  <v-btn
-                    small
-                    replace
-                    color="info"
-                    v-bind:href="article.url"
-                    target="_blank"
+                  <v-btn small replace color="info" target="_blank"
                     >Read More</v-btn
                   >
                   <v-btn icon><v-icon>mdi-thumb-up</v-icon></v-btn>
@@ -41,41 +36,53 @@
 export default {
   data() {
     return {
+      imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
       articles: [
-        {
-          title: 'mondry artykuu',
-          description: 'tak, tak ty teszz',
-          imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-          upvotes: 15,
-        },
-        {
-          title:
-            'mondry artykuu 2',
-          description: 'tak, tak ty teszz',
-          imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-          upvotes: 15,
-        },
-        {
-          title: 'mondry artykuu 3',
-          description: 'tak, tak ty teszz',
-          imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-          upvotes: 15,
-        },
+        /*[
 
-        {
-          title: 'mondry artykuu 4',
-          description: 'tak, tak ty teszz',
-          imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-          upvotes: 15,
-        },
-        {
-          title: 'mondry artykuu 5',
-          description: 'tak, tak ty teszz',
-          imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-          upvotes: 15,
-        },
+    {
+      title: 'mondry artykuu',
+      description: 'tak, tak ty teszz',
+      imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
+      upvotes: 15,
+    },
+    {
+      title:
+        'mondry artykuu 2',
+      description: 'tak, tak ty teszz',
+      imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
+      upvotes: 15,
+    },
+    {
+      title: 'mondry artykuu 3',
+      description: 'tak, tak ty teszz',
+      imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
+      upvotes: 15,
+    },
+
+    {
+      title: 'mondry artykuu 4',
+      description: 'tak, tak ty teszz',
+      imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
+      upvotes: 15,
+    },
+    {
+      title: 'mondry artykuu 5',
+      description: 'tak, tak ty teszz',
+      imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
+      upvotes: 15,
+    },*/
       ],
     };
   },
+  computed: {
+    loadArticles() {
+      return this.$store.state.articles;
+    },
+  },
+  created() {
+    this.$store.dispatch('loadArticles');
+  },
+  methods: {},
 };
 </script>
