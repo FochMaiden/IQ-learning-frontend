@@ -64,8 +64,30 @@
             sender:5
             sent:"2020-01-16T17:09:35.473+0000"-->
             <v-list-item v-for="message in selectedUser.messages">
-              <v-spacer v-if="message.sender !== $auth.user().id"></v-spacer>
-              <v-list-item-content class='align-content-end'>{{ message.message }}</v-list-item-content>
+              <v-container fluid class="pa-0">
+                <v-avatar
+                  v-if="$auth.user().avatar"
+                  size="20"
+                  :class="
+                    message.sender !== $auth.user().id
+                      ? 'float-left'
+                      : 'float-right'
+                  "
+                  ><v-img :src="$auth.user().avatar"></v-img
+                ></v-avatar>
+                <v-card
+                  :class="
+                    message.sender !== $auth.user().id
+                      ? 'float-left pa-2'
+                      : 'float-right pa-2'
+                  "
+                  color="primary"
+                >
+                  <v-list-item-content class="pa-0 ma-0">{{
+                    message.message
+                  }}</v-list-item-content>
+                </v-card>
+              </v-container>
             </v-list-item>
           </v-list>
           <v-divider></v-divider>
@@ -95,6 +117,11 @@ import { restApi } from '../../api/restApi';
 
 export default {
   name: 'Chat',
+  computed: {
+    className() {
+      return this.data;
+    },
+  },
   data() {
     return {
       selectedUser: null,
@@ -123,7 +150,6 @@ export default {
       container.scrollTop = container.scrollHeight;
     },
     selectUser(user) {
-      console.log('select user', user);
       this.selectedUser = user;
       this.getMessages();
     },

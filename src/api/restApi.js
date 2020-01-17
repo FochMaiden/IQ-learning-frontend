@@ -163,7 +163,6 @@ export const restApi = {
         id: id,
       })
       .then(response => {
-        console.log(response);
         return { q: response.data.question, msg: 'Question updated' };
       })
       .catch(err => {
@@ -257,7 +256,6 @@ export const restApi = {
         recipient: recipientId,
       })
       .then(response => {
-        console.log('response', response);
         return response.data;
       });
   },

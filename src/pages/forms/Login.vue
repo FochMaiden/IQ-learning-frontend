@@ -19,7 +19,11 @@
           <!--          <v-row class="pa-0">
             <v-col class="pa-0">-->
           <v-card-title class="justify-center primary--text"> </v-card-title>
-          <v-form class="pt-6 px-6 primary--text" v-model="valid">
+          <v-form
+            class="pt-6 px-6 primary--text"
+            v-model="valid"
+            @submit.prevent="login"
+          >
             <v-text-field
               label="Login"
               name="login"
@@ -50,18 +54,18 @@
               type="checkbox"
               color="primary"
             ></v-checkbox>
-          </v-form>
           <v-card-actions class="pb-6 px-6 justify-center">
             <v-btn
               large
               dark
               block
+              type="submit"
               style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
               :disabled="!valid"
-              v-on:click="login"
               >Login</v-btn
             >
           </v-card-actions>
+          </v-form>
           <!--            </v-col>
 &lt;!&ndash;            <v-col>
             </v-col>&ndash;&gt;
