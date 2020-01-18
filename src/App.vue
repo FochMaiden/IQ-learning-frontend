@@ -5,10 +5,7 @@
     </v-navigation-drawer>-->
     <Navbar />
     <!-- Sizes your content based upon application pages -->
-    <v-content
-      style="background: rgba(229,237,251,0.8)"
-      class="pt-0"
-    >
+    <v-content style="background: rgba(229,237,251,0.8)" class="pt-0">
       <router-view />
     </v-content>
 
@@ -21,7 +18,7 @@
 <script>
 import Navbar from './pages/nav/Navbar';
 import { restApi } from './api/restApi';
-import store from './store/store';
+import { stompClientSocket } from './api/wsApi';
 
 export default {
   name: 'App',
@@ -29,13 +26,16 @@ export default {
     Navbar,
   },
   created() {
+    //await WebSocketClient.connect(5);
+    stompClientSocket.connect();
+
     let token = localStorage.getItem('default_auth_token');
     if (token) {
       restApi.createAxiosProxy(token);
       restApi.interceptor();
-      store.dispatch('loadSubjects');
-      store.dispatch('loadUserQuestions');
-      store.dispatch('loadPublicQuestions');
+      this.$store.dispatch('loadSubjects');
+      this.$store.dispatch('loadUserQuestions');
+      this.$store.dispatch('loadPublicQuestions');
     } else restApi.createAxiosProxy(null);
   },
   data() {

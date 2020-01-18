@@ -114,6 +114,7 @@
 
 <script>
 import { restApi } from '../../api/restApi';
+import { stompClientSocket } from '../../api/wsApi';
 
 export default {
   name: 'Chat',
@@ -154,10 +155,16 @@ export default {
       this.getMessages();
     },
     sendMessage() {
-      restApi.sendMessage(this.message, this.selectedUser.id).then(r => {
+      stompClientSocket.sendMessage(
+        this.message,
+        this.selectedUser.id,
+        this.$auth.user().id
+      );
+
+  /*    restApi.sendMessage(this.message, this.selectedUser.id).then(r => {
         this.message = null;
         this.getMessages();
-      });
+      });*/
     },
     getMessages() {
       restApi.getMessages(this.selectedUser.id).then(response => {

@@ -18,7 +18,10 @@
     "vue-axios": "^2.1.4",
     "vue-router": "^3.0.6",
     "vuetify": "^2.1.0",
-    "vuex": "^3.1.2"
+    "vuex": "^3.1.2",
+	"sockjs-client": "latest",
+    "webstomp-client": "latest",
+    "webstomp-client": "latest"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.0",
