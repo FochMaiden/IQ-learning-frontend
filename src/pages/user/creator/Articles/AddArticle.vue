@@ -1,31 +1,38 @@
 <template>
   <v-container>
-    <!-- <v-select
-              name="tag"
-              label="Select tag"
-              v-model="tag"
-              v-bind:items="$store.state.tags"
-              item-value="id"
-              @change="filterBySubject"
-              class="ma-auto"
-              clearable
-              return-object
-              hide-details
-      >
-          <template slot="selection" slot-scope="data">
-              {{ data.item.name }}, {{ data.item.year }}
-          </template>
+    <v-row
+      ><v-checkbox
+        v-for="(item, index) in loadArticleTags"
+        :key="index"
+        :label="item.tag"
+        :id="item.id"
+        v-model="item.checked"
+      ></v-checkbox>
+    </v-row>
 
-      </v-select>-->
     <v-text-field
       :counter="104"
       v-model="article.title"
       label="Title"
+      prepend-icon="title"
       required
     ></v-text-field>
+    <v-text-field
+      :counter="104"
+      v-model="article.description"
+      label="Description shown while browsing articles"
+      prepend-icon="description"
+      required
+    ></v-text-field>
+    <v-file-input
+      v-model="article.image"
+      prepend-icon="mdi-camera"
+      label="Attach a photo that will show while browsing through articles"
+    ></v-file-input>
 
+    <v-divider></v-divider>
     <editor-floating-menu :editor="editor" v-slot="{ commands, isActive }">
-      <div class="menubar">
+      <div align="center">
         <v-btn
           icon
           :class="{ 'is-active': isActive.bold() }"
@@ -115,13 +122,11 @@
         <v-btn icon @click="commands.redo"> <v-icon>redo</v-icon></v-btn>
       </div>
     </editor-floating-menu>
-    <!--<h3>JSON</h3>
-      <pre><code v-html="json"></code></pre>
-
-      <h3>HTML</h3>
-      <pre><code>{{ html }}</code></pre>-->
+    <v-divider></v-divider>
     <editor-content focused outlined :editor="editor" />
-    <v-btn class="primary" dark outlined @click="saveArticle">Save</v-btn>
+    <v-divider></v-divider>
+
+    <v-btn oclass="primary" dark outlined @click="saveArticle">Save</v-btn>
   </v-container>
 </template>
 
@@ -157,11 +162,13 @@ export default {
   },
   data() {
     return {
+      articleTags: [],
       article: {
         title: '',
         content: '',
         tags: [],
-        image: '',
+        image: null,
+        description: '',
       },
       editor: new Editor({
         extensions: [
@@ -199,15 +206,32 @@ export default {
   beforeDestroy() {
     this.editor.destroy();
   },
+  computed: {
+    loadArticleTags() {
+      return this.$store.state.articleTags;
+    },
+    checkedTags() {
+      return this.loadArticleTags
+        .filter(item => item.checked)
+        .map(tag => tag.id);
+    },
+  },
+  created() {
+    this.$store.dispatch('loadArticleTags');
+  },
   methods: {
     showImagePrompt(command) {
-      const src = prompt('Enter the url of your image here');
+      const src = prompt(
+        'Enter the url of your image here, or drop it directly into editor'
+      );
       if (src !== null) {
         command({ src });
       }
     },
     saveArticle() {
       this.article.content = btoa(this.html);
+      this.article.image = btoa(this.article.image);
+      this.article.tags = this.checkedTags;
       restApi
         .addArticle(this.article)
         .then(response => {

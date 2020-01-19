@@ -20,7 +20,7 @@ function initialState() {
     filteredUserTests: [],
     publicTests: [],
     filteredPublicTests: [],
-
+    articleTags: [],
     articles: [],
   };
 }
@@ -38,6 +38,7 @@ export default new Vuex.Store({
     userTests: state => state.userTests,
     filteredUserTests: state => state.filteredUserTests,
     articles: state => state.articles,
+    articleTags: state => state.articleTags,
   },
   mutations: {
     setSubjects(state, data) {
@@ -85,6 +86,9 @@ export default new Vuex.Store({
     setArticles(state, data) {
       state.articles = data;
     },
+    setArticleTags(state, data) {
+      state.articleTags = data;
+    },
   },
   actions: {
     loadSubjects({ commit }) {
@@ -129,6 +133,11 @@ export default new Vuex.Store({
     loadArticles({ commit }) {
       restApi.getArticles().then(response => {
         commit('setArticles', response);
+      });
+    },
+    loadArticleTags({ commit }) {
+      restApi.getArticleTags().then(response => {
+        commit('setArticleTags', response);
       });
     },
   },

@@ -213,10 +213,16 @@ export const restApi = {
       title: article.title,
       tags: article.tags,
       image: article.image,
+      description: article.description,
     });
   },
   getArticles() {
     return this.axiosProxy.get('/article/get').then(response => {
+      return response.data;
+    });
+  },
+  getArticleTags() {
+    return this.axiosProxy.get('/tags/get').then(response => {
       return response.data;
     });
   },

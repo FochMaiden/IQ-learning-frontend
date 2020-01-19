@@ -9,7 +9,7 @@
                 <v-img
                   class="white--text align-end"
                   height="200px"
-                  :src="imgSrc"
+                  :src="article.image"
                 >
                   <v-card-title> {{ article.title }}! </v-card-title>
                 </v-img>
@@ -37,43 +37,7 @@ export default {
   data() {
     return {
       imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-
-      articles: [
-        /*[
-
-    {
-      title: 'mondry artykuu',
-      description: 'tak, tak ty teszz',
-      imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-      upvotes: 15,
-    },
-    {
-      title:
-        'mondry artykuu 2',
-      description: 'tak, tak ty teszz',
-      imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-      upvotes: 15,
-    },
-    {
-      title: 'mondry artykuu 3',
-      description: 'tak, tak ty teszz',
-      imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-      upvotes: 15,
-    },
-
-    {
-      title: 'mondry artykuu 4',
-      description: 'tak, tak ty teszz',
-      imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-      upvotes: 15,
-    },
-    {
-      title: 'mondry artykuu 5',
-      description: 'tak, tak ty teszz',
-      imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-      upvotes: 15,
-    },*/
-      ],
+      articles: [],
     };
   },
   computed: {
