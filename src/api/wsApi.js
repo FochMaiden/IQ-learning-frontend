@@ -1,19 +1,20 @@
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
 
-const options = { debug: true, heartbeat: false, protocols: ['v12.stomp'] };
+const options = { debug: false, heartbeat: false, protocols: ['v12.stomp'] };
 
 export const stompClientSocket = {
   socket: null,
   stompClient: null,
 
 
-  connect() {
+  connect(id) {
     this.socket = new SockJS('http://localhost:8080/gs-guide-websocket');
-    this.stompClient = Stomp.over(this.socket, options);
-    return this.stompClient.connect({}, async () => {
-      await this.subscribeToTopic(5);
-      await this.subscribeToChat(5);
+     this.stompClient = Stomp.over(this.socket, options);
+     return this.stompClient.connect({
+    }, async () => {
+      //await this.subscribeToTopic(4);
+       await this.subscribeToChat(id)
     });
   },
   subscribeToTopic(id) {
@@ -22,20 +23,27 @@ export const stompClientSocket = {
     });
   },
   subscribeToChat(id) {
-    this.stompClient.subscribe('/chat/' + id, sendMessage => {
-      console.log(JSON.parse(sendMessage.body).content);
+    this.stompClient.subscribe('/topic/user/' + id, sendMessage => {
+      //console.log(JSON.parse(sendMessage.body).content);
       console.log(sendMessage);
     });
+  },
+  startConversation(message, recipient, sender){
+    this.stompClient.send('/startConversation/'+recipient,JSON.stringify( {
+      message:message,
+      recipient: recipient,
+      sender: sender
+    } ))
   },
   sendMessage(message, recipient, sender) {
     this.stompClient.send(
       '/chat/sendMessage/'+ recipient,
       JSON.stringify({ message: message, recipient: recipient, sender: sender })
     );
-    this.stompClient.send(
+/*    this.stompClient.send(
         '/chat/sendMessage/'+ sender,
         JSON.stringify({ message: message, recipient: recipient, sender: sender })
-    );
+    );*/
   },
 };
 

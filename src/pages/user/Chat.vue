@@ -152,6 +152,8 @@ export default {
     },
     selectUser(user) {
       this.selectedUser = user;
+      stompClientSocket.startConversation("blep",this.selectedUser.id,
+              this.$auth.user().id )
       this.getMessages();
     },
     sendMessage() {

@@ -26,9 +26,6 @@ export default {
     Navbar,
   },
   created() {
-    //await WebSocketClient.connect(5);
-    stompClientSocket.connect();
-
     let token = localStorage.getItem('default_auth_token');
     if (token) {
       restApi.createAxiosProxy(token);

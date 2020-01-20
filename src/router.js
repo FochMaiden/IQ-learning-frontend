@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import {stompClientSocket} from "./api/wsApi";
 
 //compbell
 axios.defaults.baseURL = 'http://localhost:8080';
@@ -131,8 +132,16 @@ Vue.use(require('@websanova/vue-auth'), {
     url: '/user/fetch',
     method: 'GET',
     enabled: true,
-    success: function(d) {
-      Vue.auth.user(d.data);
+    success: async function(d) {
+      console.log(d.data)
+
+      if (d.data){
+        Vue.auth.user(d.data);
+        await stompClientSocket.connect(d.data.id);
+      }
+
+      //{}
+
     },
   },
 });
