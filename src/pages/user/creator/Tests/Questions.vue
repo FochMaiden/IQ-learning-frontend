@@ -81,13 +81,13 @@
                     <v-row>
                       <v-col cols="12" sm="4" md="6">
                         <v-textarea
-                                name="question"
-                                label="Question"
-                                id="question"
-                                auto-grow
-                                rows="1"
-                                v-model="editedItem.question"
-                                :rules="[required('question')]"
+                          name="question"
+                          label="Question"
+                          id="question"
+                          auto-grow
+                          rows="1"
+                          v-model="editedItem.question"
+                          :rules="[required('question')]"
                         />
                       </v-col>
                       <v-col class="flex justify-center ma-auto">
@@ -126,9 +126,9 @@
                       </v-col>
                     </v-row>
                     <ButtonCounter
-                            v-if="editedItem.choiceTest === true"
-                            :rows="editedItem.answers"
-                            v-on:childToParent="onChildClick"
+                      v-if="editedItem.choiceTest === true"
+                      :rows="editedItem.answers"
+                      v-on:childToParent="onChildClick"
                     />
                     <p>{{ error }}</p>
                   </form>
@@ -222,13 +222,14 @@
             <v-card-title>
               Test
             </v-card-title>
-            <v-card-text  v-for="(question, index) in filteredSelect" v-bind:key="index">
-              <v-row >
-                {{ index + 1 }}. {{ question.question }}
-              </v-row>
+            <v-card-text
+              v-for="(question, index) in filteredSelect"
+              v-bind:key="index"
+            >
+              <v-row> {{ index + 1 }}. {{ question.question }} </v-row>
               <v-row>
                 <v-col
-                        class="flex justify-center ma-auto"
+                  class="flex justify-center ma-auto"
                   v-if="question.choiceTest"
                   v-for="answer in question.answers"
                 >
@@ -241,8 +242,8 @@
             </v-card-text>
             <v-card-actions>
               <div class="flex-grow-1"></div>
-            <v-btn color="red" outlined @click="closeTest">Cancel</v-btn>
-            <v-btn class="primary" dark outlined @click="addTest">Save</v-btn>
+              <v-btn color="red" outlined @click="closeTest">Cancel</v-btn>
+              <v-btn class="primary" dark outlined @click="addTest">Save</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -315,7 +316,7 @@ export default {
     },
   },
   created() {
-    this.loadAllQuestions()
+    this.loadAllQuestions();
   },
   methods: {
     onChildClick(value) {

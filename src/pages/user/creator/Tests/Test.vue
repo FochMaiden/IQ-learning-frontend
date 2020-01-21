@@ -3,50 +3,85 @@
     <v-row>
       <v-col cols="6" v-for="test in tests">
         <v-card>
-          <v-card-title> Test number {{ test.id }} </v-card-title>
-          <v-list-item v-for="question in test.questions">
-            <v-list-item-content>
-              <v-list-item-title class="headline">{{
-                question.question
-              }}</v-list-item-title>
-              <v-card-text v-if="question.choiceTest">
-                <v-list-item-subtitle
-                  v-for="answers in question.answers"
-                  class="pa-2 d-inline"
-                >
-                  {{ answers.answer }}
-                  <v-icon small :color="answers.correct ? 'green' : 'red'">
-                    {{ answers.correct ? 'mdi-check' : 'mdi-block-helper' }}
-                  </v-icon>
-                </v-list-item-subtitle>
-              </v-card-text>
-            </v-list-item-content>
-            <v-btn
-              v-if="isEditedTest(test.id)"
-              @click="removeQuestion(question.id)"
-              color="red"
-              outlined
-              fab
-              x-small
-            >
-              <v-icon>mdi-delete-empty</v-icon>
-            </v-btn>
-          </v-list-item>
-          <v-card-actions>
+          <v-card-title>
+            <span class="headline">Test number {{ test.id }}</span>
             <v-spacer></v-spacer>
-            <v-btn v-on:click="isEditing(test)" color="blue" outlined fab small>
-              <v-icon>mdi-pencil-outline</v-icon>
-            </v-btn>
-            <v-btn
-              v-on:click="removeTest(test.id)"
-              color="red"
-              outlined
-              fab
-              small
-            >
-              <v-icon>mdi-delete-empty</v-icon>
-            </v-btn>
-          </v-card-actions>
+            <v-menu right :offset-x="offset">
+              <template v-slot:activator="{ on }">
+                <v-btn icon v-on="on">
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+              <v-card>
+                <v-col>
+                  <v-btn
+                    v-on:click="isEditing(test)"
+                    color="blue"
+                    outlined
+                    small
+                  >
+                    Edit
+                    <v-icon>mdi-pencil-outline</v-icon>
+                  </v-btn>
+                </v-col>
+                <v-col>
+                  <v-btn
+                    v-on:click="removeTest(test.id)"
+                    color="red"
+                    outlined
+                    small
+                    >Delete
+                    <v-icon>mdi-delete-empty</v-icon>
+                  </v-btn>
+                </v-col>
+                <v-col>
+                  <v-btn
+                    v-on:click="addResults(test.id)"
+                    color="secondary"
+                    outlined
+                    small
+                    >add results
+                    <v-icon>mdi-plus</v-icon>
+                  </v-btn>
+                </v-col>
+              </v-card>
+            </v-menu>
+          </v-card-title>
+          <v-spacer></v-spacer>
+          <v-row>
+            <v-list-item v-for="(question, index) in test.questions">
+              <v-list-item-content>
+                <v-list-item-title class="headline text-wrap">
+                  {{ index + 1 }}
+                  &nbsp;
+                  {{ question.question }}
+                  <v-btn
+                          v-if="isEditedTest(test.id)"
+                          @click="removeQuestion(question.id)"
+                          color="red"
+                          outlined
+                          fab
+                          x-small
+                  >
+                    <v-icon>mdi-delete-empty</v-icon>
+                  </v-btn>
+                </v-list-item-title>
+                <v-card-text v-if="question.choiceTest">
+                  <v-list-item-subtitle v-for="answers in question.answers">
+                    <v-col cols="12" sm="6" md="3">
+                      <v-icon small :color="answers.correct ? 'green' : 'red'">
+                        {{ answers.correct ? 'mdi-check' : 'mdi-block-helper' }}
+                      </v-icon>
+                      {{ answers.answer }}
+                    </v-col>
+                  </v-list-item-subtitle>
+                </v-card-text>
+              </v-list-item-content>
+              <v-col cols="12" sm="6" md="3">
+                <v-text-field label="points" dense solo/>
+              </v-col>
+            </v-list-item>
+          </v-row>
         </v-card>
       </v-col>
     </v-row>
@@ -74,6 +109,7 @@ export default {
   data() {
     return {
       editedTest: null,
+      offset: true,
     };
   },
   methods: {

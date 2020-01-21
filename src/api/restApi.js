@@ -253,7 +253,8 @@ export const restApi = {
         return response.data;
       });
   },
-  addResultsForTest(test ){
+  addResultsForTest(testid, results){
+
 
   },
 /*  sendMessage(message, recipientId) {
