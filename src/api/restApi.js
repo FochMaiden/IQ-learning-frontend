@@ -249,7 +249,10 @@ export const restApi = {
         return response.data;
       });
   },
-  sendMessage(message, recipientId) {
+  addResults(){
+
+  },
+/*  sendMessage(message, recipientId) {
     return this.axiosProxy
       .put('/chat/send', {
         message: message,
@@ -258,7 +261,7 @@ export const restApi = {
       .then(response => {
         return response.data;
       });
-  },
+  },*/
   getMessages(id) {
     return this.axiosProxy.get(`/chat/get/` + id).then(response => {
       return response.data;

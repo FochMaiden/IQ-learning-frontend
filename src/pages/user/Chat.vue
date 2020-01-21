@@ -92,7 +92,7 @@
           </v-list>
           <v-divider></v-divider>
           <v-card-actions>
-            <v-form @submit.prevent="sendMessage" class="flex flex-wrap">
+            <v-form ref="form" @submit.prevent="sendMessage" class="flex flex-wrap">
               <v-text-field
                 clearable
                 hide-details
@@ -109,13 +109,12 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-btn @click="startconvo">fd</v-btn>
   </v-container>
 </template>
 
 <script>
-import { restApi } from '../../api/restApi';
-import { stompClientSocket } from '../../api/wsApi';
-import store from "../../store/store";
+  import { stompClientSocket } from '../../api/wsApi';
 
 export default {
   name: 'Chat',
@@ -142,11 +141,12 @@ export default {
         this.selectedUser.id,
         this.$auth.user().id
       );
+      this.$refs.form.reset()
       this.scrollToEnd();
     },
-/*    startconvo(){
-      stompClientSocket.startConversation('blep',2, 5)
-    }*/
+    startconvo(){
+      stompClientSocket.startConversation('blep',3, 5)
+    }
   },
 };
 </script>

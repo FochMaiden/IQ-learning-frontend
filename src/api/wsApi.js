@@ -29,7 +29,6 @@ export const stompClientSocket = {
     return this.stompClient.subscribe('/topic/' + id, async sendMessage => {
       //console.log(JSON.parse(sendMessage.body).body, id);
       if (JSON.parse(sendMessage.body).body&& JSON.parse(sendMessage.body).body.conversationId){
-
       await store.commit('addMessage', JSON.parse(sendMessage.body).body);
       }
       //console.log('userchat', JSON.parse(sendMessage.body).content, id);
