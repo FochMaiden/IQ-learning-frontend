@@ -11,7 +11,6 @@
               :key="user.name"
               @click="selectUser(user, k)"
             >
-              {{ k }}
               <v-list-item-avatar v-if="user.avatar">
                 <v-img :src="user.avatar"></v-img>
               </v-list-item-avatar>
@@ -30,21 +29,6 @@
           </v-list>
 
           <v-divider></v-divider>
-
-          <!--          <v-list subheader>
-            <v-subheader>Previous chats</v-subheader>
-
-            <v-list-item v-for="item in items2" :key="item.title" @click="">
-              <v-list-item-avatar>
-                <v-img :src="item.avatar"></v-img>
-              </v-list-item-avatar>
-
-              <v-list-item-content>
-                <v-list-item-title v-text="item.title"></v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-
-          </v-list>-->
         </v-card>
       </v-col>
       <v-col cols="8" v-if="selectedUser">
@@ -57,24 +41,30 @@
             style="max-height: 30vh"
             class="overflow-y-auto d-flex flex-column"
           >
-            <!--           id:96
-            message:"a"
-            read:false
-            recipient:4
-            sender:5
-            sent:"2020-01-16T17:09:35.473+0000"-->
-            <v-list-item v-for="message in $store.getters.messages[selectedUserConvoId]">
+            <v-list-item
+              v-for="message in $store.getters.messages[selectedUserConvoId]"
+            >
               <v-container fluid class="pa-0">
                 <v-avatar
-                  v-if="$auth.user().avatar"
-                  size="20"
+                  size="30"
                   :class="
                     message.sender !== $auth.user().id
                       ? 'float-left'
                       : 'float-right'
                   "
-                  ><v-img :src="$auth.user().avatar"></v-img
-                ></v-avatar>
+                  ><v-img
+                    v-if="
+                      $auth.user().avatar && message.sender === $auth.user().id
+                    "
+                    :src="$auth.user().avatar"
+                  />
+                  <v-img
+                    v-if="
+                      selectedUser.avatar && message.sender === selectedUser.id
+                    "
+                    :src="selectedUser.avatar"
+                  />
+                </v-avatar>
                 <v-card
                   :class="
                     message.sender !== $auth.user().id
@@ -92,15 +82,19 @@
           </v-list>
           <v-divider></v-divider>
           <v-card-actions>
-            <v-form ref="form" @submit.prevent="sendMessage" class="flex flex-wrap">
+            <v-form
+              ref="form"
+              @submit.prevent="sendMessage"
+              class="flex flex-wrap"
+            >
               <v-text-field
-                clearable
-                hide-details
-                outlined
-                dense
-                v-model="message"
-                class="ma-2"
-              ></v-text-field>
+                      clearable
+                      hide-details
+                      outlined
+                      dense
+                      v-model="message"
+                      class="ma-2"
+              />
               <v-btn outlined class="ma-2" type="submit" color="primary"
                 >send
               </v-btn>
@@ -109,12 +103,11 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-btn @click="startconvo">fd</v-btn>
   </v-container>
 </template>
 
 <script>
-  import { stompClientSocket } from '../../api/wsApi';
+import { stompClientSocket } from '../../api/wsApi';
 
 export default {
   name: 'Chat',
@@ -133,6 +126,7 @@ export default {
     selectUser(user, convoId) {
       this.selectedUser = user;
       this.selectedUserConvoId = convoId;
+      //this.scrollToEnd();
     },
     sendMessage() {
       stompClientSocket.sendMessage(
@@ -141,12 +135,12 @@ export default {
         this.selectedUser.id,
         this.$auth.user().id
       );
-      this.$refs.form.reset()
+      this.$refs.form.reset();
       this.scrollToEnd();
     },
-    startconvo(){
-      stompClientSocket.startConversation('blep',3, 5)
-    }
+    startconvo() {
+      stompClientSocket.startConversation('blep', 3, 5);
+    },
   },
 };
 </script>

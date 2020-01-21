@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Vue from 'vue';
+import {stompClientSocket} from "./wsApi";
 
 const errorHandler = error => {
   //console.log('Error response',error.response, 'code' , error.response.status);
@@ -39,9 +40,12 @@ export const restApi = {
           password: password,
         },
         rememberMe: rememberMe,
-        success: function(response) {
+        success: async function(response) {
           this.$auth.user(response.data);
           this.$auth.token(null, response.data.sessionID);
+          if (response.data.conversations !== {}){
+            await stompClientSocket.connect(response.data.id, response.data.conversations);
+          } else stompClientSocket.connect(response.data.id, null);
         },
       })
       .then(response => {
@@ -249,7 +253,7 @@ export const restApi = {
         return response.data;
       });
   },
-  addResults(){
+  addResultsForTest(test ){
 
   },
 /*  sendMessage(message, recipientId) {
