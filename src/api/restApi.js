@@ -1,12 +1,12 @@
 import axios from 'axios';
 import Vue from 'vue';
+import {stompClientSocket} from "./wsApi";
 
 const errorHandler = error => {
   //console.log('Error response',error.response, 'code' , error.response.status);
   if (error.response.status === 401) {
     //Vue.auth.logout();
-  } else
-  return error;
+  } else return error;
 };
 const successHandler = response => {
   return response;
@@ -40,9 +40,12 @@ export const restApi = {
           password: password,
         },
         rememberMe: rememberMe,
-        success: function(response) {
+        success: async function(response) {
           this.$auth.user(response.data);
           this.$auth.token(null, response.data.sessionID);
+          if (response.data.conversations !== {}){
+            await stompClientSocket.connect(response.data.id, response.data.conversations);
+          } else stompClientSocket.connect(response.data.id, null);
         },
       })
       .then(response => {
@@ -164,7 +167,6 @@ export const restApi = {
         id: id,
       })
       .then(response => {
-        console.log(response);
         return { q: response.data.question, msg: 'Question updated' };
       })
       .catch(err => {
@@ -251,7 +253,22 @@ export const restApi = {
         return response.data;
       });
   },
-    sendMessage(){
+  addResultsForTest(test ){
 
-    }
+  },
+/*  sendMessage(message, recipientId) {
+    return this.axiosProxy
+      .put('/chat/send', {
+        message: message,
+        recipient: recipientId,
+      })
+      .then(response => {
+        return response.data;
+      });
+  },*/
+  getMessages(id) {
+    return this.axiosProxy.get(`/chat/get/` + id).then(response => {
+      return response.data;
+    });
+  },
 };

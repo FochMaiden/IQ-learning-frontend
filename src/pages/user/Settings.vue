@@ -70,14 +70,18 @@
                             dense
                           ></v-select>
                           <v-select
-                            v-if="!avatar.selectedItemClothes.includes('Blazer')"
+                            v-if="
+                              !avatar.selectedItemClothes.includes('Blazer')
+                            "
                             :items="avatar.itemsColorClothes"
                             v-model="avatar.selectedItemColorClothes"
                             label="Clothes color"
                             dense
                           ></v-select>
                           <v-select
-                            v-if="avatar.selectedItemClothes.includes('Graphic')"
+                            v-if="
+                              avatar.selectedItemClothes.includes('Graphic')
+                            "
                             :items="avatar.itemsGraphicClothes"
                             v-model="avatar.selectedItemGraphicClothes"
                             label="Clothes Graphic"
@@ -162,7 +166,7 @@
                       <v-icon>{{ social.icon }}</v-icon>
                     </v-btn>
                   </template>
-                  <v-card class="pa-3">
+                  <v-card max-width="40vh" class="pa-3">
                     <v-list-item-content>
                       <v-list-item-title
                         >Add or edit your
@@ -395,7 +399,7 @@ export default {
     avatarUrl() {
       return (
         `https://avataaars.io/?avatarStyle=Transparent&topType=` +
-        this.selectedItemTop +
+        this.avatar.selectedItemTop +
         `&accessoriesType=` +
         this.avatar.selectedItemAccessories +
         `&hairColor=` +

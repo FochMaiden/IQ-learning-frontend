@@ -19,14 +19,14 @@
       </v-col>
       <v-col cols="12" sm="6" md="8">
         <v-text-field
-          :name="row.answer"
-          v-on:change="emitToParent"
-          label="Answer"
-          id="answer"
-          dense
-          hide-details
-          v-model="row.answer"
-        ></v-text-field>
+                :name="row.answer"
+                v-on:change="emitToParent"
+                label="Answer"
+                id="answer"
+                dense
+                hide-details
+                v-model="row.answer"
+        />
       </v-col>
       <v-col class="flex justify-center ma-auto">
         <v-btn

@@ -81,14 +81,14 @@
                     <v-row>
                       <v-col cols="12" sm="4" md="6">
                         <v-textarea
-                          name="question"
-                          label="Question"
-                          id="question"
-                          auto-grow
-                          rows="1"
-                          v-model="editedItem.question"
-                          :rules="[required('question')]"
-                        ></v-textarea>
+                                name="question"
+                                label="Question"
+                                id="question"
+                                auto-grow
+                                rows="1"
+                                v-model="editedItem.question"
+                                :rules="[required('question')]"
+                        />
                       </v-col>
                       <v-col class="flex justify-center ma-auto">
                         <v-btn
@@ -126,10 +126,10 @@
                       </v-col>
                     </v-row>
                     <ButtonCounter
-                      v-if="editedItem.choiceTest === true"
-                      :rows="editedItem.answers"
-                      v-on:childToParent="onChildClick"
-                    ></ButtonCounter>
+                            v-if="editedItem.choiceTest === true"
+                            :rows="editedItem.answers"
+                            v-on:childToParent="onChildClick"
+                    />
                     <p>{{ error }}</p>
                   </form>
                 </v-container>
@@ -218,24 +218,32 @@
               ><v-icon>mdi-plus</v-icon>Create test from selection</v-btn
             ></template
           >
-          <v-card>
+          <v-card class="pa-4">
             <v-card-title>
               Test
             </v-card-title>
-            <v-card-text>
-              <v-row class="ma-3" v-for="(question, index) in filteredSelect">
+            <v-card-text  v-for="(question, index) in filteredSelect" v-bind:key="index">
+              <v-row >
                 {{ index + 1 }}. {{ question.question }}
+              </v-row>
+              <v-row>
                 <v-col
-                  class="mt-4"
+                        class="flex justify-center ma-auto"
                   v-if="question.choiceTest"
                   v-for="answer in question.answers"
                 >
                   {{ answer.answer }}
+                  <v-icon small :color="answer.correct ? 'green' : 'red'">
+                    {{ answer.correct ? 'mdi-check' : 'mdi-block-helper' }}
+                  </v-icon>
                 </v-col>
               </v-row>
             </v-card-text>
+            <v-card-actions>
+              <div class="flex-grow-1"></div>
             <v-btn color="red" outlined @click="closeTest">Cancel</v-btn>
             <v-btn class="primary" dark outlined @click="addTest">Save</v-btn>
+            </v-card-actions>
           </v-card>
         </v-dialog>
       </template>

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import { stompClientSocket } from './api/wsApi';
 
 //compbell
 axios.defaults.baseURL = 'http://localhost:8080';
@@ -120,6 +121,9 @@ Vue.use(require('@websanova/vue-auth'), {
     url: '/user/logout',
     method: 'DELETE',
     success: function(d) {
+      if (stompClientSocket.stompClient.connected) {
+        stompClientSocket.disconnect();
+      }
       console.log('logout: ');
     },
     error: function(d) {
@@ -131,8 +135,14 @@ Vue.use(require('@websanova/vue-auth'), {
     url: '/user/fetch',
     method: 'GET',
     enabled: true,
-    success: function(d) {
-      Vue.auth.user(d.data);
+    success: async function(d) {
+      //console.log(d.data)
+      if (d.data) {
+        Vue.auth.user(d.data);
+        if (d.data.conversations !== {}) {
+          await stompClientSocket.connect(d.data.id, d.data.conversations);
+        } else stompClientSocket.connect(d.data.id, null);
+      }
     },
   },
 });
