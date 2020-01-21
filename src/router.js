@@ -133,11 +133,13 @@ Vue.use(require('@websanova/vue-auth'), {
     method: 'GET',
     enabled: true,
     success: async function(d) {
-      console.log(d.data)
+      //console.log(d.data)
 
       if (d.data){
         Vue.auth.user(d.data);
-        await stompClientSocket.connect(d.data.id);
+        if (d.data.conversations !== {}){
+        await stompClientSocket.connect(d.data.id, d.data.conversations);
+        } else stompClientSocket.connect(d.data.id, null);
       }
 
       //{}

@@ -1,12 +1,14 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
 import { restApi } from '../api/restApi';
-import { merge } from '../util/utilFunctions';
+import { merge, sortItems } from '../util/utilFunctions';
 
 Vue.use(Vuex);
 
 function initialState() {
   return {
+    messages: null,
+
     subjects: null,
 
     loadingQuestions: true,
@@ -28,6 +30,8 @@ function initialState() {
 export default new Vuex.Store({
   state: initialState,
   getters: {
+    messages: state => state.messages,
+
     subjects: state => state.subjects,
 
     userQuestions: state => state.userQuestions,
@@ -41,10 +45,16 @@ export default new Vuex.Store({
     filteredPublicTests: state => state.filteredPublicTests,
   },
   mutations: {
+    setMessages(state, data) {
+      state.messages = { ...state.messages, [data[0].conversationId]: data };
+    },
+    addMessage(state, data) {
+      //why the heck is this working
+      state.messages[data.conversationId].push(data);
+    },
     setSubjects(state, data) {
       state.subjects = data;
     },
-
     setQuestionsLoading(state, data) {
       state.loadingQuestions = data;
     },

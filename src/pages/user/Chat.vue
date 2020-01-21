@@ -7,11 +7,12 @@
             <v-subheader>Recent chat</v-subheader>
             <v-list-item
               dense
-              v-for="user in users"
+              v-for="(user, k, i) in $auth.user().conversations"
               :key="user.name"
-              @click="selectUser(user)"
+              @click="selectUser(user, k)"
             >
-              <v-list-item-avatar>
+              {{ k }}
+              <v-list-item-avatar v-if="user.avatar">
                 <v-img :src="user.avatar"></v-img>
               </v-list-item-avatar>
 
@@ -19,13 +20,12 @@
                 <v-list-item
                   class="overline font-weight-bold"
                   style="font-size: small !important;"
-                  v-text="user.name"
+                  v-text="user.username"
                 ></v-list-item>
               </v-list-item-content>
-
-              <v-list-item-action class="overline">
+              <!--              <v-list-item-action class="overline">
                 {{ user.date }}
-              </v-list-item-action>
+              </v-list-item-action>-->
             </v-list-item>
           </v-list>
 
@@ -50,12 +50,12 @@
       <v-col cols="8" v-if="selectedUser">
         <v-card elevation="4">
           <v-card-title>
-            {{ selectedUser.name }}
+            {{ selectedUser.username }}
           </v-card-title>
           <v-list
-            id="blep"
+            id="chat"
             style="max-height: 30vh"
-            class="overflow-y-auto d-flex flex-column-reverse"
+            class="overflow-y-auto d-flex flex-column"
           >
             <!--           id:96
             message:"a"
@@ -63,7 +63,7 @@
             recipient:4
             sender:5
             sent:"2020-01-16T17:09:35.473+0000"-->
-            <v-list-item v-for="message in selectedUser.messages">
+            <v-list-item v-for="message in $store.getters.messages[selectedUserConvoId]">
               <v-container fluid class="pa-0">
                 <v-avatar
                   v-if="$auth.user().avatar"
@@ -115,68 +115,38 @@
 <script>
 import { restApi } from '../../api/restApi';
 import { stompClientSocket } from '../../api/wsApi';
+import store from "../../store/store";
 
 export default {
   name: 'Chat',
-  computed: {
-    className() {
-      return this.data;
-    },
-  },
   data() {
     return {
       selectedUser: null,
+      selectedUserConvoId: null,
       message: null,
-      users: [
-        {
-          id: 4,
-          name: 'Archangel',
-          avatar: '',
-          messages: [],
-          date: '21.06.2019',
-        },
-        {
-          id: 5,
-          name: 'FochMaiden',
-          avatar: '',
-          messages: [],
-          date: '21.06.2019',
-        },
-      ],
     };
   },
   methods: {
     scrollToEnd() {
-      let container = this.$el.querySelector('#blep');
-      container.scrollTop = container.scrollHeight;
+      let container = this.$el.querySelector('#chat');
+      container.scrollTop = container.scrollHeight - container.clientHeight;
     },
-    selectUser(user) {
+    selectUser(user, convoId) {
       this.selectedUser = user;
-      stompClientSocket.startConversation("blep",this.selectedUser.id,
-              this.$auth.user().id )
-      this.getMessages();
+      this.selectedUserConvoId = convoId;
     },
     sendMessage() {
       stompClientSocket.sendMessage(
+        this.selectedUserConvoId,
         this.message,
         this.selectedUser.id,
         this.$auth.user().id
       );
-
-  /*    restApi.sendMessage(this.message, this.selectedUser.id).then(r => {
-        this.message = null;
-        this.getMessages();
-      });*/
+      this.scrollToEnd();
     },
-    getMessages() {
-      restApi.getMessages(this.selectedUser.id).then(response => {
-        this.selectedUser = {
-          ...this.selectedUser,
-          messages: response,
-        };
-        this.scrollToEnd();
-      });
-    },
+/*    startconvo(){
+      stompClientSocket.startConversation('blep',2, 5)
+    }*/
   },
 };
 </script>
