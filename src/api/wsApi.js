@@ -29,7 +29,7 @@ export const stompClientSocket = {
     });
   },
   startConversation(message, recipient, sender){
-    this.stompClient.send('/startConversation/'+recipient,JSON.stringify( {
+    this.stompClient.send('/chat/startConversation/'+recipient,JSON.stringify( {
       message:message,
       recipient: recipient,
       sender: sender

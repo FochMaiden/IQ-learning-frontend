@@ -222,8 +222,8 @@
             <v-card-title>
               Test
             </v-card-title>
-            <v-card-text>
-              <v-row class="ma-3" v-for="(question, index) in filteredSelect">
+            <v-card-text class="">
+              <v-row class="ma-3" v-for="(question, index) in filteredSelect" v-bind:key="index">
                 {{ index + 1 }}. {{ question.question }}
                 <v-col
                   class="mt-4"
@@ -231,6 +231,9 @@
                   v-for="answer in question.answers"
                 >
                   {{ answer.answer }}
+                  <v-icon small :color="answer.correct ? 'green' : 'red'">
+                    {{ answer.correct ? 'mdi-check' : 'mdi-block-helper' }}
+                  </v-icon>
                 </v-col>
               </v-row>
             </v-card-text>
