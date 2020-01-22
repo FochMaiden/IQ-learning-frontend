@@ -6,6 +6,24 @@
           <v-card-title>
             <span class="headline">Test number {{ test.id }}</span>
             <v-spacer></v-spacer>
+            <v-col>
+              <v-btn
+                      v-on:click="addResults(test)"
+                      color="secondary"
+                      outlined
+                      small
+              >add results
+              </v-btn>
+            </v-col>
+            <v-col>
+              <v-btn
+                      v-on:click="seeResults(test.id, test.questions)"
+                      color="green"
+                      outlined
+                      small
+              >See results
+              </v-btn>
+            </v-col>
             <v-menu right :offset-x="offset">
               <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on">
@@ -38,15 +56,6 @@
                     small
                     >Delete
                     <v-icon>mdi-delete-empty</v-icon>
-                  </v-btn>
-                </v-col>
-                <v-col>
-                  <v-btn
-                    v-on:click="addResults(test)"
-                    color="secondary"
-                    outlined
-                    small
-                    >add results
                   </v-btn>
                 </v-col>
               </v-card>
@@ -211,6 +220,14 @@ export default {
         this.resultsTestId = null;
         this.points = {};
         this.loadingResults = false;
+      });
+    },
+    seeResults(id, questions) {
+      for (const question of questions){
+        restApi.getResultsForQuestion(question.id)
+      }
+      restApi.getResultsForTest(id).then(response => {
+        console.log(response);
       });
     },
   },

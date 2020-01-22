@@ -275,7 +275,6 @@ export const restApi = {
   },
   getResultsForTest(id) {
     return this.axiosProxy.get(`/results/get/test/` + id).then(response => {
-      console.log(response.data);
       return response.data;
     });
   },
