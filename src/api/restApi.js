@@ -256,6 +256,13 @@ export const restApi = {
         return response.data;
       });
   },
+  downloadTest(id, groups) {
+    return this.axiosProxy
+      .get(`/test/print/` + id + `/` + groups)
+      .then(response => {
+        return response.data;
+      });
+  },
   addResultsForTest(testid, results) {
     return this.axiosProxy
       .put('/results/add', {
@@ -266,31 +273,25 @@ export const restApi = {
         return response.data;
       });
   },
-  getResultsForTest(id){
-    return this.axiosProxy
-      .get(`/results/get/test/` + id)
-      .then(response => {
-        console.log(response.data)
-        return response.data;
-      });
+  getResultsForTest(id) {
+    return this.axiosProxy.get(`/results/get/test/` + id).then(response => {
+      console.log(response.data);
+      return response.data;
+    });
   },
-  getResultsForQuestion(id){
-    return this.axiosProxy
-      .get(`/results/get/question/` + id)
-      .then(response => {
-        console.log(response.data)
-        return response.data;
-      });
+  getResultsForQuestion(id) {
+    return this.axiosProxy.get(`/results/get/question/` + id).then(response => {
+      console.log(response.data);
+      return response.data;
+    });
   },
-  deleteResultsForTest(id){
-    return this.axiosProxy
-      .delete(`/results/get/test/` + id)
-      .then(response => {
-        console.log(response.data)
-        return response.data;
-      });
+  deleteResultsForTest(id) {
+    return this.axiosProxy.delete(`/results/get/test/` + id).then(response => {
+      console.log(response.data);
+      return response.data;
+    });
   },
-  updateResultsForTest(testid, results){
+  updateResultsForTest(testid, results) {
     return this.axiosProxy
       .put('/results/add', {
         testId: testid,

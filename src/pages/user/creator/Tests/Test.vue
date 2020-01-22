@@ -14,6 +14,12 @@
               </template>
               <v-card>
                 <v-col>
+                  <v-btn v-on:click="downloadTest(test.id)" outlined small
+                    >Download
+                    <v-icon>mdi-download-outline</v-icon>
+                  </v-btn>
+                </v-col>
+                <v-col>
                   <v-btn
                     v-on:click="isEditing(test)"
                     color="blue"
@@ -41,7 +47,6 @@
                     outlined
                     small
                     >add results
-                    <v-icon>mdi-plus</v-icon>
                   </v-btn>
                 </v-col>
               </v-card>
@@ -52,8 +57,7 @@
             <v-list-item v-for="(question, index) in test.questions">
               <v-list-item-content>
                 <v-list-item-title class="headline text-wrap">
-                  {{ index + 1 }}.
-                  &nbsp;
+                  {{ index + 1 }}. &nbsp;
                   {{ question.question }}
                   <v-btn
                     v-if="isEditedTest(test.id)"
@@ -89,8 +93,13 @@
               </v-col>
             </v-list-item>
           </v-row>
-          <v-card-actions >
-            <v-btn v-if="isAddingResults(test.id)" :loading="loadingResults" @click="saveResults">save results</v-btn>
+          <v-card-actions>
+            <v-btn
+              v-if="isAddingResults(test.id)"
+              :loading="loadingResults"
+              @click="saveResults"
+              >save results</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-col>
@@ -101,6 +110,7 @@
 <script>
 import store from '../../../../store/store';
 import { restApi } from '../../../../api/restApi';
+import { dwnld } from '../../../../util/utilFunctions';
 
 export default {
   name: 'Test',
@@ -162,6 +172,11 @@ export default {
         this.getTests();
       });
     },
+    downloadTest(id) {
+      restApi.downloadTest(id, 2).then(response => {
+        dwnld(response, id);
+      });
+    },
     removeQuestion(id) {
       let questions = this.editedTest.questions.map(o => o.id);
       questions = questions.filter(o => o !== id);
@@ -184,18 +199,19 @@ export default {
       this.loadingResults = true;
       let results = [];
       for (let [key, value] of Object.entries(this.points)) {
-        results = [...results, {
-          questionId: key,
-          points: value,
-        }];
+        results = [
+          ...results,
+          {
+            questionId: key,
+            points: value,
+          },
+        ];
       }
-      restApi.addResultsForTest(this.resultsTestId, results).then(response=>{
-        console.log(response)
+      restApi.addResultsForTest(this.resultsTestId, results).then(response => {
         this.resultsTestId = null;
-        this.points= {}
+        this.points = {};
         this.loadingResults = false;
       });
-      console.log(results, this.resultsTestId);
     },
   },
 };
