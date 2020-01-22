@@ -31,7 +31,7 @@
           <v-divider></v-divider>
         </v-card>
       </v-col>
-      <v-col cols="8" md='8' sm='12' v-if="selectedUser">
+      <v-col lg='8' md='12' sm='12' v-if="selectedUser">
         <v-card elevation="4">
           <v-card-title>
             {{ selectedUser.username }}

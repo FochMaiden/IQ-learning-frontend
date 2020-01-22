@@ -56,29 +56,35 @@
                   &nbsp;
                   {{ question.question }}
                   <v-btn
-                          v-if="isEditedTest(test.id)"
-                          @click="removeQuestion(question.id)"
-                          color="red"
-                          outlined
-                          fab
-                          x-small
+                    v-if="isEditedTest(test.id)"
+                    @click="removeQuestion(question.id)"
+                    color="red"
+                    outlined
+                    fab
+                    x-small
                   >
                     <v-icon>mdi-delete-empty</v-icon>
                   </v-btn>
                 </v-list-item-title>
                 <v-card-text v-if="question.choiceTest">
-                  <v-list-item-subtitle v-for="answers in question.answers">
+                  <v-list-item-subtitle v-for="answer in question.answers">
                     <v-col cols="12" sm="6" md="3">
-                      <v-icon small :color="answers.correct ? 'green' : 'red'">
-                        {{ answers.correct ? 'mdi-check' : 'mdi-block-helper' }}
+                      <v-icon small :color="answer.correct ? 'green' : 'red'">
+                        {{ answer.correct ? 'mdi-check' : 'mdi-block-helper' }}
                       </v-icon>
-                      {{ answers.answer }}
+                      {{ answer.answer }}
                     </v-col>
                   </v-list-item-subtitle>
                 </v-card-text>
               </v-list-item-content>
-              <v-col cols="12" sm="6" md="3">
-                <v-text-field label="points" dense solo/>
+              <v-col cols="12" sm="6" md="2">
+                <v-select
+                  hide-details
+                  dense
+                  solo
+                  v-model="points[question.id]"
+                  :items="items(question.correctAnswers)"
+                />
               </v-col>
             </v-list-item>
           </v-row>
@@ -105,9 +111,19 @@ export default {
     route() {
       return this.$route.params.subject.split('=')[1];
     },
+    items() {
+      return function(q) {
+        let list = [];
+        for (let i = 0; i <= q; i++) {
+          list.push(i);
+        }
+        return list;
+      };
+    },
   },
   data() {
     return {
+      points: {},
       editedTest: null,
       offset: true,
     };
@@ -145,6 +161,9 @@ export default {
         this.getTests();
       });
     },
+    addResults(id){
+
+    }
   },
 };
 </script>

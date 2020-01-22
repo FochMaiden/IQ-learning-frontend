@@ -255,7 +255,6 @@ export const restApi = {
   },
   addResultsForTest(testid, results){
 
-
   },
 /*  sendMessage(message, recipientId) {
     return this.axiosProxy
