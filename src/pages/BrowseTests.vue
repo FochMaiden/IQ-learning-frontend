@@ -86,8 +86,12 @@ export default {
   methods: {
     clear() {},
     remove(item) {
-      this.selectedSubjects.splice(this.selectedSubjects.indexOf(item), 1);
-      this.selectedSubjects = [...this.selectedSubjects];
+      if (this.selectedSubjects.length === 1) {
+        this.selectedSubjects = null;
+      } else {
+        this.selectedSubjects.splice(this.selectedSubjects.indexOf(item), 1);
+        this.selectedSubjects = [...this.selectedSubjects];
+      }
     },
   },
 };

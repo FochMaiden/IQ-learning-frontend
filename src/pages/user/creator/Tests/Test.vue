@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="6" v-for="test in tests">
+      <v-col cols="6" md="6" sm="12" v-for="test in tests">
         <v-card>
           <v-card-title>
             <span class="headline">Test number {{ test.id }}</span>
@@ -36,7 +36,7 @@
                 </v-col>
                 <v-col>
                   <v-btn
-                    v-on:click="addResults(test.id)"
+                    v-on:click="addResults(test)"
                     color="secondary"
                     outlined
                     small
@@ -52,7 +52,7 @@
             <v-list-item v-for="(question, index) in test.questions">
               <v-list-item-content>
                 <v-list-item-title class="headline text-wrap">
-                  {{ index + 1 }}
+                  {{ index + 1 }}.
                   &nbsp;
                   {{ question.question }}
                   <v-btn
@@ -77,8 +77,9 @@
                   </v-list-item-subtitle>
                 </v-card-text>
               </v-list-item-content>
-              <v-col cols="12" sm="6" md="2">
+              <v-col cols="4" sm="2" md="2">
                 <v-select
+                  v-if="isAddingResults(test.id)"
                   hide-details
                   dense
                   solo
@@ -88,6 +89,9 @@
               </v-col>
             </v-list-item>
           </v-row>
+          <v-card-actions >
+            <v-btn v-if="isAddingResults(test.id)" :loading="loadingResults" @click="saveResults">save results</v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -113,6 +117,9 @@ export default {
     },
     items() {
       return function(q) {
+        if (q === 0) {
+          return [0, 1];
+        }
         let list = [];
         for (let i = 0; i <= q; i++) {
           list.push(i);
@@ -124,6 +131,8 @@ export default {
   data() {
     return {
       points: {},
+      resultsTestId: null,
+      loadingResults: false,
       editedTest: null,
       offset: true,
     };
@@ -161,9 +170,33 @@ export default {
         this.getTests();
       });
     },
-    addResults(id){
-
-    }
+    addResults(test) {
+      if (test.id === this.resultsTestId) {
+        return (this.resultsTestId = null);
+      } else this.resultsTestId = test.id;
+    },
+    isAddingResults(id) {
+      if (this.resultsTestId && id) {
+        return this.resultsTestId === id;
+      } else return false;
+    },
+    saveResults() {
+      this.loadingResults = true;
+      let results = [];
+      for (let [key, value] of Object.entries(this.points)) {
+        results = [...results, {
+          questionId: key,
+          points: value,
+        }];
+      }
+      restApi.addResultsForTest(this.resultsTestId, results).then(response=>{
+        console.log(response)
+        this.resultsTestId = null;
+        this.points= {}
+        this.loadingResults = false;
+      });
+      console.log(results, this.resultsTestId);
+    },
   },
 };
 </script>

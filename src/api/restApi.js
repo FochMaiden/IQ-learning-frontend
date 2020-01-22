@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Vue from 'vue';
-import {stompClientSocket} from "./wsApi";
+import { stompClientSocket } from './wsApi';
 
 const errorHandler = error => {
   //console.log('Error response',error.response, 'code' , error.response.status);
@@ -43,8 +43,11 @@ export const restApi = {
         success: async function(response) {
           this.$auth.user(response.data);
           this.$auth.token(null, response.data.sessionID);
-          if (response.data.conversations !== {}){
-            await stompClientSocket.connect(response.data.id, response.data.conversations);
+          if (response.data.conversations !== {}) {
+            await stompClientSocket.connect(
+              response.data.id,
+              response.data.conversations
+            );
           } else stompClientSocket.connect(response.data.id, null);
         },
       })
@@ -253,10 +256,52 @@ export const restApi = {
         return response.data;
       });
   },
-  addResultsForTest(testid, results){
-
+  addResultsForTest(testid, results) {
+    return this.axiosProxy
+      .put('/results/add', {
+        testId: testid,
+        resultList: results,
+      })
+      .then(response => {
+        return response.data;
+      });
   },
-/*  sendMessage(message, recipientId) {
+  getResultsForTest(id){
+    return this.axiosProxy
+      .get(`/results/get/test/` + id)
+      .then(response => {
+        console.log(response.data)
+        return response.data;
+      });
+  },
+  getResultsForQuestion(id){
+    return this.axiosProxy
+      .get(`/results/get/question/` + id)
+      .then(response => {
+        console.log(response.data)
+        return response.data;
+      });
+  },
+  deleteResultsForTest(id){
+    return this.axiosProxy
+      .delete(`/results/get/test/` + id)
+      .then(response => {
+        console.log(response.data)
+        return response.data;
+      });
+  },
+  updateResultsForTest(testid, results){
+    return this.axiosProxy
+      .put('/results/add', {
+        testId: testid,
+        resultList: results,
+      })
+      .then(response => {
+        return response.data;
+      });
+  },
+
+  /*  sendMessage(message, recipientId) {
     return this.axiosProxy
       .put('/chat/send', {
         message: message,
