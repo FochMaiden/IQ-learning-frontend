@@ -31,54 +31,44 @@
           <v-divider></v-divider>
         </v-card>
       </v-col>
-      <v-col cols="8" v-if="selectedUser">
+      <v-col cols="8" md='8' sm='12' v-if="selectedUser">
         <v-card elevation="4">
           <v-card-title>
             {{ selectedUser.username }}
           </v-card-title>
           <v-list
             id="chat"
-            style="max-height: 30vh"
+            style="max-height: 50vh"
             class="overflow-y-auto d-flex flex-column"
           >
-            <v-list-item
+            <div
               v-for="message in $store.getters.messages[selectedUserConvoId]"
+              class="pa-2 flex d-inline-flex"
+              :class="
+                message.sender !== $auth.user().id
+                  ? 'align-self-start'
+                  : 'align-self-end'
+              "
             >
-              <v-container fluid class="pa-0">
-                <v-avatar
-                  size="30"
-                  :class="
-                    message.sender !== $auth.user().id
-                      ? 'float-left'
-                      : 'float-right'
-                  "
-                  ><v-img
-                    v-if="
-                      $auth.user().avatar && message.sender === $auth.user().id
-                    "
-                    :src="$auth.user().avatar"
-                  />
-                  <v-img
-                    v-if="
-                      selectedUser.avatar && message.sender === selectedUser.id
-                    "
-                    :src="selectedUser.avatar"
-                  />
-                </v-avatar>
-                <v-card
-                  :class="
-                    message.sender !== $auth.user().id
-                      ? 'float-left pa-2'
-                      : 'float-right pa-2'
-                  "
-                  color="primary"
-                >
-                  <v-list-item-content class="pa-0 ma-0">{{
-                    message.message
-                  }}</v-list-item-content>
-                </v-card>
-              </v-container>
-            </v-list-item>
+              <v-avatar
+                v-if="selectedUser.avatar && message.sender === selectedUser.id"
+                size="30"
+                color="accent"
+              >
+                <v-img :src="selectedUser.avatar" />
+              </v-avatar>
+              <v-card class="ma-2 ma-2" color="primary">
+                <v-list-item-content class="pa-0 ma-2">{{
+                  message.message
+                }}</v-list-item-content>
+              </v-card>
+              <v-avatar
+                v-if="$auth.user().avatar && message.sender === $auth.user().id"
+                size="30"
+                color="accent"
+                ><v-img :src="$auth.user().avatar"
+              /></v-avatar>
+            </div>
           </v-list>
           <v-divider></v-divider>
           <v-card-actions>
@@ -88,12 +78,12 @@
               class="flex flex-wrap"
             >
               <v-text-field
-                      clearable
-                      hide-details
-                      outlined
-                      dense
-                      v-model="message"
-                      class="ma-2"
+                clearable
+                hide-details
+                outlined
+                dense
+                v-model="message"
+                class="ma-2"
               />
               <v-btn outlined class="ma-2" type="submit" color="primary"
                 >send
