@@ -23,6 +23,7 @@ function initialState() {
     publicTests: [],
     filteredPublicTests: [],
 
+    articleTags: [],
     articles: [],
   };
 }
@@ -41,8 +42,13 @@ export default new Vuex.Store({
 
     userTests: state => state.userTests,
     filteredUserTests: state => state.filteredUserTests,
+
     publicTests: state => state.publicTests,
     filteredPublicTests: state => state.filteredPublicTests,
+
+    articles: state => state.articles,
+    articleTags: state => state.articleTags,
+    article: state => state.article,
   },
   mutations: {
     setMessages(state, data) {
@@ -105,6 +111,15 @@ export default new Vuex.Store({
         a.id > b.id ? 1 : -1
       );
     },
+    setArticles(state, data) {
+      state.articles = data;
+    },
+    setArticleTags(state, data) {
+      state.articleTags = data;
+    },
+/*    setArticle(state, data) {
+      state.article = data;
+    },*/
   },
   actions: {
     loadSubjects({ commit }) {
@@ -140,6 +155,26 @@ export default new Vuex.Store({
       restApi.getPublicTests().then(response => {
         commit('setPublicTests', response);
       });
+    },
+    loadFilteredPublicTests({ commit }, id) {
+      restApi.getPublicTestsById(id).then(response => {
+        commit('setFilteredPublicTests', response);
+      });
+    },
+    loadArticles({ commit }) {
+      restApi.getArticles().then(response => {
+        commit('setArticles', response);
+      });
+    },
+    loadArticleTags({ commit }) {
+      restApi.getArticleTags().then(response => {
+        commit('setArticleTags', response);
+      });
+    },
+    loadArticle({commit}, article) {
+      console.log('wszedlem', article);
+
+      console.log(this.state.article)
     },
   },
 });

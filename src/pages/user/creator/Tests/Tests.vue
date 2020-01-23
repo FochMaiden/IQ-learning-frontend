@@ -2,9 +2,12 @@
   <v-container>
     <v-alert color="#2A3B4D" outlined dark dense>
       <v-row align="center">
-        <v-col class="grow"> <v-icon color='#2A3B4D'>mdi-school</v-icon> You could also browse other people tests!</v-col>
+        <v-col class="grow">
+          <v-icon color="#2A3B4D">mdi-school</v-icon> You could also browse
+          other people tests!</v-col
+        >
         <v-col class="shrink">
-          <v-btn to='/user/tests/public' small>check </v-btn>
+          <v-btn to="/user/tests/public" small>check </v-btn>
         </v-col>
       </v-row>
     </v-alert>
@@ -63,7 +66,7 @@ export default {
     return {
       expand: false,
     };
-  }
+  },
 };
 </script>
 

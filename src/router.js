@@ -25,6 +25,11 @@ const router = new Router({
       component: () => import('./pages/BrowseArticles'),
     },
     {
+      path: '/articles/:id',
+      name: 'Article',
+      component: () => import('./pages/Article'),
+    },
+    {
       path: '/login',
       name: 'Login',
       meta: { auth: false },
