@@ -1,34 +1,36 @@
 <template>
   <v-container>
-    <v-row
-      ><v-checkbox
+    <v-row>
+      <v-checkbox
         v-for="(item, index) in loadArticleTags"
         :key="index"
         :label="item.tag"
-        :id="item.id"
         v-model="item.checked"
-      ></v-checkbox>
+      />
     </v-row>
-
     <v-text-field
       :counter="104"
       v-model="article.title"
       label="Title"
       prepend-icon="title"
       required
-    ></v-text-field>
+    />
     <v-text-field
       :counter="104"
       v-model="article.description"
       label="Description shown while browsing articles"
       prepend-icon="description"
       required
-    ></v-text-field>
+    />
     <v-file-input
       v-model="article.image"
+      @change="showFile"
+      type="file"
       prepend-icon="mdi-camera"
       label="Attach a photo that will show while browsing through articles"
-    ></v-file-input>
+    />
+    <!-- <input type="file" accept="image/x-png,image/gif,image/jpeg" @change="showFile">-->
+    <img src="" width="150" alt="Thumb preview..." />
 
     <v-divider></v-divider>
     <editor-floating-menu :editor="editor" v-slot="{ commands, isActive }">
@@ -163,6 +165,7 @@ export default {
   data() {
     return {
       articleTags: [],
+      imageSRC: null,
       article: {
         title: '',
         content: '',
@@ -220,6 +223,16 @@ export default {
     this.$store.dispatch('loadArticleTags');
   },
   methods: {
+    showFile() {
+      var demoImage = document.querySelector('img');
+      var file = document.querySelector('input[type=file]').files[0];
+      var reader = new FileReader();
+      reader.onload = e => {
+        demoImage.src = reader.result;
+        this.imageSRC = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
     showImagePrompt(command) {
       const src = prompt(
         'Enter the url of your image here, or drop it directly into editor'
@@ -230,7 +243,7 @@ export default {
     },
     saveArticle() {
       this.article.content = btoa(this.html);
-      this.article.image = btoa(this.article.image);
+      this.article.image = btoa(this.imageSRC);
       this.article.tags = this.checkedTags;
       restApi
         .addArticle(this.article)

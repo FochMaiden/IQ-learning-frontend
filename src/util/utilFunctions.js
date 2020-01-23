@@ -26,7 +26,7 @@ export const dwnld = (resp, id) => {
   link.click();
 };
 
-function b64toBlob(b64Data, contentType) {
+export function b64toBlob(b64Data, contentType) {
   contentType = contentType || '';
   let sliceSize = 512;
   b64Data = b64Data.replace(/^[^,]+,/, '');
@@ -49,4 +49,7 @@ function b64toBlob(b64Data, contentType) {
 
   let blob = new Blob(byteArrays, { type: contentType });
   return blob;
+}
+export function jebacto(url) {
+
 }
