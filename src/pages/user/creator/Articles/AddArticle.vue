@@ -126,35 +126,35 @@
     <editor-content focused outlined :editor="editor" />
     <v-divider></v-divider>
 
-    <v-btn oclass="primary" dark outlined @click="saveArticle">Save</v-btn>
+    <v-btn class="primary" dark outlined @click="saveArticle">Save</v-btn>
   </v-container>
 </template>
 
 <script>
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
-import {
-  Blockquote,
-  Bold,
-  BulletList,
-  Code,
-  CodeBlock,
-  HardBreak,
-  Heading,
-  History,
-  Image,
-  Italic,
-  Link,
-  ListItem,
-  OrderedList,
-  Strike,
-  TodoItem,
-  TodoList,
-  Underline,
-} from 'tiptap-extensions';
-import { restApi } from '../../../../api/restApi';
-import EditorFloatingMenu from 'tiptap/src/Components/EditorFloatingMenu';
+	import {Editor, EditorContent, EditorMenuBar} from 'tiptap';
+	import {
+		Blockquote,
+		Bold,
+		BulletList,
+		Code,
+		CodeBlock,
+		HardBreak,
+		Heading,
+		History,
+		Image,
+		Italic,
+		Link,
+		ListItem,
+		OrderedList,
+		Strike,
+		TodoItem,
+		TodoList,
+		Underline,
+	} from 'tiptap-extensions';
+	import {restApi} from '../../../../api/restApi';
+	import EditorFloatingMenu from 'tiptap/src/Components/EditorFloatingMenu';
 
-export default {
+	export default {
   components: {
     EditorMenuBar,
     EditorFloatingMenu,

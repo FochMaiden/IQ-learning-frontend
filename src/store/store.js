@@ -1,7 +1,7 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
-import { restApi } from '../api/restApi';
-import { merge } from '../util/utilFunctions';
+import {restApi} from '../api/restApi';
+import {merge} from '../util/utilFunctions';
 
 Vue.use(Vuex);
 
@@ -22,6 +22,7 @@ function initialState() {
     filteredPublicTests: [],
     articleTags: [],
     articles: [],
+    article: {},
   };
 }
 
@@ -39,6 +40,7 @@ export default new Vuex.Store({
     filteredUserTests: state => state.filteredUserTests,
     articles: state => state.articles,
     articleTags: state => state.articleTags,
+    article: state => state.article,
   },
   mutations: {
     setSubjects(state, data) {
@@ -89,6 +91,9 @@ export default new Vuex.Store({
     setArticleTags(state, data) {
       state.articleTags = data;
     },
+    setArticle(state, data) {
+      state.article = data;
+    },
   },
   actions: {
     loadSubjects({ commit }) {
@@ -138,6 +143,13 @@ export default new Vuex.Store({
     loadArticleTags({ commit }) {
       restApi.getArticleTags().then(response => {
         commit('setArticleTags', response);
+      });
+    },
+    loadArticle({ commit }) {
+	    console.log('wszedlem');
+	    this.getOneArticle().then(article => {
+	    	console.log('jetem');
+        commit('setArticle',article);
       });
     },
   },

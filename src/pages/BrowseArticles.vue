@@ -9,7 +9,7 @@
                 <v-img
                   class="white--text align-end"
                   height="200px"
-                  :src="article.image"
+                  :src="`data:image/png;base64,${article.image}`"
                 >
                   <v-card-title> {{ article.title }}! </v-card-title>
                 </v-img>
@@ -17,7 +17,13 @@
                   {{ article.content.substring(0, 300) + '...' }}
                 </v-card-text>
                 <v-card-actions>
-                  <v-btn small replace color="info" target="_blank"
+                  <v-btn
+
+                    small
+                    replace
+                    color="info"
+                    target="_blank"
+                    @click="getOneArticle(article)"
                     >Read More</v-btn
                   >
                   <v-btn icon><v-icon>mdi-thumb-up</v-icon></v-btn>
@@ -42,12 +48,27 @@ export default {
   },
   computed: {
     loadArticles() {
+      //this.$store.state.articles.map(image=> this.article.image=atob(image));
       return this.$store.state.articles;
     },
   },
   created() {
     this.$store.dispatch('loadArticles');
   },
-  methods: {},
+  methods: {
+    decodeImg(image) {
+      this.$store.state.articles.map(
+        image => (this.Article.image = atob(image))
+      );
+      this.image = atob(this.image);
+      return this.image;
+    },
+	  getOneArticle(article) {
+		  this.$store.dispatch('loadArticle');
+		  console.log(article);
+		  return article
+	  },
+  },
+
 };
 </script>
