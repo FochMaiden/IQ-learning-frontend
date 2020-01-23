@@ -23,6 +23,9 @@ function initialState() {
     publicTests: [],
     filteredPublicTests: [],
 
+    testResults: [],
+    questionResults:[],
+
     articleTags: [],
     articles: [],
   };
@@ -42,9 +45,11 @@ export default new Vuex.Store({
 
     userTests: state => state.userTests,
     filteredUserTests: state => state.filteredUserTests,
-
     publicTests: state => state.publicTests,
     filteredPublicTests: state => state.filteredPublicTests,
+
+    testResults: state => state.testResults,
+    questionResults: state => state.questionResults,
 
     articles: state => state.articles,
     articleTags: state => state.articleTags,
@@ -111,13 +116,19 @@ export default new Vuex.Store({
         a.id > b.id ? 1 : -1
       );
     },
+    setTestResults(state, response) {
+      state.testResults = response
+    },
+    setQuestionResults(state, response) {
+      state.questionResults = {...state.questionResults, [response[0].questionId]: response }
+    },
     setArticles(state, data) {
       state.articles = data;
     },
     setArticleTags(state, data) {
       state.articleTags = data;
     },
-/*    setArticle(state, data) {
+    /*    setArticle(state, data) {
       state.article = data;
     },*/
   },
@@ -171,10 +182,10 @@ export default new Vuex.Store({
         commit('setArticleTags', response);
       });
     },
-    loadArticle({commit}, article) {
+    loadArticle({ commit }, article) {
       console.log('wszedlem', article);
 
-      console.log(this.state.article)
+      console.log(this.state.article);
     },
   },
 });

@@ -280,7 +280,7 @@ export const restApi = {
   },
   getResultsForQuestion(id) {
     return this.axiosProxy.get(`/results/get/question/` + id).then(response => {
-      console.log(response.data);
+      //console.log(response.data);
       return response.data;
     });
   },

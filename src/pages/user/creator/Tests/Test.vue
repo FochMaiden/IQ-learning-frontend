@@ -1,5 +1,18 @@
 <template>
   <v-container>
+    <v-card dark color="secondary">
+      <vue-funnel-graph
+        :width="1000"
+        :height="100"
+        :labels="labels"
+        :values="values"
+        :colors="colors"
+        direction="horizontal"
+        gradient-direction="horizontal"
+        :animated="true"
+        :display-percentage="true"
+      />
+    </v-card>
     <v-row>
       <v-col cols="6" md="6" sm="12" v-for="test in tests">
         <v-card>
@@ -8,20 +21,20 @@
             <v-spacer></v-spacer>
             <v-col>
               <v-btn
-                      v-on:click="addResults(test)"
-                      color="secondary"
-                      outlined
-                      small
-              >add results
+                v-on:click="addResults(test)"
+                color="secondary"
+                outlined
+                small
+                >add results
               </v-btn>
             </v-col>
             <v-col>
               <v-btn
-                      v-on:click="seeResults(test.id, test.questions)"
-                      color="green"
-                      outlined
-                      small
-              >See results
+                v-on:click="seeResults(test.id, test.questions)"
+                color="green"
+                outlined
+                small
+                >See results
               </v-btn>
             </v-col>
             <v-menu right :offset-x="offset">
@@ -117,14 +130,27 @@
 </template>
 
 <script>
-import store from '../../../../store/store';
 import { restApi } from '../../../../api/restApi';
 import { dwnld } from '../../../../util/utilFunctions';
+import { VueFunnelGraph } from 'vue-funnel-graph-js';
 
 export default {
   name: 'Test',
+  components: {
+    VueFunnelGraph,
+  },
   created() {
     this.getTests();
+  },
+  updated() {
+    if (this.$store.getters.questionResults) {
+      let mlem = [];
+      for (const res of this.$store.getters.questionResults) {
+        console.log(res);
+      }
+      //console.log(mlem)
+      //console.log(this.$store.getters.questionResults);
+    }
   },
   computed: {
     tests() {
@@ -146,6 +172,32 @@ export default {
         return list;
       };
     },
+    labels() {
+      //Object.keys(this.$store.state.questionResults)
+      return (
+        this.$store.state.questionResults &&
+        Object.keys(this.$store.state.questionResults)
+      );
+    },
+    values() {
+
+      return [
+        [0, 1, 0, 1, 1],
+        [1, 1, 2, 1, 1],
+        [0, 1, 0, 1, 1],
+        [0, 1, 0, 1, 1],
+        [0, 1, 0, 1, 1],
+        [0, 1, 0, 1, 1],
+        [0, 1, 0, 1, 1],
+      ];
+    },
+    colors() {
+      return [
+        ['#FFB178', '#FF3C8E'],
+        ['#A0BBFF', '#EC77FF'],
+        ['#A0F9FF', '#7795FF'],
+      ];
+    },
   },
   data() {
     return {
@@ -159,9 +211,9 @@ export default {
   methods: {
     getTests() {
       if (this.route === 'all') {
-        store.dispatch('loadUserTests');
+        this.$store.dispatch('loadUserTests');
       } else
-        store.dispatch(
+        this.$store.dispatch(
           'loadFilteredUserTests',
           this.$route.params.subject.split('=')[1]
         );
@@ -223,12 +275,14 @@ export default {
       });
     },
     seeResults(id, questions) {
-      for (const question of questions){
-        restApi.getResultsForQuestion(question.id)
+      for (const question of questions) {
+        restApi.getResultsForQuestion(question.id).then(response => {
+          this.$store.commit('setQuestionResults', response);
+        });
       }
-      restApi.getResultsForTest(id).then(response => {
-        console.log(response);
-      });
+      /*      restApi.getResultsForTest(id).then(response => {
+        this.$store.commit('setTestResults', response);
+      });*/
     },
   },
 };
