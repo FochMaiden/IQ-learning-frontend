@@ -21,8 +21,7 @@
                     small
                     replace
                     color="info"
-                    target="_blank"
-                    @click="getOneArticle(article)"
+                    :to="'articles/'+ article.id"
                     >Read More</v-btn
                   >
                   <v-btn icon><v-icon>mdi-thumb-up</v-icon></v-btn>
@@ -63,9 +62,8 @@ export default {
       return this.image;
     },
     getOneArticle(article) {
-
       console.log(article);
-	    this.$store.dispatch('loadArticle',article);//do i?
+	    this.$store.commit('setArticle',article);//do i?
       return article;
     },
   },

@@ -91,9 +91,9 @@ export default new Vuex.Store({
     setArticleTags(state, data) {
       state.articleTags = data;
     },
-    setArticle(state, data) {
+/*    setArticle(state, data) {
       state.article = data;
-    },
+    },*/
   },
   actions: {
     loadSubjects({ commit }) {
@@ -145,8 +145,8 @@ export default new Vuex.Store({
         commit('setArticleTags', response);
       });
     },
-    loadArticle(article) {
-      console.log('wszedlem');
+    loadArticle({commit}, article) {
+      console.log('wszedlem', article);
 
       console.log(this.state.article)
     },

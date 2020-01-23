@@ -2,7 +2,7 @@
   <v-container fluid class="ma-10">
     <v-layout row wrap align-center>
       <div>
-        <p>{{ loadArticle }}</p>
+        <p>{{ article }}</p>
       </div>
     </v-layout>
   </v-container>
@@ -17,9 +17,13 @@ export default {
     };
   },
   computed: {
-    loadArticle() {
+    article() {
       //this.$store.state.articles.map(image=> this.article.image=atob(image));
-      console.log(this.$store.state.article);
+      console.log(this.$route.params.id)
+     return  this.$store.state.articles.filter(item=>{
+        return item.id.toString() === this.$route.params.id
+      })
+
       return this.$store.state.article;
     },
   },
