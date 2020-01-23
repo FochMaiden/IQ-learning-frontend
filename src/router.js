@@ -23,7 +23,7 @@ const router = new Router({
       name: 'Articles',
       component: () => import('./pages/BrowseArticles'),
     },
-	  {
+    {
       path: '/article',
       name: 'Article',
       component: () => import('./pages/Article'),

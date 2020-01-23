@@ -1,8 +1,8 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
-import {restApi} from '../api/restApi';
-import {merge} from '../util/utilFunctions';
-
+import { restApi } from '../api/restApi';
+import { merge } from '../util/utilFunctions';
+import { getOneArticle } from '../pages/BrowseArticles';
 Vue.use(Vuex);
 
 function initialState() {
@@ -145,12 +145,10 @@ export default new Vuex.Store({
         commit('setArticleTags', response);
       });
     },
-    loadArticle({ commit }) {
-	    console.log('wszedlem');
-	    this.getOneArticle().then(article => {
-	    	console.log('jetem');
-        commit('setArticle',article);
-      });
+    loadArticle(article) {
+      console.log('wszedlem');
+
+      console.log(this.state.article)
     },
   },
 });

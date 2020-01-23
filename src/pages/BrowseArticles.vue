@@ -9,7 +9,7 @@
                 <v-img
                   class="white--text align-end"
                   height="200px"
-                  :src="`data:image/png;base64,${article.image}`"
+                  :src="`data:image/png;base64,article.image`"
                 >
                   <v-card-title> {{ article.title }}! </v-card-title>
                 </v-img>
@@ -18,7 +18,6 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-btn
-
                     small
                     replace
                     color="info"
@@ -48,7 +47,7 @@ export default {
   },
   computed: {
     loadArticles() {
-      //this.$store.state.articles.map(image=> this.article.image=atob(image));
+      //this.$store.state.articles.map(image=> this.article.image=);
       return this.$store.state.articles;
     },
   },
@@ -63,12 +62,12 @@ export default {
       this.image = atob(this.image);
       return this.image;
     },
-	  getOneArticle(article) {
-		  this.$store.dispatch('loadArticle');
-		  console.log(article);
-		  return article
-	  },
-  },
+    getOneArticle(article) {
 
+      console.log(article);
+	    this.$store.dispatch('loadArticle',article);//do i?
+      return article;
+    },
+  },
 };
 </script>

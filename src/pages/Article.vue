@@ -25,7 +25,7 @@ export default {
   },
   created() {
     console.log('im here');
-    this.$store.dispatch('loadArticle');
+    //sthis.$store.dispatch('loadArticle');
   },
   methods: {},
 };
