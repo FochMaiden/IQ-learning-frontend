@@ -9,16 +9,16 @@
 </template>
 
 <script>
-import RightNav from '../../templates/NavTemplates/RightNav';
-import LeftNav from '../../templates/NavTemplates/LeftNav';
+	import RightNav from '../../templates/NavTemplates/RightNav';
+	import LeftNav from '../../templates/NavTemplates/LeftNav';
 
-export default {
+	export default {
   name: 'User',
   components: {
     LeftNav,
     RightNav,
   },
-  created(){
+  created() {
     this.$store.dispatch('loadSubjects');
   },
   data() {

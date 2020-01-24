@@ -6,17 +6,23 @@
           <v-row>
             <v-col>
               <v-card class="mx-auto" max-width="400">
-                <v-img :src="articleImg(article.image)" dark height="200px">
+                <v-img
+                  :src="articleImg(article.image)"
+                  class="white--text align-end"
+                  height="200px"
+                  dark
+                >
                   <v-card-title> {{ article.title }}! </v-card-title>
                 </v-img>
                 <v-card-text>
-                  {{ article.content.substring(0, 300) + '...' }}
+                  {{ article.description.substring(0, 300) + '...' }}
                 </v-card-text>
                 <v-card-actions>
                   <v-btn
                     small
                     replace
                     color="info"
+                    :data="article.id"
                     :to="'articles/' + article.id"
                     >Read More</v-btn
                   >
@@ -33,9 +39,9 @@
 </template>
 
 <script>
-import { b64toBlob } from '../util/utilFunctions';
+	import {b64toBlob} from '../util/utilFunctions';
 
-export default {
+	export default {
   data() {
     return {
       imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
@@ -50,17 +56,11 @@ export default {
     articleImg() {
       return function(imga) {
         if (imga) {
-          let blep = atob(imga)
+          let blep = atob(imga);
           let blop = b64toBlob(blep, 'image/png');
           var image = new Image();
           image.src = URL.createObjectURL(blop);
           console.log(image.src, 'blep');
-
-          /*          var urlCreator = window.URL || window.webkitURL;
-          var imageUrl = urlCreator.createObjectURL(blop);
-          var img = document.querySelector('#photo');
-          img.src = imageUrl;
-          console.log(imageUrl, img.url, 'boo')*/
           return image;
         } else
           return 'https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80';

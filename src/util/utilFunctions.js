@@ -50,6 +50,4 @@ export function b64toBlob(b64Data, contentType) {
   let blob = new Blob(byteArrays, { type: contentType });
   return blob;
 }
-export function jebacto(url) {
-
-}
+export function jebacto(url) {}

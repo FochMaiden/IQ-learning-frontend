@@ -49,7 +49,10 @@
       <v-list-group dense v-for="item in items" :key="item.title" @click>
         <template v-slot:activator>
           <v-list-item-content>
-            <v-list-item class="overline font-weight-bold" v-text="item.title"></v-list-item>
+            <v-list-item
+              class="overline font-weight-bold"
+              v-text="item.title"
+            ></v-list-item>
           </v-list-item-content>
         </template>
         <v-list-item

@@ -54,17 +54,17 @@
               type="checkbox"
               color="primary"
             ></v-checkbox>
-          <v-card-actions class="pb-6 px-6 justify-center">
-            <v-btn
-              large
-              dark
-              block
-              type="submit"
-              style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
-              :disabled="!valid"
-              >Login</v-btn
-            >
-          </v-card-actions>
+            <v-card-actions class="pb-6 px-6 justify-center">
+              <v-btn
+                large
+                dark
+                block
+                type="submit"
+                style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
+                :disabled="!valid"
+                >Login</v-btn
+              >
+            </v-card-actions>
           </v-form>
           <!--            </v-col>
 &lt;!&ndash;            <v-col>
@@ -77,16 +77,11 @@
 </template>
 
 <script>
-import { required } from '../../util/validationFunctions.js';
-import {
-  minLength,
-  passwordNumber,
-  passwordUppercase,
-  regexUsername,
-} from '../../util/validationFunctions';
-import { restApi } from '../../api/restApi';
+	import {required} from '../../util/validationFunctions.js';
+	import {minLength, passwordNumber, passwordUppercase, regexUsername,} from '../../util/validationFunctions';
+	import {restApi} from '../../api/restApi';
 
-export default {
+	export default {
   data: function() {
     return {
       username: null,

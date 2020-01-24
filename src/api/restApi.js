@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Vue from 'vue';
-import { stompClientSocket } from './wsApi';
+import {stompClientSocket} from './wsApi';
 
 const errorHandler = error => {
   //console.log('Error response',error.response, 'code' , error.response.status);
@@ -332,6 +332,11 @@ export const restApi = {
   },
   getArticleTags() {
     return this.axiosProxy.get('/tags/get').then(response => {
+      return response.data;
+    });
+  },
+  getArticleComments(id) {
+    return this.axiosProxy.get(`/article/get/comments/` + id).then(response => {
       return response.data;
     });
   },

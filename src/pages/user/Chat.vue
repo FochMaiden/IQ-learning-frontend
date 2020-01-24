@@ -31,7 +31,7 @@
           <v-divider></v-divider>
         </v-card>
       </v-col>
-      <v-col lg='8' md='12' sm='12' v-if="selectedUser">
+      <v-col lg="8" md="12" sm="12" v-if="selectedUser">
         <v-card elevation="4">
           <v-card-title>
             {{ selectedUser.username }}
@@ -97,9 +97,9 @@
 </template>
 
 <script>
-import { stompClientSocket } from '../../api/wsApi';
+	import {stompClientSocket} from '../../api/wsApi';
 
-export default {
+	export default {
   name: 'Chat',
   data() {
     return {
