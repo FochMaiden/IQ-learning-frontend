@@ -41,8 +41,9 @@ export const restApi = {
         },
         rememberMe: rememberMe,
         success: async function(response) {
-          this.$auth.user(response.data);
-          this.$auth.token(null, response.data.sessionID);
+          await this.$auth.user(response.data);
+          await this.$auth.token(null, response.data.sessionID);
+          await this.$store.dispatch('loadLastResults');
           if (response.data.conversations !== {}) {
             await stompClientSocket.connect(
               response.data.id,
@@ -280,6 +281,12 @@ export const restApi = {
   },
   getResultsForQuestion(id) {
     return this.axiosProxy.get(`/results/get/question/` + id).then(response => {
+      //console.log(response.data);
+      return response.data;
+    });
+  },
+  getLastResults() {
+    return this.axiosProxy.get(`/results/get/last`).then(response => {
       //console.log(response.data);
       return response.data;
     });

@@ -25,6 +25,7 @@ function initialState() {
 
     testResults: [],
     questionResults:[],
+    lastResults: null,
 
     articleTags: [],
     articles: [],
@@ -50,6 +51,7 @@ export default new Vuex.Store({
 
     testResults: state => state.testResults,
     questionResults: state => state.questionResults,
+    lastResults: state => state.lastResults,
 
     articles: state => state.articles,
     articleTags: state => state.articleTags,
@@ -122,6 +124,9 @@ export default new Vuex.Store({
     setQuestionResults(state, response) {
       state.questionResults = {...state.questionResults, [response[0].questionId]: response }
     },
+    setLastResults(state, data){
+      state.lastResults = data
+    },
     setArticles(state, data) {
       state.articles = data;
     },
@@ -170,6 +175,11 @@ export default new Vuex.Store({
     loadFilteredPublicTests({ commit }, id) {
       restApi.getPublicTestsById(id).then(response => {
         commit('setFilteredPublicTests', response);
+      });
+    },
+    loadLastResults({commit}){
+      restApi.getLastResults().then(response => {
+        commit('setLastResults', response);
       });
     },
     loadArticles({ commit }) {
