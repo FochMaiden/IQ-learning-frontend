@@ -41,15 +41,15 @@ export const restApi = {
         },
         rememberMe: rememberMe,
         success: async function(response) {
-          await this.$auth.user(response.data);
-          await this.$auth.token(null, response.data.sessionID);
-          await this.$store.dispatch('loadLastResults');
+          this.$auth.user(response.data);
+          this.$auth.token(null, response.data.sessionID);
           if (response.data.conversations !== {}) {
             await stompClientSocket.connect(
               response.data.id,
               response.data.conversations
             );
           } else stompClientSocket.connect(response.data.id, null);
+          await this.$store.dispatch('loadLastResults');
         },
       })
       .then(response => {

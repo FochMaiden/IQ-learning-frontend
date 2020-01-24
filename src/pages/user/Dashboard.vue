@@ -25,6 +25,7 @@
               :display-percentage="true"
             />
           </v-card>
+          <v-card-title v-else> Oh, there seem not to be any</v-card-title>
         </v-card>
       </v-col>
     </v-row>
