@@ -14,15 +14,15 @@
     "core-js": "^2.6.5",
     "prettier": "^1.18.2",
     "roboto-fontface": "*",
+    "sockjs-client": "latest",
     "tiptap": "^1.26.6",
     "tiptap-extensions": "^1.28.6",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.4",
+    "vue-funnel-graph-js": "^0.1.6",
     "vue-router": "^3.0.6",
     "vuetify": "^2.1.0",
     "vuex": "^3.1.2",
-	"sockjs-client": "latest",
-    "webstomp-client": "latest",
     "webstomp-client": "latest"
   },
   "devDependencies": {

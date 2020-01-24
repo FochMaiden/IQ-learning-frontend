@@ -2,50 +2,129 @@
   <v-container fluid>
     <v-row>
       <v-col>
-        <v-card flat class="mt-12" color="primary--text" height="35vh" shaped>
-          <v-sheet
-            class="v-sheet--offset mx-auto float-right"
-            color="transparent"
-          >
-            <v-avatar size="100">
-              <v-img src="https://picsum.photos/id/11/500/300"> </v-img>
-            </v-avatar>
-          </v-sheet>
+        <v-card class="mt-12" color="primary--text" shaped>
           <v-card-title> Welcome back {{ $auth.user().name }}! </v-card-title>
-          <v-card-text>Checkout your latest trending tests!</v-card-text>
+          <v-card-text>Checkout latest results for questions!</v-card-text>
+          <v-card
+                  v-if='$store.state.lastResults'
+            ref="card"
+            :shaped="false"
+            dark
+            color="#252246"
+            class="pa-2 ma-2"
+          >
+            <vue-funnel-graph
+              :width="width"
+              :height="height"
+              :labels="labels"
+              :values="values"
+              :colors="colors"
+              :direction="direction"
+              :gradient-direction="direction"
+              :animated="true"
+              :display-percentage="true"
+            />
+          </v-card>
+          <v-card-title v-else> Oh, there seem not to be any</v-card-title>
         </v-card>
       </v-col>
     </v-row>
+    <v-row> </v-row>
     <v-row>
       <v-col>
-        <v-card flat color="primary--text" height="30vh" shaped>
-          <v-card-title> </v-card-title>
+        <v-card dark color="#EC77FF" min-height="10vh" shaped>
+          <v-card-title dark> Create questions and tests here!</v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn outlined small to="/user/questions"
+              >Questions
+              <v-icon>mdi-file-edit-outline</v-icon>
+            </v-btn>
+            <v-btn outlined small to="/user/tests"
+              >Tests
+              <v-icon>mdi-clipboard-list-outline</v-icon>
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
       <v-col>
-        <v-card flat color="primary" height="30vh" shaped> </v-card>
+        <v-card dark color="#7795FF" min-height="10vh" shaped>
+          <v-card-title dark> Browse public tests here!</v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn outlined small to="/user/tests/public"
+              >Public tests
+              <v-icon>
+                mdi-school
+              </v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
       </v-col>
-    </v-row>
-    <v-row>
       <v-col>
-        <v-card dark flat color="primary3" height="10vh" shaped> </v-card>
-      </v-col>
-      <v-col>
-        <v-card dark flat color="primary2" height="10vh" shaped> </v-card>
-      </v-col>
-      <v-col>
-        <v-card dark flat color="secondary" height="10vh" shaped> </v-card>
+        <v-card dark color="#FF3C8E" min-height="10vh" shaped>
+          <v-card-title dark> Create article here!</v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn outlined small to="/user/articles/"
+              >Articles
+              <v-icon>
+                mdi-clipboard-text-outline
+              </v-icon></v-btn
+            >
+          </v-card-actions>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script>
+import { VueFunnelGraph } from 'vue-funnel-graph-js';
+
 export default {
   name: 'Dashboard',
+  components: {
+    VueFunnelGraph,
+  },
+  computed: {
+    labels() {
+      let a = [];
+      this.$store.state.lastResults.forEach(o => {
+        a.push(o.text);
+      });
+      return a;
+    },
+    values() {
+      let a = [];
+      this.$store.state.lastResults.forEach(o => {
+        a.push(o.result);
+      });
+      return a;
+    },
+    colors() {
+      return [
+        ['#FFB178', '#FF3C8E'],
+        ['#A0BBFF', '#EC77FF'],
+        ['#A0F9FF', '#7795FF'],
+        ['#FFB178', '#FF3C8E'],
+        ['#A0BBFF', '#EC77FF'],
+        ['#A0F9FF', '#7795FF'],
+        ['#FFB178', '#FF3C8E'],
+        ['#A0BBFF', '#EC77FF'],
+        ['#A0F9FF', '#7795FF'],
+      ];
+    },
+    width() {
+      return 1150;
+    },
+    height() {
+      return 400;
+    },
+  },
   data() {
     return {
-      labels: ['12am', '3am', '6am', '9am', '12pm', '3pm', '6pm', '9pm'],
-      value: [200, 675, 410, 390, 310, 460, 250, 240],
+      card: null,
+      direction: 'horizontal',
     };
   },
 };

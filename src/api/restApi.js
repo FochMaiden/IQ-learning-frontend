@@ -49,6 +49,7 @@ export const restApi = {
               response.data.conversations
             );
           } else stompClientSocket.connect(response.data.id, null);
+          await this.$store.dispatch('loadLastResults');
         },
       })
       .then(response => {
@@ -280,7 +281,13 @@ export const restApi = {
   },
   getResultsForQuestion(id) {
     return this.axiosProxy.get(`/results/get/question/` + id).then(response => {
-      console.log(response.data);
+      //console.log(response.data);
+      return response.data;
+    });
+  },
+  getLastResults() {
+    return this.axiosProxy.get(`/results/get/last`).then(response => {
+      //console.log(response.data);
       return response.data;
     });
   },

@@ -5,7 +5,6 @@
         <v-card>
           <v-card-title>
             <span class="headline">Test number {{ test.id }}</span>
-            <v-spacer></v-spacer>
             <v-col>
               <v-btn
                 v-on:click="addResults(test)"
@@ -15,7 +14,7 @@
                 >add results
               </v-btn>
             </v-col>
-            <v-col>
+<!--            <v-col>
               <v-btn
                 v-on:click="seeResults(test.id, test.questions)"
                 color="green"
@@ -23,7 +22,7 @@
                 small
                 >See results
               </v-btn>
-            </v-col>
+            </v-col>-->
             <v-menu right :offset-x="offset">
               <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on">
@@ -117,11 +116,10 @@
 </template>
 
 <script>
-	import store from '../../../../store/store';
-	import {restApi} from '../../../../api/restApi';
-	import {dwnld} from '../../../../util/utilFunctions';
+import { restApi } from '../../../../api/restApi';
+import { dwnld } from '../../../../util/utilFunctions';
 
-	export default {
+export default {
   name: 'Test',
   created() {
     this.getTests();
@@ -159,9 +157,9 @@
   methods: {
     getTests() {
       if (this.route === 'all') {
-        store.dispatch('loadUserTests');
+        this.$store.dispatch('loadUserTests');
       } else
-        store.dispatch(
+        this.$store.dispatch(
           'loadFilteredUserTests',
           this.$route.params.subject.split('=')[1]
         );
@@ -220,15 +218,18 @@
         this.resultsTestId = null;
         this.points = {};
         this.loadingResults = false;
+        this.$store.dispatch('loadLastResults');
       });
     },
     seeResults(id, questions) {
       for (const question of questions) {
-        restApi.getResultsForQuestion(question.id);
+        restApi.getResultsForQuestion(question.id).then(response => {
+          this.$store.commit('setQuestionResults', response);
+        });
       }
-      restApi.getResultsForTest(id).then(response => {
-        console.log(response);
-      });
+      /*      restApi.getResultsForTest(id).then(response => {
+        this.$store.commit('setTestResults', response);
+      });*/
     },
   },
 };
