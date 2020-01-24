@@ -39,9 +39,9 @@
 </template>
 
 <script>
-import { b64toBlob } from '../util/utilFunctions';
+	import {b64toBlob} from '../util/utilFunctions';
 
-export default {
+	export default {
   data() {
     return {
       imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
@@ -56,11 +56,10 @@ export default {
     articleImg() {
       return function(imga) {
         if (imga) {
-          let blep = atob(imga);
-          let blop = b64toBlob(blep, 'image/png');
+          let photo = atob(imga);
+          let pic = b64toBlob(photo, 'image/png');
           var image = new Image();
-          image.src = URL.createObjectURL(blop);
-          console.log(image.src, 'blep');
+          image.src = URL.createObjectURL(pic);
           return image;
         } else
           return 'https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80';

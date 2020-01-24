@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import Navbar from './pages/nav/Navbar';
-import { restApi } from './api/restApi';
+	import Navbar from './pages/nav/Navbar';
+	import {restApi} from './api/restApi';
 
-export default {
+	export default {
   name: 'App',
   components: {
     Navbar,

@@ -97,9 +97,9 @@
 </template>
 
 <script>
-import { stompClientSocket } from '../../api/wsApi';
+	import {stompClientSocket} from '../../api/wsApi';
 
-export default {
+	export default {
   name: 'Chat',
   data() {
     return {
