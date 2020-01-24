@@ -1,8 +1,8 @@
 <template>
-  <v-container fluid class="ma-12">
+  <v-container fluid class="mx-auto">
     <v-layout row wrap align-center>
       <p>{{}}</p>
-      <v-card max-width="344" class="mx-auto">
+      <v-card max-width="auto" class="mx-auto">
         <v-list-item>
           <v-list-item-avatar color="grey"></v-list-item-avatar>
           <v-list-item-content>
@@ -41,24 +41,94 @@
             <v-icon>mdi-share-variant</v-icon>
           </v-btn>
         </v-card-actions>
+        <v-card max-width="600" elevation="12" class="pa-12">
+          <v-text-field
+            max-width="50%"
+            v-model="model"
+            :label="label"
+            :hint="hint"
+            :placeholder="placeholder"
+            :shaped="shaped"
+            :outlined="outlined"
+            :rounded="rounded"
+            :solo="solo"
+            :single-line="singleLine"
+            :filled="filled"
+            :clearable="clearable"
+            :persistent-hint="persistentHint"
+            :loading="loading"
+            :flat="flat"
+            :counter="counterEn ? counter : false"
+            :dense="dense"
+          ></v-text-field>
+          <div class="mt-12 text-center">Value: {{ model }}</div>
+          <v-btn primary outlined small fab
+            >add<!--<v-icon>mdi-plus</v-icon>--></v-btn
+          >
+        </v-card>
       </v-card>
     </v-layout>
+    <v-card
+      v-for="comment in commentsComputed"
+      :key="comment.id"
+      class="d-flex flex-column mx-auto"
+      max-width="50%"
+    >
+      <v-list-item class="d-flex flex-column">
+        <v-list-item-title class="font-italic font-weight-bold">
+          {{ comment.commentator.username }}
+        </v-list-item-title>
+
+        <v-list-item disabled>
+          <v-card maxWidth="100%"
+            ><v-list-item-title>{{
+              comment.comment
+            }}</v-list-item-title></v-card
+          >
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title>{{ comment.upvotes }}</v-list-item-title>
+        </v-list-item>
+      </v-list-item>
+    </v-card>
   </v-container>
 </template>
 
 <script>
-	import {b64toBlob} from '../util/utilFunctions';
-	import {restApi} from '../api/restApi';
+import { b64toBlob } from '../util/utilFunctions';
+import { restApi } from '../api/restApi';
 
-	export default {
+export default {
   data() {
     return {
       article: [],
       urlId: null,
       comments: [],
+      model: "I'm a text field",
+      label: 'Hey!',
+      hint: 'Customize me!',
+      placeholder: '',
+      shaped: false,
+      outlined: false,
+      rounded: false,
+      solo: false,
+      singleLine: false,
+      filled: false,
+      clearable: false,
+      persistentHint: false,
+      loading: false,
+      flat: false,
+      counterEn: false,
+      counter: 0,
+      dense: false,
     };
   },
   computed: {
+    commentsComputed() {
+      //console.log('alan',this.article[0].id)
+      console.log('alan', this.comments);
+      return this.comments;
+    },
     /*article() {
 		  //this.$store.state.articles.map(image=> this.article.image=atob(image));
 		  /!* console.log('przed',this.urlId);
@@ -105,7 +175,6 @@
       return item.id.toString() === this.urlId;
     });
     this.article = kupa;
-
     this.getComments(this.article[0].id);
 
     // this.$store.dispatch('setArticle',this.$store.state.article);
@@ -115,15 +184,15 @@
     helper() {
       //console.log(this.article[0]);
     },
-    getComments() {
+    getComments(id) {
       console.log('im here');
       console.log('this.article[0].id', this.article[0].id);
       restApi
-        .getArticleComments(this.article[0].id)
+        .getArticleComments(id)
         .then(response => {
           this.comments = response;
-          console.log('comments', this.comments);
-          return response;
+          //console.log('comments', response);
+          return this.comments;
         })
         .catch(err => {
           this.error = err;
