@@ -117,11 +117,11 @@
 </template>
 
 <script>
-	import store from '../../../../store/store';
-	import {restApi} from '../../../../api/restApi';
-	import {dwnld} from '../../../../util/utilFunctions';
+import store from '../../../../store/store';
+import { restApi } from '../../../../api/restApi';
+import { dwnld } from '../../../../util/utilFunctions';
 
-	export default {
+export default {
   name: 'Test',
   created() {
     this.getTests();

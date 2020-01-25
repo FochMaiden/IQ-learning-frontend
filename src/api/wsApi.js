@@ -2,7 +2,7 @@ import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
 
 import store from '../store/store';
-import {restApi} from './restApi';
+import { restApi } from './restApi';
 
 const options = { debug: false, heartbeat: false, protocols: ['v12.stomp'] };
 

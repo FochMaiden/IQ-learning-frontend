@@ -9,10 +9,10 @@
 </template>
 
 <script>
-	import RightNav from '../../templates/NavTemplates/RightNav';
-	import LeftNav from '../../templates/NavTemplates/LeftNav';
+import RightNav from '../../templates/NavTemplates/RightNav';
+import LeftNav from '../../templates/NavTemplates/LeftNav';
 
-	export default {
+export default {
   name: 'User',
   components: {
     LeftNav,

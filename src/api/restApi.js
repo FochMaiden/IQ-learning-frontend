@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Vue from 'vue';
-import {stompClientSocket} from './wsApi';
+import { stompClientSocket } from './wsApi';
 
 const errorHandler = error => {
   //console.log('Error response',error.response, 'code' , error.response.status);
@@ -345,7 +345,7 @@ export const restApi = {
       return response.data;
     });
   },
-	upvoteArticle(id) {
+  upvoteArticle(id) {
     return this.axiosProxy.put(`/article/upvote/` + id).then(response => {
       return response.data;
     });
