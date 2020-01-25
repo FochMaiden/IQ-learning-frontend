@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="4s">
         <v-card elevation="4">
-          <v-list dense subheader>
+          <v-list v-if="$auth.user().conversations" dense subheader>
             <v-subheader>Recent chat</v-subheader>
             <v-list-item
               dense
@@ -27,7 +27,10 @@
               </v-list-item-action>-->
             </v-list-item>
           </v-list>
-
+          <v-btn v-else class="flex ma-auto" outlined to="/articles"
+            ><v-icon>mdi-plus</v-icon>Take me to articles to start converation
+            with authors!</v-btn
+          >
           <v-divider></v-divider>
         </v-card>
       </v-col>

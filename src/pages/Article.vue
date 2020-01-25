@@ -12,6 +12,15 @@
               >by {{ article[0].owner.username }}</v-list-item-subtitle
             >
           </v-list-item-content>
+          <v-menu v-if="$auth.user()" :close-on-content-click="false">
+            <template v-slot:activator="{ on }">
+              <v-icon v-on="on" class="ma-auto ">mdi-chat</v-icon>
+            </template>
+            <v-card
+              ><v-text-field dense v-model="msg"></v-text-field>
+              <v-btn @click="startConversation">send</v-btn></v-card
+            >
+          </v-menu>
         </v-list-item>
 
         <v-img
@@ -75,8 +84,10 @@
           :flat="flat"
           :counter="counterEn ? counter : false"
           :dense="dense"
+          @input="clearAdded"
         ></v-text-field>
       </v-card>
+      <!-- <span>{{added}}</span>-->
       <span class="d-flex justify-end"
         ><v-btn primary outlined small fab icon @click="addComment(comment)"
           ><v-icon>mdi-plus</v-icon></v-btn
@@ -90,11 +101,14 @@
 import { b64toBlob } from '../util/utilFunctions';
 import { restApi } from '../api/restApi';
 import { required } from '../util/validationFunctions';
+import { stompClientSocket } from '../api/wsApi';
 
 export default {
   data() {
     return {
+      msg: null,
       article: [],
+      added: '',
       urlId: null,
       comments: [],
       comment: '',
@@ -129,7 +143,8 @@ export default {
           image.src = URL.createObjectURL(blop);
 
           return image;
-        } else return 'https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80';
+        } else
+          return 'https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80';
       };
     },
     articleContent() {
@@ -188,14 +203,13 @@ export default {
       restApi
         .addComment(this.article[0].id, comment)
         .then(response => {
+          this.getComments(this.article[0].id);
+          this.added = 'Your comment was added';
           return response;
         })
         .catch(err => {
           this.error = err;
         });
-      this.getComments(this.article[0].id);
-      this.comment = '';
-      this.commentsComputed();
     },
     fetchData() {
       this.urlId = this.$route.params.id;
@@ -205,6 +219,17 @@ export default {
       });
       this.getComments(this.article[0].id);
     },
+    startConversation() {
+      //console.log(this.article[0].owner);
+      stompClientSocket.startConversation(
+        this.msg,
+        this.article[0].owner.id,
+        this.$auth.user().id
+      );
+    },
+    /*clearAdded(){
+    	this.added=''
+      }*/
   },
 };
 </script>

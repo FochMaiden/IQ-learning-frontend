@@ -14,7 +14,7 @@
                 >
                   <v-card-title> {{ article.title }}! </v-card-title>
                 </v-img>
-                <v-card-text v-if='article.description'>
+                <v-card-text v-if="article.description">
                   {{ article.description.substring(0, 300) + '...' }}
                 </v-card-text>
                 <v-card-actions>

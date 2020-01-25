@@ -52,7 +52,7 @@ export const stompClientSocket = {
         sender: sender,
       })
     );
-    this.subscribeToTopic(recipient);
+    //this.subscribeToTopic(recipient);
   },
   sendMessage(convoId, message, recipient, sender) {
     this.stompClient.send(

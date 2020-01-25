@@ -222,7 +222,11 @@
             <v-card-title>
               Test
             </v-card-title>
-            <v-text-field label="Title of test" name="testTitle" v-model="testTitle">
+            <v-text-field
+              label="Title of test"
+              name="testTitle"
+              v-model="testTitle"
+            >
             </v-text-field>
             <v-card-text
               v-for="(question, index) in filteredSelect"
