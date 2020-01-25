@@ -27,9 +27,10 @@ function initialState() {
     questionResults:[],
     lastResults: null,
 
-    articleTags: [],
     articles: [],
+    articleTags: [],
     articleComments: [],
+    article: null,
   };
 }
 
@@ -135,10 +136,11 @@ export default new Vuex.Store({
     setArticleTags(state, data) {
       state.articleTags = data;
     },
-    setArticle(state, data) {
-      state.article = data;
-    },
     setArticleComments(state, data) {
+      state.articleComments = data;
+    },
+    setCurrentArticle(state, data) {
+      console.log(data)
       state.article = data;
     },
   },

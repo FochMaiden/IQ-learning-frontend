@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="ma-10">
     <v-layout row wrap align-center>
-      <div v-for="article in loadArticles" :key="article.title">
+      <div v-for="article in loadArticles" :key="article.id">
         <v-container class="text-center" fluid>
           <v-row>
             <v-col>
@@ -14,7 +14,7 @@
                 >
                   <v-card-title> {{ article.title }}! </v-card-title>
                 </v-img>
-                <v-card-text>
+                <v-card-text v-if='article.description'>
                   {{ article.description.substring(0, 300) + '...' }}
                 </v-card-text>
                 <v-card-actions>
@@ -24,6 +24,7 @@
                     color="info"
                     :data="article.id"
                     :to="'articles/' + article.id"
+                    @click="addArticleId(article.id)"
                     >Read More</v-btn
                   >
                   <v-btn icon><v-icon>mdi-thumb-up</v-icon></v-btn>
@@ -56,11 +57,10 @@
     articleImg() {
       return function(imga) {
         if (imga) {
-          let blep = atob(imga);
-          let blop = b64toBlob(blep, 'image/png');
-          var image = new Image();
-          image.src = URL.createObjectURL(blop);
-          console.log(image.src, 'blep');
+          let photo = atob(imga);
+          let pic = b64toBlob(photo, 'image/png');
+          let image = new Image();
+          image.src = URL.createObjectURL(pic);
           return image;
         } else
           return 'https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80';
@@ -79,9 +79,15 @@
       return this.image;
     },
     getOneArticle(article) {
-      console.log(article);
+      //console.log(article);
       this.$store.commit('setArticle', article); //do i?
       return article;
+    },
+    addArticleId(id) {
+      console.log(id);
+      //:to="'articles/' + article.id"
+      this.$store.commit('setCurrentArticle', id);
+      //console.log(this.$store.state.currentArticle)
     },
   },
 };

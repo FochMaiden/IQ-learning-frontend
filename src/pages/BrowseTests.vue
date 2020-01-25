@@ -131,10 +131,10 @@
 </template>
 
 <script>
-import { restApi } from '../api/restApi';
-import { dwnld } from '../util/utilFunctions';
+	import {restApi} from '../api/restApi';
+	import {dwnld} from '../util/utilFunctions';
 
-export default {
+	export default {
   name: 'BrowseTests',
   created() {
     this.$store.dispatch('loadPublicTests');
@@ -212,6 +212,7 @@ export default {
         this.resultsTestId = null;
         this.points = {};
         this.loadingResults = false;
+        this.$store.dispatch('loadLastResults');
       });
     },
   },

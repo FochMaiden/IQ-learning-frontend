@@ -6,7 +6,9 @@
           <v-card-title> Welcome back {{ $auth.user().name }}! </v-card-title>
           <v-card-text>Checkout latest results for questions!</v-card-text>
           <v-card
-                  v-if='$store.state.lastResults'
+            v-if="
+              $store.state.lastResults && $store.state.lastResults.length !== 0
+            "
             ref="card"
             :shaped="false"
             dark

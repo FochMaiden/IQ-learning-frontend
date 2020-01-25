@@ -133,30 +133,30 @@
 </template>
 
 <script>
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
-import {
-  Blockquote,
-  Bold,
-  BulletList,
-  Code,
-  CodeBlock,
-  HardBreak,
-  Heading,
-  History,
-  Image,
-  Italic,
-  Link,
-  ListItem,
-  OrderedList,
-  Strike,
-  TodoItem,
-  TodoList,
-  Underline,
-} from 'tiptap-extensions';
-import { restApi } from '../../../../api/restApi';
-import EditorFloatingMenu from 'tiptap/src/Components/EditorFloatingMenu';
+	import {Editor, EditorContent, EditorMenuBar} from 'tiptap';
+	import {
+		Blockquote,
+		Bold,
+		BulletList,
+		Code,
+		CodeBlock,
+		HardBreak,
+		Heading,
+		History,
+		Image,
+		Italic,
+		Link,
+		ListItem,
+		OrderedList,
+		Strike,
+		TodoItem,
+		TodoList,
+		Underline,
+	} from 'tiptap-extensions';
+	import {restApi} from '../../../../api/restApi';
+	import EditorFloatingMenu from 'tiptap/src/Components/EditorFloatingMenu';
 
-export default {
+	export default {
   components: {
     EditorMenuBar,
     EditorFloatingMenu,
@@ -224,9 +224,9 @@ export default {
   },
   methods: {
     showFile() {
-      var demoImage = document.querySelector('img');
-      var file = document.querySelector('input[type=file]').files[0];
-      var reader = new FileReader();
+      let demoImage = document.querySelector('img');
+      let file = document.querySelector('input[type=file]').files[0];
+      let reader = new FileReader();
       reader.onload = e => {
         demoImage.src = reader.result;
         this.imageSRC = e.target.result;
