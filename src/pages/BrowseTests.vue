@@ -117,11 +117,21 @@
             </v-list-item>
           </v-row>
           <v-card-actions>
+            <v-spacer></v-spacer>
             <v-btn
-              v-if="isAddingResults(test.id)"
-              :loading="loadingResults"
-              @click="saveResults"
-              >save results</v-btn
+                    v-if="isAddingResults(test.id)"
+                    outlined
+                    color="primary"
+                    :loading="loadingResults"
+                    @click="addResults(test)"
+            >cancel</v-btn
+            >
+            <v-btn
+                    v-if="isAddingResults(test.id)"
+                    color="primary"
+                    :loading="loadingResults"
+                    @click="saveResults"
+            >save results</v-btn
             >
           </v-card-actions>
         </v-card>

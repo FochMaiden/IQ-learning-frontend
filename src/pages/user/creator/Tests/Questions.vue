@@ -222,6 +222,8 @@
             <v-card-title>
               Test
             </v-card-title>
+            <v-text-field label="Title of test" name="testTitle" v-model="testTitle">
+            </v-text-field>
             <v-card-text
               v-for="(question, index) in filteredSelect"
               v-bind:key="index"
@@ -265,6 +267,7 @@ export default {
     return {
       dialog: false,
       testDialog: false,
+      testTitle: null,
       seePublic: false,
       error: '',
       msg: '',
@@ -406,9 +409,12 @@ export default {
       this.filteredSelect.forEach(item => {
         questionIds.push(item.id);
       });
-      restApi.addTest(this.subject.id, true, questionIds).then(() => {
-        this.testDialog = false;
-      });
+      console.log(this.testTitle);
+      restApi
+        .addTest(this.subject.id, this.testTitle, true, questionIds)
+        .then(() => {
+          this.testDialog = false;
+        });
     },
   },
 };
