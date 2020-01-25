@@ -22,7 +22,7 @@
             class="mx-auto"
             max-height="150"
             max-width="150"
-            :to="'user/id=all'"
+            to="/user/tests/user/id=all"
             @click="expand = !expand"
             shaped
           >
@@ -42,7 +42,7 @@
             class="mx-auto"
             max-height="150"
             max-width="150"
-            :to="'user/' + 'id=' + subject.id"
+            :to="'/user/tests/user/' + 'id=' + subject.id"
             @click="expand = !expand"
             shaped
           >

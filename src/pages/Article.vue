@@ -25,10 +25,13 @@
           <div v-html="articleContent(article[0].content)"></div>
         </v-card-text>
         <span class="d-flex justify-end ma-5"
-        ><v-btn icon @click="addVoteArticle(article[0])"
-        ><v-icon>mdi-thumb-up</v-icon
-        ><span class="float-right ml-2">{{ article[0].upvotes }}</span></v-btn
-        ></span>
+          ><v-btn icon @click="addVoteArticle(article[0])"
+            ><v-icon>mdi-thumb-up</v-icon
+            ><span class="float-right ml-2">{{
+              article[0].upvotes
+            }}</span></v-btn
+          ></span
+        >
       </v-card>
     </v-layout>
     <v-card
@@ -84,11 +87,11 @@
 </template>
 
 <script>
-	import {b64toBlob} from '../util/utilFunctions';
-	import {restApi} from '../api/restApi';
-	import {required} from '../util/validationFunctions';
+import { b64toBlob } from '../util/utilFunctions';
+import { restApi } from '../api/restApi';
+import { required } from '../util/validationFunctions';
 
-	export default {
+export default {
   data() {
     return {
       article: [],
@@ -142,7 +145,6 @@
     this.fetchData();
   },
   methods: {
-    helper() {},
     getComments(id) {
       restApi
         .getArticleComments(id)
@@ -168,7 +170,7 @@
           this.error = err;
         });
     },
-      addVoteArticle(item) {
+    addVoteArticle(item) {
       restApi
         .upvoteArticle(item.id)
         .then(response => {
@@ -192,6 +194,7 @@
           this.error = err;
         });
       this.getComments(this.article[0].id);
+      this.comment = '';
       this.commentsComputed();
     },
     fetchData() {
