@@ -32,6 +32,7 @@
       this.$store.dispatch('loadSubjects');
       this.$store.dispatch('loadUserQuestions');
       this.$store.dispatch('loadPublicQuestions');
+      this.$store.dispatch('loadArticles');
     } else restApi.createAxiosProxy(null);
   },
   data() {

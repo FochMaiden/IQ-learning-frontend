@@ -24,6 +24,7 @@
                     color="info"
                     :data="article.id"
                     :to="'articles/' + article.id"
+                    @click="addArticleId(article.id)"
                     >Read More</v-btn
                   >
                   <v-btn icon><v-icon>mdi-thumb-up</v-icon></v-btn>
@@ -78,9 +79,15 @@
       return this.image;
     },
     getOneArticle(article) {
-      console.log(article);
+      //console.log(article);
       this.$store.commit('setArticle', article); //do i?
       return article;
+    },
+    addArticleId(id) {
+      console.log(id);
+      //:to="'articles/' + article.id"
+      this.$store.commit('setCurrentArticle', id);
+      //console.log(this.$store.state.currentArticle)
     },
   },
 };

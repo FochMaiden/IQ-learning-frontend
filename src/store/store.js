@@ -1,7 +1,7 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
-import { restApi } from '../api/restApi';
-import { merge } from '../util/utilFunctions';
+import {restApi} from '../api/restApi';
+import {merge} from '../util/utilFunctions';
 
 Vue.use(Vuex);
 
@@ -26,6 +26,7 @@ function initialState() {
     articleTags: [],
     articles: [],
     articleComments: [],
+    currentArticle: null,
   };
 }
 
@@ -119,8 +120,8 @@ export default new Vuex.Store({
     setArticleTags(state, data) {
       state.articleTags = data;
     },
-    setArticle(state, data) {
-      state.article = data;
+    setCurrentArticle(state, data) {
+      state.currentArticle = data;
     },
     setArticleComments(state, data) {
       state.article = data;

@@ -340,16 +340,20 @@ export const restApi = {
       return response.data;
     });
   },
-	upvote(id) {
+  upvote(id) {
     return this.axiosProxy.put(`/comment/upvote/` + id).then(response => {
       return response.data;
     });
   },
-	addComment(id,comment) {
-		return this.axiosProxy.post('/comment/add', {
-			id: id,
-			comment: comment,
-
-		});
-	},
+	upvoteArticle(id) {
+    return this.axiosProxy.put(`/article/upvote/` + id).then(response => {
+      return response.data;
+    });
+  },
+  addComment(id, comment) {
+    return this.axiosProxy.post('/comment/add', {
+      id: id,
+      comment: comment,
+    });
+  },
 };

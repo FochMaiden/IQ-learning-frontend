@@ -24,6 +24,11 @@
         <v-card-text>
           <div v-html="articleContent(article[0].content)"></div>
         </v-card-text>
+        <span class="d-flex justify-end ma-5"
+        ><v-btn icon @click="addVoteArticle(article[0])"
+        ><v-icon>mdi-thumb-up</v-icon
+        ><span class="float-right ml-2">{{ article[0].upvotes }}</span></v-btn
+        ></span>
       </v-card>
     </v-layout>
     <v-card
@@ -70,13 +75,7 @@
         ></v-text-field>
       </v-card>
       <span class="d-flex justify-end"
-        ><v-btn
-          primary
-          outlined
-          small
-          fab
-          icon
-          @click="addComment(comment)"
+        ><v-btn primary outlined small fab icon @click="addComment(comment)"
           ><v-icon>mdi-plus</v-icon></v-btn
         ></span
       >
@@ -116,24 +115,8 @@
   },
   computed: {
     commentsComputed() {
-      //console.log('alan',this.article[0].id)
-      console.log('alan', this.comments);
-      //this.getComments(this.article[0].id);
       return this.comments;
     },
-    /*article() {
-		  //this.$store.state.articles.map(image=> this.article.image=atob(image));
-		  /!* console.log('przed',this.urlId);
-           if (this.urlId === null) {
-             this.urlId = this.$route.params.id;
-               console.log('po',this.urlId);
-             return this.$store.state.articles.filter(item => {
-               return item.id.toString() === this.urlId;
-             });
-
-             return this.$store.state.article;
-           }*!/
-	  },*/
     articleImg() {
       return function(imga) {
         if (imga) {
@@ -141,7 +124,7 @@
           let blop = b64toBlob(blep, 'image/png');
           var image = new Image();
           image.src = URL.createObjectURL(blop);
-          //console.log(image.src, 'blep');
+
           return image;
         } else
           return 'https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80';
@@ -157,26 +140,11 @@
     },
   },
   created() {
-    //console.log('im here');
-    //this.helper();
-
-    console.log('przed', this.urlId);
-
-    this.urlId = this.$route.params.id;
-    let kupa = this.$store.state.articles.filter(item => {
-      return item.id.toString() === this.urlId;
-    });
-    this.article = kupa;
-    this.getComments(this.article[0].id);
-
-    // this.$store.dispatch('setArticle',this.$store.state.article);
-    ///this.article()
+    this.fetchData();
   },
   methods: {
     helper() {},
     getComments(id) {
-      console.log('im here');
-      console.log('this.article[0].id', this.article[0].id);
       restApi
         .getArticleComments(id)
         .then(response => {
@@ -188,9 +156,22 @@
         });
     },
     addVote(item) {
-      console.log(item.id);
       restApi
         .upvote(item.id)
+        .then(response => {
+          if (response.upvotes === 1) {
+            item.upvotes++;
+          } else {
+            item.upvotes--;
+          }
+        })
+        .catch(err => {
+          this.error = err;
+        });
+    },
+      addVoteArticle(item) {
+      restApi
+        .upvoteArticle(item.id)
         .then(response => {
           if (response.upvotes === 1) {
             item.upvotes++;
@@ -206,7 +187,6 @@
       restApi
         .addComment(this.article[0].id, comment)
         .then(response => {
-          console.log(response);
           return response;
         })
         .catch(err => {
@@ -214,6 +194,14 @@
         });
       this.getComments(this.article[0].id);
       this.commentsComputed();
+    },
+    fetchData() {
+      this.urlId = this.$route.params.id;
+      console.log(`urlID`, this.urlId);
+      this.article = this.$store.state.articles.filter(item => {
+        return item.id.toString() === this.urlId;
+      });
+      this.getComments(this.article[0].id);
     },
   },
 };
