@@ -38,7 +38,7 @@
                 <v-btn outlined to="/articles">Articles</v-btn>
               </v-col>
               <v-col class="shrink">
-                <v-btn  to="tests/public">Tests</v-btn>
+                <v-btn to="tests/public">Tests</v-btn>
               </v-col>
             </v-row>
           </v-alert>

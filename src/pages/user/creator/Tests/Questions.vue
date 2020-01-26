@@ -1,10 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-container>
-    <v-alert
-      v-show="!subject"
-      type="warning"
-      transition="scale-transition"
-    >
+    <v-alert v-show="!subject" type="warning" transition="scale-transition">
       You must select subject to create test from selected questions.
     </v-alert>
     <v-data-table

@@ -212,18 +212,18 @@
           this.error = err;
         });
     },
-	  addComment(comment) {
-		  restApi
-			  .addComment(this.article[0].id, comment)
-			  .then(response => {
-				  this.getComments(this.article[0].id);
-				  this.comment='';
-				  return response;
-			  })
-			  .catch(err => {
-				  this.error = err;
-			  });
-	  },
+    addComment(comment) {
+      restApi
+        .addComment(this.article[0].id, comment)
+        .then(response => {
+          this.getComments(this.article[0].id);
+          this.comment = '';
+          return response;
+        })
+        .catch(err => {
+          this.error = err;
+        });
+    },
     fetchData() {
       this.urlId = this.$route.params.id;
       console.log(`urlID`, this.urlId);
