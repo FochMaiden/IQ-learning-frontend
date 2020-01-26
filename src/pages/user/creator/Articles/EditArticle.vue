@@ -1,13 +1,13 @@
 <template>
   <v-container>
-    <v-row>
+    <!--<v-row>
       <v-checkbox
         v-for="(item, index) in loadArticleTags"
         :key="index"
         :label="item.tag"
         v-model="item.checked"
       />
-    </v-row>
+    </v-row>-->
     <v-text-field
       :counter="104"
       v-model="article.title"
@@ -25,6 +25,7 @@
     <v-file-input
       :v-model="articleImg(article.image)"
       @change="showFile"
+      @load="showFile"
       type="file"
       prepend-icon="mdi-camera"
       label="Attach a photo that will show while browsing through articles"
@@ -129,7 +130,17 @@
     <v-divider></v-divider>
     <editor-content focused outlined :editor="editor" />
     <v-divider></v-divider>
-    <v-btn class="primary" dark outlined @click="saveArticle">Save</v-btn>
+    <v-btn
+      class="primary"
+      dark
+      outlined
+      @click="saveArticle"
+      v-on:click="$emit('close-dialog')"
+      >Save</v-btn
+    >
+    <v-btn class="primary" dark outlined v-on:click="$emit('close-dialog')"
+      >Cancel</v-btn
+    >
   </v-container>
 </template>
 
@@ -169,6 +180,7 @@ export default {
   },
   data() {
     return {
+      dialog: true,
       imageSRC: null,
       articleTags: [],
       editor: new Editor({
@@ -216,8 +228,7 @@ export default {
           let image = new Image();
           image.src = URL.createObjectURL(pic);
           return image;
-        } else
-          return 'https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80';
+        } else return '';
       };
     },
     loadArticleTags() {
@@ -237,6 +248,9 @@ export default {
     // console.log('created', this.article.image);
   },
   methods: {
+    closeDialog: function() {
+      this.$emit('close-dialog');
+    },
     showFile() {
       let demoImage = document.querySelector('img');
       let file = document.querySelector('input[type=file]').files[0];
@@ -244,6 +258,7 @@ export default {
       reader.onload = e => {
         demoImage.src = reader.result;
         this.imageSRC = e.target.result;
+        this.article.image = btoa(this.imageSRC);
       };
       reader.readAsDataURL(file);
     },
@@ -262,11 +277,14 @@ export default {
       restApi
         .updateArticle(this.article)
         .then(response => {
+          this.$store.dispatch('loadUserArticles');
           this.msg = response.msg;
+          this.article = null;
         })
         .catch(err => {
           this.error = err;
         });
+      this.close();
     },
   },
 };

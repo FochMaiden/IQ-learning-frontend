@@ -117,7 +117,7 @@ export default {
       ];
     },
     width() {
-      return 1150;
+      return 1000;
     },
     height() {
       return 400;
@@ -126,7 +126,7 @@ export default {
   data() {
     return {
       card: null,
-      direction: 'horizontal',
+      direction: 'vertical',
     };
   },
 };

@@ -1,12 +1,12 @@
 <template>
   <v-container>
     <v-row>
-      <v-checkbox
+      <!--<v-checkbox
         v-for="(item, index) in loadArticleTags"
         :key="index"
         :label="item.tag"
         v-model="item.checked"
-      />
+      />-->
     </v-row>
     <v-text-field
       :counter="104"
@@ -30,7 +30,7 @@
       label="Attach a photo that will show while browsing through articles"
     />
     <!-- <input type="file" accept="image/x-png,image/gif,image/jpeg" @change="showFile">-->
-    <img src="" width="150" alt="Thumb preview..." />
+    <img :src="articleImg(article.image)" width="150" alt="Thumb preview..." />
 
     <v-divider></v-divider>
     <editor-floating-menu :editor="editor" v-slot="{ commands, isActive }">
@@ -67,7 +67,7 @@
           :class="{ 'is-active': isActive.paragraph() }"
           @click="commands.paragraph"
         >
-          ><v-icon>format_textdirection_r_to_l</v-icon></v-btn
+          <v-icon>format_textdirection_r_to_l</v-icon></v-btn
         >
         <v-btn
           icon
@@ -158,7 +158,13 @@
                         >
                       </template>
                       <v-card>
-                        <EditArticle :article="userArticle" />
+                        <EditArticle
+                          :article="userArticle"
+                          v-on:close-dialog="closeDialog"
+                        />
+                        <!--<v-btn class="primary" dark outlined @click="close"
+                          >Cancel</v-btn
+                        >-->
                       </v-card>
                     </v-dialog>
                     <v-btn icon><v-icon>mdi-thumb-up</v-icon></v-btn>
@@ -255,6 +261,7 @@ export default {
   beforeDestroy() {
     this.editor.destroy();
   },
+
   computed: {
     loadArticleTags() {
       return this.$store.state.articleTags;
@@ -275,8 +282,7 @@ export default {
           let image = new Image();
           image.src = URL.createObjectURL(pic);
           return image;
-        } else
-          return 'https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80';
+        } else return '';
       };
     },
   },
@@ -285,6 +291,10 @@ export default {
     this.$store.dispatch('loadUserArticles');
   },
   methods: {
+    closeDialog: function() {
+      console.log('close dialog 2');
+      this.dialog = [];
+    },
     showFile() {
       let demoImage = document.querySelector('img');
       let file = document.querySelector('input[type=file]').files[0];
@@ -313,11 +323,15 @@ export default {
           //this.$store.dispatch('loadUserArticles');
           this.msg = response.msg;
           this.$store.dispatch('loadUserArticles');
+          this.article = '';
           //this.loadUserArticles();
         })
         .catch(err => {
           this.error = err;
         });
+    },
+    close() {
+      this.dialog = false;
     },
   },
 };
