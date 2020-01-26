@@ -3,7 +3,6 @@
     <v-alert
       v-show="!subject"
       type="warning"
-      border="left"
       transition="scale-transition"
     >
       You must select subject to create test from selected questions.

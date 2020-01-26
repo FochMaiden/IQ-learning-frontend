@@ -27,10 +27,21 @@
               </v-list-item-action>-->
             </v-list-item>
           </v-list>
-          <v-btn v-else class="flex ma-auto" outlined to="/articles"
-            ><v-icon>mdi-plus</v-icon>Take me to articles to start converation
-            with authors!</v-btn
-          >
+          <v-alert prominent type="info" v-else>
+            <v-row align="center">
+              <v-col class="grow"
+                >You currently dont have any conversations, You can go to
+                <strong>ARTICLES</strong> and talk with authors! or
+                <strong>TESTS</strong> to talk to creator!</v-col
+              >
+              <v-col class="shrink">
+                <v-btn outlined to="/articles">Articles</v-btn>
+              </v-col>
+              <v-col class="shrink">
+                <v-btn  to="tests/public">Tests</v-btn>
+              </v-col>
+            </v-row>
+          </v-alert>
           <v-divider></v-divider>
         </v-card>
       </v-col>

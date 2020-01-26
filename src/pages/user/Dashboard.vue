@@ -110,31 +110,23 @@ export default {
         ['#A0F9FF', '#7795FF'],
         ['#FFB178', '#FF3C8E'],
         ['#A0BBFF', '#EC77FF'],
-        ['#A0F9FF', '#7795FF'],
-        ['#FFB178', '#FF3C8E'],
-        ['#A0BBFF', '#EC77FF'],
-        ['#A0F9FF', '#7795FF'],
+        ['#A0F9FF', '#7795FF']
       ];
     },
     width() {
-      return 1000;
+      return 1150;
     },
     height() {
-      return 400;
+      return 600;
     },
   },
   data() {
     return {
       card: null,
-      direction: 'vertical',
+      direction: 'horizontal',
     };
   },
 };
 </script>
 
-<style scoped>
-.v-sheet--offset {
-  top: -24px;
-  position: relative;
-}
-</style>
+<style scoped></style>

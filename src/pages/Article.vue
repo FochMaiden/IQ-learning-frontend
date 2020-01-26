@@ -14,7 +14,9 @@
           </v-list-item-content>
           <v-menu v-if="$auth.user()" :close-on-content-click="false">
             <template v-slot:activator="{ on }">
-              <v-icon v-on="on" class="ma-auto ">mdi-chat</v-icon>
+              <v-icon :disabled="isDisabledChat" v-on="on" class="ma-auto "
+                >mdi-chat</v-icon
+              >
             </template>
             <v-card
               ><v-text-field dense v-model="msg"></v-text-field>
@@ -140,6 +142,11 @@ export default {
     isDisabled: function() {
       return !this.$auth.user().id;
     },
+    isDisabledChat() {
+      if (this.$auth.user().hasOwnProperty('id')) {
+        return this.article[0].owner.id === this.$auth.user().id;
+      } else return true;
+    },
     articleImg() {
       return function(imga) {
         if (imga) {
@@ -227,7 +234,10 @@ export default {
       this.getComments(this.article[0].id);
     },
     startConversation() {
-      //console.log(this.article[0].owner);
+      /*      if (this.$auth.user() && this.$auth.user().conversations){
+        let convos = this.$auth.user().conversations
+        console.log(this.$auth.user())
+      }*/
       stompClientSocket.startConversation(
         this.msg,
         this.article[0].owner.id,

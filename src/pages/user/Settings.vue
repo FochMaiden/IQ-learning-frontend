@@ -11,10 +11,7 @@
           <v-row>
             <v-col class="d-flex flex-wrap">
               <v-avatar color="accent" size="100" class="ma-auto">
-                <v-img
-                  v-if="$auth.user().avatar"
-                  :src="$auth.user().avatar"
-                ></v-img>
+                <v-img v-if="$auth.user().avatar" :src="$auth.user().avatar" />
                 <v-dialog v-model="dialog" max-width="800px">
                   <template v-slot:activator="{ on }">
                     <v-btn dark x-small absolute bottom right fab v-on="on"
@@ -129,6 +126,15 @@
               </v-avatar>
             </v-col>
             <v-col>
+              <v-card-actions>
+                <v-spacer />
+                <v-btn
+                  dark
+                  style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
+                  v-on:click="saveSettings"
+                  >Save settings</v-btn
+                ></v-card-actions
+              >
               <v-text-field
                 label="E-mail"
                 v-model="email"
@@ -212,7 +218,7 @@
                   outlined
                   dense
                   :rules="[minLength('name', 3), isName()]"
-                ></v-text-field>
+                />
               </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field
@@ -221,13 +227,7 @@
                   outlined
                   dense
                   :rules="[minLength('surname', 3), isName()]"
-                ></v-text-field>
-                <v-btn
-                  dark
-                  style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
-                  v-on:click="saveSettings"
-                  >Save settings</v-btn
-                >
+                />
               </v-col>
             </v-row>
           </v-form>
@@ -246,7 +246,7 @@
                   v-model="password"
                   outlined
                   dense
-                ></v-text-field>
+                />
               </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field
@@ -262,7 +262,7 @@
                   ]"
                   outlined
                   dense
-                ></v-text-field>
+                />
                 <v-btn
                   dark
                   style="background-image: linear-gradient(to right, #fe7676, #f7717e, #ee6d85, #e46a8c, #d96891);"
