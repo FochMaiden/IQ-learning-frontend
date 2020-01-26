@@ -310,8 +310,10 @@ export default {
       restApi
         .addArticle(this.article)
         .then(response => {
-          this.$store.dispatch('loadUserArticles');
+          //this.$store.dispatch('loadUserArticles');
           this.msg = response.msg;
+          this.$store.dispatch('loadUserArticles');
+          //this.loadUserArticles();
         })
         .catch(err => {
           this.error = err;

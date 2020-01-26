@@ -22,13 +22,13 @@
       prepend-icon="description"
       required
     />
-    <!-- <v-file-input
-            v-model="articleImg(article.image)"
-
-            prepend-icon="mdi-camera"
-            label="Attach a photo that will show while browsing through articles"
-    />-->
-    <!--<input type="file" accept="image/x-png,image/gif,image/jpeg" @change="showFile">-->
+    <v-file-input
+      :v-model="articleImg(article.image)"
+      @change="showFile"
+      type="file"
+      prepend-icon="mdi-camera"
+      label="Attach a photo that will show while browsing through articles"
+    />
     <v-img
       :src="articleImg(article.image)"
       width="150"
