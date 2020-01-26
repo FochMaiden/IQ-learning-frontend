@@ -104,14 +104,7 @@ export default {
       return a;
     },
     colors() {
-      return [
-        ['#FFB178', '#FF3C8E'],
-        ['#A0BBFF', '#EC77FF'],
-        ['#A0F9FF', '#7795FF'],
-        ['#FFB178', '#FF3C8E'],
-        ['#A0BBFF', '#EC77FF'],
-        ['#A0F9FF', '#7795FF']
-      ];
+      return ['#A0BBFF', '#EC77FF','#A0F9FF', '#7795FF'];
     },
     width() {
       return 1150;

@@ -288,7 +288,7 @@ export const restApi = {
   },
   getLastResults() {
     return this.axiosProxy.get(`/results/get/last`).then(response => {
-      //console.log(response.data);
+      console.log(response.data);
       return response.data;
     });
   },
