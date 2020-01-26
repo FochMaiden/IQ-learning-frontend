@@ -92,7 +92,7 @@ export const restApi = {
     youtube
   ) {
     return this.axiosProxy
-      .post('/user/update', {
+      .put('/user/update', {
         email: email,
         name: name,
         surname: surname,
@@ -112,7 +112,7 @@ export const restApi = {
   },
   changePassword(pass, newPass) {
     return this.axiosProxy
-      .post('/user/password', {
+      .put('/user/password', {
         currentPass: pass,
         newPass: newPass,
       })
@@ -144,7 +144,7 @@ export const restApi = {
   },
   addQuestion(subject, question, shareable, choiceTest, answers) {
     return this.axiosProxy
-      .put('/question/add', {
+      .post('/question/add', {
         subject: subject,
         question: question,
         shareable: shareable,
@@ -162,7 +162,7 @@ export const restApi = {
   },
   updateQuestion(subject, question, shareable, choiceTest, answers, id) {
     return this.axiosProxy
-      .post('/question/update', {
+      .put('/question/update', {
         subject: subject,
         question: question,
         shareable: shareable,
@@ -210,7 +210,7 @@ export const restApi = {
   },
   addTest(subjectId, title, shareable, questions) {
     return this.axiosProxy
-      .put('/test/add', {
+      .post('/test/add', {
         subjectId: subjectId,
         title: title,
         shareable: shareable,
@@ -233,7 +233,7 @@ export const restApi = {
       });
   },
   editTest(test, questions) {
-    return this.axiosProxy.post('/test/update', {
+    return this.axiosProxy.put('/test/update', {
       id: test.id,
       owner: test.owner,
       subject: test.subject,
@@ -267,7 +267,7 @@ export const restApi = {
   },
   addResultsForTest(testid, results) {
     return this.axiosProxy
-      .put('/results/add', {
+      .post('/results/add', {
         testId: testid,
         resultList: results,
       })
@@ -300,7 +300,7 @@ export const restApi = {
   },
   updateResultsForTest(testid, results) {
     return this.axiosProxy
-      .put('/results/add', {
+      .post('/results/add', {
         testId: testid,
         resultList: results,
       })

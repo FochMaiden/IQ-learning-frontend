@@ -87,7 +87,6 @@
           :flat="flat"
           :counter="counterEn ? counter : false"
           :dense="dense"
-          @input="clearAdded"
         ></v-text-field>
       </v-card>
       <!-- <span>{{added}}</span>-->
@@ -210,8 +209,7 @@ export default {
         .addComment(this.article[0].id, comment)
         .then(response => {
           this.getComments(this.article[0].id);
-          //console.log('comment',this.article[0])
-          //this.article[0].comment = '';
+          this.comment = '';
           return response;
         })
         .catch(err => {
