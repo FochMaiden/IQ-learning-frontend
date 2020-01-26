@@ -280,29 +280,23 @@
 </template>
 
 <script>
-import {
-  isName,
-  minLength,
-  passwordNumber,
-  passwordUppercase,
-  required,
-} from '../../util/validationFunctions';
-import {
-  accessoriesAvatar,
-  clothesAvatar,
-  clothesGraphicAvatar,
-  colorAvatar,
-  eyebrowsAvatar,
-  eyesAvatar,
-  facialHairAvatar,
-  hairColorAvatar,
-  mouthAvatar,
-  skinColorAvatar,
-  topAvatart,
-} from '../../util/avatarPropherties';
-import { restApi } from '../../api/restApi';
+	import {isName, minLength, passwordNumber, passwordUppercase, required,} from '../../util/validationFunctions';
+	import {
+		accessoriesAvatar,
+		clothesAvatar,
+		clothesGraphicAvatar,
+		colorAvatar,
+		eyebrowsAvatar,
+		eyesAvatar,
+		facialHairAvatar,
+		hairColorAvatar,
+		mouthAvatar,
+		skinColorAvatar,
+		topAvatart,
+	} from '../../util/avatarPropherties';
+	import {restApi} from '../../api/restApi';
 
-export default {
+	export default {
   name: 'Settings',
   data() {
     return {

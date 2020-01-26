@@ -81,9 +81,9 @@
   </v-container>
 </template>
 <script>
-import { VueFunnelGraph } from 'vue-funnel-graph-js';
+	import {VueFunnelGraph} from 'vue-funnel-graph-js';
 
-export default {
+	export default {
   name: 'Dashboard',
   components: {
     VueFunnelGraph,

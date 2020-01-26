@@ -258,12 +258,12 @@
 </template>
 
 <script>
-import { required } from '../../../../util/validationFunctions';
-import { restApi } from '../../../../api/restApi';
-import ButtonCounter from '../../../../templates/QuestionsTemplates/ButtonCounter';
-import { questionsHeaders } from '../../../../util/headers';
+	import {required} from '../../../../util/validationFunctions';
+	import {restApi} from '../../../../api/restApi';
+	import ButtonCounter from '../../../../templates/QuestionsTemplates/ButtonCounter';
+	import {questionsHeaders} from '../../../../util/headers';
 
-export default {
+	export default {
   name: 'NewQuestions',
   components: { ButtonCounter },
   data() {

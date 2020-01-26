@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import BrowseArticles from './BrowseArticles';
+	import BrowseArticles from './BrowseArticles';
 
-export default {
+	export default {
   name: 'Home',
   components: { BrowseArticles },
   data() {

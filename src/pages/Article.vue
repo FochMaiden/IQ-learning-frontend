@@ -103,12 +103,12 @@
 </template>
 
 <script>
-import { b64toBlob } from '../util/utilFunctions';
-import { restApi } from '../api/restApi';
-import { required } from '../util/validationFunctions';
-import { stompClientSocket } from '../api/wsApi';
+	import {b64toBlob} from '../util/utilFunctions';
+	import {restApi} from '../api/restApi';
+	import {required} from '../util/validationFunctions';
+	import {stompClientSocket} from '../api/wsApi';
 
-export default {
+	export default {
   data() {
     return {
       msg: null,
@@ -212,19 +212,18 @@ export default {
           this.error = err;
         });
     },
-    addComment(comment) {
-      restApi
-        .addComment(this.article[0].id, comment)
-        .then(response => {
-          this.getComments(this.article[0].id);
-          //console.log('comment',this.article[0])
-          //this.article[0].comment = '';
-          return response;
-        })
-        .catch(err => {
-          this.error = err;
-        });
-    },
+	  addComment(comment) {
+		  restApi
+			  .addComment(this.article[0].id, comment)
+			  .then(response => {
+				  this.getComments(this.article[0].id);
+				  this.comment='';
+				  return response;
+			  })
+			  .catch(err => {
+				  this.error = err;
+			  });
+	  },
     fetchData() {
       this.urlId = this.$route.params.id;
       console.log(`urlID`, this.urlId);
