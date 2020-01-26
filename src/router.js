@@ -106,7 +106,7 @@ Vue.use(require('@websanova/vue-auth'), {
   },
   loginData: {
     url: '/user/token',
-    method: 'POST',
+    method: 'PUT',
     headers: {
       Authorization: 'bearer null',
     },
