@@ -9,13 +9,13 @@
                 <v-img
                   :src="articleImg(article.image)"
                   class="white--text align-end"
-                  height="200px"
+                  height="100%"
                   dark
                 >
                   <v-card-title> {{ article.title }}! </v-card-title>
                 </v-img>
                 <v-card-text v-if="article.description">
-                  {{ article.description.substring(0, 300) + '...' }}
+                  {{ article.description }}
                 </v-card-text>
                 <v-card-actions>
                   <v-btn

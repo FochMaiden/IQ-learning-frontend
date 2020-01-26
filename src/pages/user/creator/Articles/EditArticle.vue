@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <!--<v-row>
+    <v-card>
+      <!--<v-row>
       <v-checkbox
         v-for="(item, index) in loadArticleTags"
         :key="index"
@@ -8,139 +9,145 @@
         v-model="item.checked"
       />
     </v-row>-->
-    <v-text-field
-      :counter="104"
-      v-model="article.title"
-      label="Title"
-      prepend-icon="title"
-      required
-    />
-    <v-text-field
-      :counter="104"
-      v-model="article.description"
-      label="Description shown while browsing articles"
-      prepend-icon="description"
-      required
-    />
-    <v-file-input
-      :v-model="articleImg(article.image)"
-      @change="showFile"
-      @load="showFile"
-      type="file"
-      prepend-icon="mdi-camera"
-      label="Attach a photo that will show while browsing through articles"
-    />
-    <v-img
-      :src="articleImg(article.image)"
-      width="150"
-      alt="Thumb preview..."
-    />
+      <v-text-field
+        :counter="104"
+        v-model="article.title"
+        label="Title"
+        prepend-icon="title"
+        required
+      />
+      <v-text-field
+        :counter="104"
+        v-model="article.description"
+        label="Description shown while browsing articles"
+        prepend-icon="description"
+        required
+      />
+      <v-file-input
+        :v-model="articleImg(article.image)"
+        @change="showFile"
+        :value="articleImg(article.image)"
+        @load="articleImg(article.image)"
+        type="file"
+        prepend-icon="mdi-camera"
+        label="Attach a photo that will show while browsing through articles"
+      />
+      <v-img
+        :src="articleImg(article.image)"
+        width="150"
+        alt="Thumb preview..."
+      />
 
-    <v-divider></v-divider>
-    <editor-floating-menu :editor="editor" v-slot="{ commands, isActive }">
-      <div align="center">
-        <v-btn
-          icon
-          :class="{ 'is-active': isActive.bold() }"
-          @click="commands.bold"
-          ><v-icon>format_bold</v-icon></v-btn
-        >
+      <v-divider></v-divider>
+      <editor-floating-menu :editor="editor" v-slot="{ commands, isActive }">
+        <div align="center">
+          <v-btn
+            icon
+            :class="{ 'is-active': isActive.bold() }"
+            @click="commands.bold"
+            ><v-icon>format_bold</v-icon></v-btn
+          >
 
-        <v-btn
-          icon
-          :class="{ 'is-active': isActive.italic() }"
-          @click="commands.italic"
-          ><v-icon>format_italic</v-icon></v-btn
-        >
-        <v-btn
-          icon
-          :class="{ 'is-active': isActive.strike() }"
-          @click="commands.strike"
-          ><v-icon>format_strikethrough</v-icon></v-btn
-        >
-        <v-btn
-          icon
-          :class="{ 'is-active': isActive.underline() }"
-          @click="commands.underline"
-          ><v-icon>format_underlined</v-icon></v-btn
-        >
+          <v-btn
+            icon
+            :class="{ 'is-active': isActive.italic() }"
+            @click="commands.italic"
+            ><v-icon>format_italic</v-icon></v-btn
+          >
+          <v-btn
+            icon
+            :class="{ 'is-active': isActive.strike() }"
+            @click="commands.strike"
+            ><v-icon>format_strikethrough</v-icon></v-btn
+          >
+          <v-btn
+            icon
+            :class="{ 'is-active': isActive.underline() }"
+            @click="commands.underline"
+            ><v-icon>format_underlined</v-icon></v-btn
+          >
 
-        <v-btn
-          icon
-          :class="{ 'is-active': isActive.paragraph() }"
-          @click="commands.paragraph"
-        >
-          <v-icon>format_textdirection_r_to_l</v-icon></v-btn
-        >
-        <v-btn
-          icon
-          :class="{ 'is-active': isActive.code() }"
-          @click="commands.code"
-          ><v-icon>code</v-icon></v-btn
-        >
-        <button
-          class="menubar__button"
-          :class="{ 'is-active': isActive.heading({ level: 1 }) }"
-          @click="commands.heading({ level: 1 })"
-        >
-          H1
-        </button>
+          <v-btn
+            icon
+            :class="{ 'is-active': isActive.paragraph() }"
+            @click="commands.paragraph"
+          >
+            <v-icon>format_textdirection_r_to_l</v-icon></v-btn
+          >
+          <v-btn
+            icon
+            :class="{ 'is-active': isActive.code() }"
+            @click="commands.code"
+            ><v-icon>code</v-icon></v-btn
+          >
+          <button
+            class="menubar__button"
+            :class="{ 'is-active': isActive.heading({ level: 1 }) }"
+            @click="commands.heading({ level: 1 })"
+          >
+            H1
+          </button>
 
-        <button
-          class="menubar__button"
-          :class="{ 'is-active': isActive.heading({ level: 2 }) }"
-          @click="commands.heading({ level: 2 })"
-        >
-          H2
-        </button>
+          <button
+            class="menubar__button"
+            :class="{ 'is-active': isActive.heading({ level: 2 }) }"
+            @click="commands.heading({ level: 2 })"
+          >
+            H2
+          </button>
 
-        <button
-          class="menubar__button"
-          :class="{ 'is-active': isActive.heading({ level: 3 }) }"
-          @click="commands.heading({ level: 3 })"
+          <button
+            class="menubar__button"
+            :class="{ 'is-active': isActive.heading({ level: 3 }) }"
+            @click="commands.heading({ level: 3 })"
+          >
+            H3
+          </button>
+          <!-- <v-btn
+            icon
+            :class="{ 'is-active': isActive.bullet_list() }"
+            @click="commands.bullet_list"
+            ><v-icon>format_list_bulleted</v-icon></v-btn
+          >
+          <v-btn
+            icon
+            :class="{ 'is-active': isActive.ordered_list() }"
+            @click="commands.ordered_list"
+            ><v-icon>format_list_numbered</v-icon></v-btn
+          >-->
+          <v-btn
+            icon
+            :class="{ 'is-active': isActive.blockquote() }"
+            @click="commands.blockquote"
+          >
+            <v-icon>format_quote</v-icon></v-btn
+          >
+          <v-btn icon @click="showImagePrompt(commands.image)">
+            <v-icon>add_photo_alternate</v-icon></v-btn
+          >
+          <v-btn icon @click="commands.undo"> <v-icon>undo</v-icon></v-btn>
+          <v-btn icon @click="commands.redo"> <v-icon>redo</v-icon></v-btn>
+        </div>
+      </editor-floating-menu>
+      <v-divider></v-divider>
+      <editor-content focused outlined :editor="editor" />
+      <v-divider></v-divider>
+
+      <v-card-actions>
+        <div class="flex-grow-1"></div>
+        <v-btn color="red" outlined v-on:click="$emit('close-dialog')"
+          >Cancel</v-btn
         >
-          H3
-        </button>
         <v-btn
-          icon
-          :class="{ 'is-active': isActive.bullet_list() }"
-          @click="commands.bullet_list"
-          ><v-icon>format_list_bulleted</v-icon></v-btn
+          class="primary"
+          dark
+          outlined
+          @click="saveArticle"
+          v-on:click="$emit('close-dialog')"
+          >Save</v-btn
         >
-        <v-btn
-          icon
-          :class="{ 'is-active': isActive.ordered_list() }"
-          @click="commands.ordered_list"
-          ><v-icon>format_list_numbered</v-icon></v-btn
-        >
-        <v-btn
-          icon
-          :class="{ 'is-active': isActive.blockquote() }"
-          @click="commands.blockquote"
-        >
-          <v-icon>format_quote</v-icon></v-btn
-        >
-        <v-btn icon @click="showImagePrompt(commands.image)">
-          <v-icon>add_photo_alternate</v-icon></v-btn
-        >
-        <v-btn icon @click="commands.undo"> <v-icon>undo</v-icon></v-btn>
-        <v-btn icon @click="commands.redo"> <v-icon>redo</v-icon></v-btn>
-      </div>
-    </editor-floating-menu>
-    <v-divider></v-divider>
-    <editor-content focused outlined :editor="editor" />
-    <v-divider></v-divider>
-    <v-btn
-      class="primary"
-      dark
-      outlined
-      @click="saveArticle"
-      v-on:click="$emit('close-dialog')"
-      >Save</v-btn
-    >
-    <v-btn class="primary" dark outlined v-on:click="$emit('close-dialog')"
-      >Cancel</v-btn
-    >
+      </v-card-actions>
+    </v-card>
   </v-container>
 </template>
 
@@ -203,10 +210,7 @@ export default {
           new Underline(),
           new History(),
         ],
-        content: `
-          <h1>Yay Headlines!</h1>
-          <p>All these <strong>cool tags</strong> are working now.</p>
-        `,
+        content: atob(this.article.content),
         onUpdate: ({ getJSON, getHTML }) => {
           this.json = getJSON();
           this.html = getHTML();

@@ -26,7 +26,7 @@
         <v-img
           :src="articleImg(article[0].image)"
           class="white--text align-end"
-          height="200px"
+          height="100%"
           dark
         ></v-img>
 
@@ -210,7 +210,8 @@ export default {
         .addComment(this.article[0].id, comment)
         .then(response => {
           this.getComments(this.article[0].id);
-          this.added = 'Your comment was added';
+          //console.log('comment',this.article[0])
+          //this.article[0].comment = '';
           return response;
         })
         .catch(err => {

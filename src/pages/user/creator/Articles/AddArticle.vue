@@ -33,7 +33,7 @@
     <img :src="articleImg(article.image)" width="150" alt="Thumb preview..." />
 
     <v-divider></v-divider>
-    <editor-floating-menu :editor="editor" v-slot="{ commands, isActive }">
+    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
       <div align="center">
         <v-btn
           icon
@@ -98,18 +98,19 @@
         >
           H3
         </button>
-        <v-btn
+
+        <!--<v-btn
           icon
           :class="{ 'is-active': isActive.bullet_list() }"
           @click="commands.bullet_list"
           ><v-icon>format_list_bulleted</v-icon></v-btn
-        >
-        <v-btn
+        >-->
+        <!--<v-btn
           icon
           :class="{ 'is-active': isActive.ordered_list() }"
           @click="commands.ordered_list"
           ><v-icon>format_list_numbered</v-icon></v-btn
-        >
+        >-->
         <v-btn
           icon
           :class="{ 'is-active': isActive.blockquote() }"
@@ -123,7 +124,7 @@
         <v-btn icon @click="commands.undo"> <v-icon>undo</v-icon></v-btn>
         <v-btn icon @click="commands.redo"> <v-icon>redo</v-icon></v-btn>
       </div>
-    </editor-floating-menu>
+    </editor-menu-bar>
     <v-divider></v-divider>
     <editor-content focused outlined :editor="editor" />
     <v-divider></v-divider>
@@ -145,7 +146,7 @@
                     <v-card-title> {{ userArticle.title }}! </v-card-title>
                   </v-img>
                   <v-card-text v-if="userArticle.description">
-                    {{ userArticle.description.substring(0, 300) + '...' }}
+                    {{ userArticle.description }}
                   </v-card-text>
                   <v-card-actions>
                     <v-dialog
@@ -197,12 +198,10 @@ import {
   ListItem,
   OrderedList,
   Strike,
-  TodoItem,
-  TodoList,
   Underline,
 } from 'tiptap-extensions';
 import { restApi } from '../../../../api/restApi';
-import EditorFloatingMenu from 'tiptap/src/Components/EditorFloatingMenu';
+
 import EditArticle from './EditArticle';
 import { b64toBlob } from '../../../../util/utilFunctions';
 
@@ -210,7 +209,6 @@ export default {
   components: {
     EditArticle,
     EditorMenuBar,
-    EditorFloatingMenu,
     EditorContent,
   },
   data() {
@@ -231,12 +229,10 @@ export default {
           new CodeBlock(),
           new HardBreak(),
           new Heading({ levels: [1, 2, 3] }),
+          new ListItem(),
           new BulletList(),
           new Image(),
           new OrderedList(),
-          new ListItem(),
-          new TodoItem(),
-          new TodoList(),
           new Bold(),
           new Code(),
           new Italic(),
@@ -246,16 +242,16 @@ export default {
           new History(),
         ],
         content: `
-          <h1>Yay Headlines!</h1>
-          <p>All these <strong>cool tags</strong> are working now.</p>
+           <h1>Yay Headlines!</h1>
+          <p>All these <strong>cool tags</strong> to use in your article</p>
         `,
         onUpdate: ({ getJSON, getHTML }) => {
           this.json = getJSON();
           this.html = getHTML();
         },
       }),
-      json: 'Update content to see changes',
-      html: 'Update content to see changes',
+      json: 'You forgot to put the the article',
+      html: 'You forgot to put the the article',
     };
   },
   beforeDestroy() {
