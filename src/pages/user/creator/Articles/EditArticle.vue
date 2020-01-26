@@ -22,15 +22,18 @@
       prepend-icon="description"
       required
     />
-    <v-file-input
-      v-model="article.image"
-      @change="showFile"
-      type="file"
-      prepend-icon="mdi-camera"
-      label="Attach a photo that will show while browsing through articles"
+    <!-- <v-file-input
+            v-model="articleImg(article.image)"
+
+            prepend-icon="mdi-camera"
+            label="Attach a photo that will show while browsing through articles"
+    />-->
+    <!--<input type="file" accept="image/x-png,image/gif,image/jpeg" @change="showFile">-->
+    <v-img
+      :src="articleImg(article.image)"
+      width="150"
+      alt="Thumb preview..."
     />
-    <!-- <input type="file" accept="image/x-png,image/gif,image/jpeg" @change="showFile">-->
-    <img src="" width="150" alt="Thumb preview..." />
 
     <v-divider></v-divider>
     <editor-floating-menu :editor="editor" v-slot="{ commands, isActive }">
@@ -67,7 +70,7 @@
           :class="{ 'is-active': isActive.paragraph() }"
           @click="commands.paragraph"
         >
-          ><v-icon>format_textdirection_r_to_l</v-icon></v-btn
+          <v-icon>format_textdirection_r_to_l</v-icon></v-btn
         >
         <v-btn
           icon
@@ -127,50 +130,7 @@
     <v-divider></v-divider>
     <editor-content focused outlined :editor="editor" />
     <v-divider></v-divider>
-
     <v-btn class="primary" dark outlined @click="saveArticle">Save</v-btn>
-    <v-container fluid class="ma-10">
-      <v-layout row wrap align-center>
-        <div v-for="userArticle in loadUserArticles" :key="userArticle.id">
-          <v-container class="text-center" fluid>
-            <v-row>
-              <v-col>
-                <v-card class="mx-auto" max-width="400">
-                  <v-img
-                    :src="articleImg(userArticle.image)"
-                    class="white--text align-end"
-                    height="200px"
-                    dark
-                  >
-                    <v-card-title> {{ userArticle.title }}! </v-card-title>
-                  </v-img>
-                  <v-card-text v-if="userArticle.description">
-                    {{ userArticle.description.substring(0, 300) + '...' }}
-                  </v-card-text>
-                  <v-card-actions>
-                    <v-dialog
-                      v-model="dialog[userArticle.id]"
-                      max-width="800px"
-                    >
-                      <template v-slot:activator="{ on }">
-                        <v-btn outlined small fab v-on="on"
-                          ><v-icon>edit</v-icon></v-btn
-                        >
-                      </template>
-                      <v-card>
-                        <EditArticle :article="userArticle" />
-                      </v-card>
-                    </v-dialog>
-                    <v-btn icon><v-icon>mdi-thumb-up</v-icon></v-btn>
-                    <p>{{ userArticle.upvotes }}</p>
-                  </v-card-actions>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-container>
-        </div>
-      </v-layout>
-    </v-container>
   </v-container>
 </template>
 
@@ -197,28 +157,21 @@ import {
 } from 'tiptap-extensions';
 import { restApi } from '../../../../api/restApi';
 import EditorFloatingMenu from 'tiptap/src/Components/EditorFloatingMenu';
-import EditArticle from './EditArticle';
 import { b64toBlob } from '../../../../util/utilFunctions';
 
 export default {
   components: {
-    EditArticle,
     EditorMenuBar,
     EditorFloatingMenu,
     EditorContent,
   },
+  props: {
+    article: Object,
+  },
   data() {
     return {
-      articleTags: [],
       imageSRC: null,
-      article: {
-        title: '',
-        content: '',
-        tags: [],
-        image: null,
-        description: '',
-      },
-      dialog: [],
+      articleTags: this.image.tags,
       editor: new Editor({
         extensions: [
           new Blockquote(),
@@ -256,22 +209,11 @@ export default {
     this.editor.destroy();
   },
   computed: {
-    loadArticleTags() {
-      return this.$store.state.articleTags;
-    },
-    checkedTags() {
-      return this.loadArticleTags
-        .filter(item => item.checked)
-        .map(tag => tag.id);
-    },
-    loadUserArticles() {
-      return this.$store.getters.userArticles;
-    },
     articleImg() {
       return function(imga) {
         if (imga) {
           let photo = atob(imga);
-          let pic = b64toBlob(photo, 'image/png');
+          let pic = b64toBlob(photo);
           let image = new Image();
           image.src = URL.createObjectURL(pic);
           return image;
@@ -279,10 +221,28 @@ export default {
           return 'https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80';
       };
     },
+    loadArticleTags() {
+      return this.$store.state.articleTags;
+    },
+    checkedTags() {
+      console.log('warunek fuj');
+      if (this.article.tags) {
+        console.log('jestem tu');
+        return this.article.tags;
+      } else {
+        console.log('albo nizej');
+        return this.$store.state.articleTags
+          .filter(item => item.checked)
+          .map(tag => tag.id);
+      }
+    },
+    loadUserArticles() {
+      return this.$store.getters.userArticles;
+    },
   },
   created() {
-    this.$store.dispatch('loadArticleTags');
-    this.$store.dispatch('loadUserArticles');
+    //this.checkedTags = this.article.tags;
+    // console.log('created', this.article.image);
   },
   methods: {
     showFile() {
@@ -308,7 +268,7 @@ export default {
       this.article.image = btoa(this.imageSRC);
       this.article.tags = this.checkedTags;
       restApi
-        .addArticle(this.article)
+        .updateArticle(this.article)
         .then(response => {
           this.msg = response.msg;
         })

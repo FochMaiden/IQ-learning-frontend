@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="mx-auto mt-12">
     <v-layout row wrap align-center mb-5>
-      <v-card max-width="auto" class="mx-auto">
+      <v-card max-width="100%" class="mx-auto">
         <v-list-item>
           <v-list-item-avatar color="grey"></v-list-item-avatar>
           <v-list-item-content>
@@ -34,7 +34,10 @@
           <div v-html="articleContent(article[0].content)"></div>
         </v-card-text>
         <span class="d-flex justify-end ma-5"
-          ><v-btn icon @click="addVoteArticle(article[0])"
+          ><v-btn
+            :disabled="isDisabled"
+            icon
+            @click="addVoteArticle(article[0])"
             ><v-icon>mdi-thumb-up</v-icon
             ><span class="float-right ml-2">{{
               article[0].upvotes
@@ -57,14 +60,14 @@
           {{ comment.createdOn.substring(0, 10) }}
         </p>
         <span class="d-flex justify-end"
-          ><v-btn icon @click="addVote(comment)"
+          ><v-btn :disabled="isDisabled" icon @click="addVote(comment)"
             ><v-icon>mdi-thumb-up</v-icon
             ><span class="float-right ml-2">{{ comment.upvotes }}</span></v-btn
           ></span
         >
       </div>
     </v-card>
-    <v-card class=" pa-2 mb-1 comment">
+    <v-card v-if="$auth.user().id" class=" pa-2 mb-1 comment">
       <v-card class="grey lighten-3 ma-5 pa-5">
         <v-text-field
           max-width="50%"
@@ -133,6 +136,9 @@ export default {
   computed: {
     commentsComputed() {
       return this.comments;
+    },
+    isDisabled: function() {
+      return !this.$auth.user().id;
     },
     articleImg() {
       return function(imga) {

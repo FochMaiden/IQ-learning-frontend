@@ -338,6 +338,11 @@ export const restApi = {
       return response.data;
     });
   },
+  getUserArticles() {
+    return this.axiosProxy.get('/article/get/user').then(response => {
+      return response.data;
+    });
+  },
   getArticleTags() {
     return this.axiosProxy.get('/tags/get').then(response => {
       return response.data;
@@ -346,6 +351,16 @@ export const restApi = {
   getArticleComments(id) {
     return this.axiosProxy.get(`/article/get/comments/` + id).then(response => {
       return response.data;
+    });
+  },
+  updateArticle(article) {
+    return this.axiosProxy.put('/article/update', {
+      id: article.id,
+      content: article.content,
+      title: article.title,
+      tags: article.tags,
+      image: article.image,
+      description: article.description,
     });
   },
   upvote(id) {

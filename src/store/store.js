@@ -28,6 +28,7 @@ function initialState() {
     lastResults: null,
 
     articles: [],
+    userArticles: [],
     articleTags: [],
     articleComments: [],
     article: null,
@@ -56,6 +57,7 @@ export default new Vuex.Store({
     lastResults: state => state.lastResults,
 
     articles: state => state.articles,
+    userArticles: state => state.userArticles,
     articleTags: state => state.articleTags,
     articleComments: state => state.articleComments,
     article: state => state.article,
@@ -136,6 +138,9 @@ export default new Vuex.Store({
     setArticles(state, data) {
       state.articles = data;
     },
+    setUserArticles(state, data) {
+      state.userArticles = data;
+    },
     setArticleTags(state, data) {
       state.articleTags = data;
     },
@@ -195,6 +200,11 @@ export default new Vuex.Store({
     loadArticles({ commit }) {
       restApi.getArticles().then(response => {
         commit('setArticles', response);
+      });
+    },
+    loadUserArticles({ commit }) {
+      restApi.getUserArticles().then(response => {
+        commit('setUserArticles', response);
       });
     },
     loadArticleTags({ commit }) {

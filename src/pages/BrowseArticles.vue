@@ -27,8 +27,12 @@
                     @click="addArticleId(article.id)"
                     >Read More</v-btn
                   >
-                  <v-btn icon><v-icon>mdi-thumb-up</v-icon></v-btn>
-                  <p>{{ article.upvotes }}</p>
+                  <span class="d-flex justify-end float-right ml-2"
+                    ><v-icon>mdi-thumb-up</v-icon
+                    ><span class="float-right ml-2">{{
+                      article.upvotes
+                    }}</span></span
+                  >
                 </v-card-actions>
               </v-card>
             </v-col>
@@ -51,7 +55,6 @@ export default {
   },
   computed: {
     loadArticles() {
-      //this.$store.state.articles.map(image=> this.article.image=);
       return this.$store.state.articles;
     },
     articleImg() {
@@ -71,18 +74,13 @@ export default {
     this.$store.dispatch('loadArticles');
   },
   methods: {
-    decodeImg(image) {
+    /* decodeImg(image) {
       this.$store.state.articles.map(
         image => (this.Article.image = atob(image))
       );
       this.image = atob(this.image);
       return this.image;
-    },
-    getOneArticle(article) {
-      //console.log(article);
-      this.$store.commit('setArticle', article); //do i?
-      return article;
-    },
+    },*/
     addArticleId(id) {
       console.log(id);
       //:to="'articles/' + article.id"
