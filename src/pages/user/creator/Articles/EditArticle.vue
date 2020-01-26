@@ -57,7 +57,6 @@
           @click="commands.strike"
           ><v-icon>format_strikethrough</v-icon></v-btn
         >
-
         <v-btn
           icon
           :class="{ 'is-active': isActive.underline() }"
@@ -171,7 +170,7 @@ export default {
   data() {
     return {
       imageSRC: null,
-      articleTags: this.image.tags,
+      articleTags: [],
       editor: new Editor({
         extensions: [
           new Blockquote(),
@@ -225,16 +224,9 @@ export default {
       return this.$store.state.articleTags;
     },
     checkedTags() {
-      console.log('warunek fuj');
-      if (this.article.tags) {
-        console.log('jestem tu');
-        return this.article.tags;
-      } else {
-        console.log('albo nizej');
-        return this.$store.state.articleTags
-          .filter(item => item.checked)
-          .map(tag => tag.id);
-      }
+      return this.loadArticleTags
+        .filter(item => item.checked)
+        .map(tag => tag.id);
     },
     loadUserArticles() {
       return this.$store.getters.userArticles;
