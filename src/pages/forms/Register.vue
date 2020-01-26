@@ -99,18 +99,18 @@
 </template>
 
 <script>
-import { required } from '../../util/validationFunctions.js';
-import {
-  isName,
-  minLength,
-  passwordNumber,
-  passwordUppercase,
-  regexEmail,
-  regexUsername,
-} from '../../util/validationFunctions';
-import { restApi } from '../../api/restApi';
+  import {required} from '../../util/validationFunctions.js';
+  import {
+    isName,
+    minLength,
+    passwordNumber,
+    passwordUppercase,
+    regexEmail,
+    regexUsername,
+  } from '../../util/validationFunctions';
+  import {restApi} from '../../api/restApi';
 
-export default {
+  export default {
   name: 'Register',
   data: function() {
     return {

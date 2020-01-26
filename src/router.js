@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
-import { stompClientSocket } from './api/wsApi';
+import {stompClientSocket} from './api/wsApi';
 
 //compbell
 axios.defaults.baseURL = 'http://localhost:8080';

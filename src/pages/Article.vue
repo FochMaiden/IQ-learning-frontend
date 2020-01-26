@@ -102,12 +102,12 @@
 </template>
 
 <script>
-import { b64toBlob } from '../util/utilFunctions';
-import { restApi } from '../api/restApi';
-import { required } from '../util/validationFunctions';
-import { stompClientSocket } from '../api/wsApi';
+  import {b64toBlob} from '../util/utilFunctions';
+  import {restApi} from '../api/restApi';
+  import {required} from '../util/validationFunctions';
+  import {stompClientSocket} from '../api/wsApi';
 
-export default {
+  export default {
   data() {
     return {
       msg: null,

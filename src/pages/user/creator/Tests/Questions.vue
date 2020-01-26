@@ -1,10 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-container>
-    <v-alert
-      v-show="!subject"
-      type="warning"
-      transition="scale-transition"
-    >
+    <v-alert v-show="!subject" type="warning" transition="scale-transition">
       You must select subject to create test from selected questions.
     </v-alert>
     <v-data-table
@@ -258,12 +254,12 @@
 </template>
 
 <script>
-import { required } from '../../../../util/validationFunctions';
-import { restApi } from '../../../../api/restApi';
-import ButtonCounter from '../../../../templates/QuestionsTemplates/ButtonCounter';
-import { questionsHeaders } from '../../../../util/headers';
+  import {required} from '../../../../util/validationFunctions';
+  import {restApi} from '../../../../api/restApi';
+  import ButtonCounter from '../../../../templates/QuestionsTemplates/ButtonCounter';
+  import {questionsHeaders} from '../../../../util/headers';
 
-export default {
+  export default {
   name: 'NewQuestions',
   components: { ButtonCounter },
   data() {
