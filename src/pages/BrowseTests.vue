@@ -32,34 +32,37 @@
       </template>
     </v-combobox>
     <v-row>
-      <!--   <v-col cols="6" v-for="test in tests">
-        <v-card>
-          <v-card-title> Test number {{ test.id }} </v-card-title>
-          <v-list-item v-for="question in test.questions">
-            <v-list-item-content>
-              <v-list-item-title class="headline">{{
-                question.question
-              }}</v-list-item-title>
-              <v-card-text v-if="question.choiceTest">
-                <v-list-item-subtitle
-                  v-for="answers in question.answers"
-                  class="pa-2 d-inline"
-                >
-                  {{ answers.answer }}
-                  <v-icon small :color="answers.correct ? 'green' : 'red'">
-                    {{ answers.correct ? 'mdi-check' : 'mdi-block-helper' }}
-                  </v-icon>
-                </v-list-item-subtitle>
-              </v-card-text>
-            </v-list-item-content>
-          </v-list-item>
-        </v-card>
-      </v-col>-->
       <v-col cols="6" md="6" sm="12" v-for="test in tests">
         <v-card>
           <v-card-title>
-            <span class="headline">Test number {{ test.id }}</span>
+            <span class="headline">{{ testTitle(test.id, test.title) }}</span>
             <v-spacer></v-spacer>
+            <v-menu :close-on-content-click="false">
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  outlined
+                  color="info"
+                  :disabled="test.owner === $auth.user().id"
+                  v-on="on"
+                >
+                  CHAT &nbsp;
+                  <v-icon class="ma-auto ">mdi-chat</v-icon>
+                </v-btn>
+              </template>
+              <v-card class="pa-4">
+                <div v-if="conversationExists(test.owner)">
+                  <v-text-field dense v-model="msg"></v-text-field>
+                  <v-btn color="primary" @click="startConversation(test.owner)"
+                    >SENT</v-btn
+                  >
+                </div>
+                <div v-else>
+                  You already have chat with that user!
+                  <v-btn to="/user/chat" outlined small> Go to chat </v-btn>
+                </div>
+              </v-card>
+            </v-menu>
+
             <v-menu right :offset-x="offset">
               <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on">
@@ -141,10 +144,11 @@
 </template>
 
 <script>
-  import {restApi} from '../api/restApi';
-  import {dwnld} from '../util/utilFunctions';
+import { restApi } from '../api/restApi';
+import { dwnld } from '../util/utilFunctions';
+import { stompClientSocket } from '../api/wsApi';
 
-  export default {
+export default {
   name: 'BrowseTests',
   created() {
     this.$store.dispatch('loadPublicTests');
@@ -156,6 +160,7 @@
       resultsTestId: null,
       loadingResults: false,
       offset: true,
+      msg: null,
     };
   },
   computed: {
@@ -167,6 +172,22 @@
         this.$store.commit('filterPublicTests', ids);
         return this.$store.getters.filteredPublicTests;
       } else return this.$store.getters.publicTests;
+    },
+    testTitle() {
+      return function(id, title) {
+        if (title) {
+          return title;
+        } else return 'Test number ' + id;
+      };
+    },
+    conversationExists() {
+      return function(owner) {
+        if (this.$auth.user().comversations) {
+          Object.values(this.$auth.user().conversations).map(o => {
+            return o.id === owner;
+          });
+        } else return false;
+      };
     },
     items() {
       return function(q) {
@@ -224,6 +245,22 @@
         this.loadingResults = false;
         this.$store.dispatch('loadLastResults');
       });
+    },
+    startConversation(owner) {
+      console.log(this.$auth.user().conversations);
+      if (this.$auth.user().conversations) {
+        Object.values(this.$auth.user().conversations).map(o => {
+          console.log(o.id);
+          if (o.id === owner) {
+            console.log('jestem taki sammmm');
+          } else console.log('jestemm innnyyy');
+        });
+      } else
+        stompClientSocket.startConversation(
+          this.msg,
+          owner,
+          this.$auth.user().id
+        );
     },
   },
 };

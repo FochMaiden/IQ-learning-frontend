@@ -81,9 +81,9 @@
   </v-container>
 </template>
 <script>
-  import {VueFunnelGraph} from 'vue-funnel-graph-js';
+import { VueFunnelGraph } from 'vue-funnel-graph-js';
 
-  export default {
+export default {
   name: 'Dashboard',
   components: {
     VueFunnelGraph,
@@ -104,7 +104,14 @@
       return a;
     },
     colors() {
-      return ['#A0BBFF', '#EC77FF', '#A0F9FF', '#7795FF'];
+      return [
+        ['#7795FF', '#7795FF', '#EC77FF', '#EC77FF', '#FF3C8E', '#FF3C8E'],
+        ['#7795FF', '#7795FF', '#EC77FF', '#EC77FF', '#FF3C8E', '#FF3C8E'],
+        ['#7795FF', '#7795FF', '#EC77FF', '#EC77FF', '#FF3C8E', '#FF3C8E'],
+        ['#7795FF', '#7795FF', '#EC77FF', '#EC77FF', '#FF3C8E', '#FF3C8E'],
+        ['#7795FF', '#7795FF', '#EC77FF', '#EC77FF', '#FF3C8E', '#FF3C8E'],
+        ['#7795FF', '#7795FF', '#EC77FF', '#EC77FF', '#FF3C8E', '#FF3C8E'],
+      ];
     },
     width() {
       return 1150;
@@ -122,4 +129,15 @@
 };
 </script>
 
-<style scoped></style>
+<style>
+.svg-funnel-js .svg-funnel-js__labels .svg-funnel-js__label .label__title {
+  font-size: 32px !important;
+  font-weight: bold;
+  color: #21ffa2;
+}
+.svg-funnel-js .svg-funnel-js__labels .svg-funnel-js__label .label__percentage {
+  font-size: 26px;
+  font-weight: bold;
+  color: #9896dc;
+}
+</style>
