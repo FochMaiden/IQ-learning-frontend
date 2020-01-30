@@ -14,7 +14,7 @@
           </v-list-item-content>
           <v-menu v-if="$auth.user()" :close-on-content-click="false">
             <template v-slot:activator="{ on }">
-              <v-icon :disabled="isDisabledChat" v-on="on" class="ma-auto "
+              <v-icon :disabled="isDisabledChat" v-on="on" color='info' class="ma-auto "
                 >mdi-chat</v-icon
               >
             </template>
