@@ -18,10 +18,18 @@
                 >mdi-chat</v-icon
               >
             </template>
-            <v-card
-              ><v-text-field dense v-model="msg"></v-text-field>
-              <v-btn @click="startConversation">send</v-btn></v-card
-            >
+            <v-card class="pa-4">
+              <div v-if="conversationExists(article[0].owner.id)">
+                <v-text-field dense v-model="msg"></v-text-field>
+                <v-btn color="primary" @click="startConversation()"
+                >SENT</v-btn
+                >
+              </div>
+              <div v-else>
+                You already have chat with that user!
+                <v-btn to="/user/chat" outlined small> Go to chat </v-btn>
+              </div>
+            </v-card>
           </v-menu>
         </v-list-item>
 
@@ -145,6 +153,15 @@
       if (this.$auth.user().hasOwnProperty('id')) {
         return this.article[0].owner.id === this.$auth.user().id;
       } else return true;
+    },
+    conversationExists() {
+      return function(owner) {
+        if (this.$auth.user().comversations) {
+          Object.values(this.$auth.user().conversations).map(o => {
+            return o.id === owner;
+          });
+        } else return false;
+      };
     },
     articleImg() {
       return function(imga) {
