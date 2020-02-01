@@ -82,6 +82,7 @@
 </template>
 <script>
 import { VueFunnelGraph } from 'vue-funnel-graph-js';
+import {truncateString} from "../../util/utilFunctions";
 
 export default {
   name: 'Dashboard',
@@ -92,7 +93,8 @@ export default {
     labels() {
       let a = [];
       this.$store.state.lastResults.forEach(o => {
-        a.push(o.text);
+        let text = truncateString(o.text, 30);
+        a.push(text);
       });
       return a;
     },

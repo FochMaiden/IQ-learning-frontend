@@ -51,3 +51,10 @@ export function b64toBlob(b64Data, contentType) {
   return blob;
 }
 export function jebacto(url) {}
+
+export const truncateString = (str, num) => {
+  if (str.length <= num) {
+    return str
+  }
+  return str.slice(0, num) + '...'
+}
