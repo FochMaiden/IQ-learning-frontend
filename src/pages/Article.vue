@@ -12,7 +12,7 @@
               >by {{ article[0].owner.username }}</v-list-item-subtitle
             >
           </v-list-item-content>
-          <v-menu v-if="$auth.user()" :close-on-content-click="false">
+          <v-menu v-if="$auth.user()" v-model="menu" :close-on-content-click="false">
             <template v-slot:activator="{ on }">
               <v-icon
                 :disabled="isDisabledChat"
@@ -143,7 +143,9 @@ export default {
       counterEn: false,
       counter: 0,
       dense: false,
-      isConvo: false
+      isConvo: false,
+      loadingConvo:false,
+      menu: null,
     };
   },
   computed: {
@@ -186,9 +188,10 @@ export default {
   methods: {
     conversationExists(owner) {
       if (this.$auth.user().conversations) {
-        Object.values(this.$auth.user().conversations).map(o => {
-          this.isConvo = o.id === owner;
+        let k = Object.values(this.$auth.user().conversations).find(o => {
+          return o.id === owner
         });
+        if (k) return this.isConvo = true;
       } else this.isConvo = false;
     },
     getComments(id) {
@@ -254,11 +257,17 @@ export default {
       this.getComments(this.article[0].id);
     },
     startConversation() {
+      this.loadingConvo = true
       stompClientSocket.startConversation(
         this.msg,
         this.article[0].owner.id,
         this.$auth.user().id
       );
+      restApi.fetchUser().then(response=>{
+        this.$auth.user(response);
+        this.menu = false
+        this.loadingConvo = false
+      })
     },
     /*clearAdded(){
     	this.added=''

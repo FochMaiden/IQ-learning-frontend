@@ -80,6 +80,11 @@ export const restApi = {
         return err.response.data;
       });
   },
+  fetchUser() {
+    return this.axiosProxy.get('/user/fetch').then(response => {
+      return response.data;
+    });
+  },
   saveSettings(
     email,
     name,

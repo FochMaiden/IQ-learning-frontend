@@ -37,7 +37,7 @@
           <v-card-title>
             <span class="headline">{{ testTitle(test.id, test.title) }}</span>
             <v-spacer></v-spacer>
-            <v-menu :close-on-content-click="false">
+            <v-menu v-model="menu" :close-on-content-click="false">
               <template v-slot:activator="{ on }">
                 <v-btn
                   outlined
@@ -162,7 +162,9 @@ export default {
       loadingResults: false,
       offset: true,
       msg: null,
+      menu: null,
       isConvo: false,
+      loadingConvo:false
     };
   },
   computed: {
@@ -198,9 +200,10 @@ export default {
   methods: {
     conversationExists(owner) {
       if (this.$auth.user().conversations) {
-        Object.values(this.$auth.user().conversations).map(o => {
-          this.isConvo = o.id === owner;
+        let k = Object.values(this.$auth.user().conversations).find(o => {
+          return o.id === owner
         });
+        if (k) return this.isConvo = true;
       } else this.isConvo = false;
     },
     remove(item) {
@@ -247,12 +250,18 @@ export default {
       });
     },
     startConversation(owner) {
-        stompClientSocket.startConversation(
-          this.msg,
-          owner,
-          this.$auth.user().id
-        );
-
+      this.loadingConvo = true
+      stompClientSocket.startConversation(
+        this.msg,
+        owner,
+        this.$auth.user().id
+      );
+      restApi.fetchUser().then(response=>{
+        this.loadingConvo = false
+                this.menu = false
+        this.$auth.user(response)
+      })
+    },
   },
 };
 </script>
