@@ -184,7 +184,43 @@ export default {
     EditorContent,
   },
   props: {
-    article: Object,
+    article: {
+      content: {
+        default: ' ',
+        type: String,
+      },
+      createdOn: {
+        default: ' ',
+        type: String,
+      },
+      description: {
+        default: ' ',
+        type: String,
+      },
+      id: {
+        default: 0,
+        type: Number,
+      },
+      image: {
+        default: ' ',
+        type: String,
+      },
+      owner: {
+        default: {
+          id: 0,
+          owner: ' ',
+        },
+        type: Object,
+      },
+      tags: {
+        default: [],
+        type: Array,
+      },
+      title: {
+        default: '',
+        type: String,
+      },
+    },
   },
   data() {
     return {
@@ -289,7 +325,7 @@ export default {
         .catch(err => {
           this.error = err;
         });
-      this.close();
+      //this.close();
     },
   },
 };
