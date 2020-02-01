@@ -35,7 +35,7 @@
 
     <v-list>
       <v-list-item to="/user/chat" dense>
-        <v-icon color='info' class="ma-auto">mdi-chat</v-icon>
+        <v-icon color="info" class="ma-auto">mdi-chat</v-icon>
       </v-list-item>
     </v-list>
 

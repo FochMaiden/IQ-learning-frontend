@@ -14,16 +14,18 @@
           </v-list-item-content>
           <v-menu v-if="$auth.user()" :close-on-content-click="false">
             <template v-slot:activator="{ on }">
-              <v-icon :disabled="isDisabledChat" v-on="on" color='info' class="ma-auto "
+              <v-icon
+                :disabled="isDisabledChat"
+                v-on="on"
+                color="info"
+                class="ma-auto "
                 >mdi-chat</v-icon
               >
             </template>
             <v-card class="pa-4">
               <div v-if="conversationExists(article[0].owner.id)">
                 <v-text-field dense v-model="msg"></v-text-field>
-                <v-btn color="primary" @click="startConversation()"
-                >SENT</v-btn
-                >
+                <v-btn color="primary" @click="startConversation()">SENT</v-btn>
               </div>
               <div v-else>
                 You already have chat with that user!
@@ -110,12 +112,12 @@
 </template>
 
 <script>
-  import {b64toBlob} from '../util/utilFunctions';
-  import {restApi} from '../api/restApi';
-  import {required} from '../util/validationFunctions';
-  import {stompClientSocket} from '../api/wsApi';
+import { b64toBlob } from '../util/utilFunctions';
+import { restApi } from '../api/restApi';
+import { required } from '../util/validationFunctions';
+import { stompClientSocket } from '../api/wsApi';
 
-  export default {
+export default {
   data() {
     return {
       msg: null,
@@ -204,11 +206,12 @@
       restApi
         .upvote(item.id)
         .then(response => {
-          if (response.upvotes === 1) {
+          item.upvotes = response.upvotes;
+          /*if (response.upvotes === 1) {
             item.upvotes++;
           } else {
             item.upvotes--;
-          }
+          }*/
         })
         .catch(err => {
           this.error = err;
@@ -218,11 +221,13 @@
       restApi
         .upvoteArticle(item.id)
         .then(response => {
-          if (response.upvotes === 1) {
+          item.upvotes = response.upvotes;
+          //console.log(response)
+          /*if (response.upvotes === 1) {
             item.upvotes++;
           } else {
             item.upvotes--;
-          }
+          }*/
         })
         .catch(err => {
           this.error = err;

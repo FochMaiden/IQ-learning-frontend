@@ -182,30 +182,30 @@
 </template>
 
 <script>
-  import {Editor, EditorContent, EditorMenuBar} from 'tiptap';
-  import {
-    Blockquote,
-    Bold,
-    BulletList,
-    Code,
-    CodeBlock,
-    HardBreak,
-    Heading,
-    History,
-    Image,
-    Italic,
-    Link,
-    ListItem,
-    OrderedList,
-    Strike,
-    Underline,
-  } from 'tiptap-extensions';
-  import {restApi} from '../../../../api/restApi';
+import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
+import {
+  Blockquote,
+  Bold,
+  BulletList,
+  Code,
+  CodeBlock,
+  HardBreak,
+  Heading,
+  History,
+  Image,
+  Italic,
+  Link,
+  ListItem,
+  OrderedList,
+  Strike,
+  Underline,
+} from 'tiptap-extensions';
+import { restApi } from '../../../../api/restApi';
 
-  import EditArticle from './EditArticle';
-  import {b64toBlob} from '../../../../util/utilFunctions';
+import EditArticle from './EditArticle';
+import { b64toBlob } from '../../../../util/utilFunctions';
 
-  export default {
+export default {
   components: {
     EditArticle,
     EditorMenuBar,

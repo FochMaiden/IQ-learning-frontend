@@ -77,11 +77,16 @@
 </template>
 
 <script>
-  import {required} from '../../util/validationFunctions.js';
-  import {minLength, passwordNumber, passwordUppercase, regexUsername,} from '../../util/validationFunctions';
-  import {restApi} from '../../api/restApi';
+import { required } from '../../util/validationFunctions.js';
+import {
+  minLength,
+  passwordNumber,
+  passwordUppercase,
+  regexUsername,
+} from '../../util/validationFunctions';
+import { restApi } from '../../api/restApi';
 
-  export default {
+export default {
   data: function() {
     return {
       username: null,

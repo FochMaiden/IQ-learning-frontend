@@ -152,31 +152,31 @@
 </template>
 
 <script>
-  import {Editor, EditorContent, EditorMenuBar} from 'tiptap';
-  import {
-    Blockquote,
-    Bold,
-    BulletList,
-    Code,
-    CodeBlock,
-    HardBreak,
-    Heading,
-    History,
-    Image,
-    Italic,
-    Link,
-    ListItem,
-    OrderedList,
-    Strike,
-    TodoItem,
-    TodoList,
-    Underline,
-  } from 'tiptap-extensions';
-  import {restApi} from '../../../../api/restApi';
-  import EditorFloatingMenu from 'tiptap/src/Components/EditorFloatingMenu';
-  import {b64toBlob} from '../../../../util/utilFunctions';
+import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
+import {
+  Blockquote,
+  Bold,
+  BulletList,
+  Code,
+  CodeBlock,
+  HardBreak,
+  Heading,
+  History,
+  Image,
+  Italic,
+  Link,
+  ListItem,
+  OrderedList,
+  Strike,
+  TodoItem,
+  TodoList,
+  Underline,
+} from 'tiptap-extensions';
+import { restApi } from '../../../../api/restApi';
+import EditorFloatingMenu from 'tiptap/src/Components/EditorFloatingMenu';
+import { b64toBlob } from '../../../../util/utilFunctions';
 
-  export default {
+export default {
   components: {
     EditorMenuBar,
     EditorFloatingMenu,

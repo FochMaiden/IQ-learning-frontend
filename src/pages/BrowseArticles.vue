@@ -44,9 +44,9 @@
 </template>
 
 <script>
-  import {b64toBlob} from '../util/utilFunctions';
+import { b64toBlob } from '../util/utilFunctions';
 
-  export default {
+export default {
   data() {
     return {
       imgSrc: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',

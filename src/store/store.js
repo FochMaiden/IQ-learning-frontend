@@ -1,7 +1,7 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
-import {restApi} from '../api/restApi';
-import {merge} from '../util/utilFunctions';
+import { restApi } from '../api/restApi';
+import { merge } from '../util/utilFunctions';
 
 Vue.use(Vuex);
 
