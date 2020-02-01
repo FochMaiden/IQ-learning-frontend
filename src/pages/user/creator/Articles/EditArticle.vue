@@ -33,6 +33,7 @@
         label="Attach a photo that will show while browsing through articles"
       />
       <v-img
+              :id="'editImg' + article.id"
         :src="articleImg(article.image)"
         width="150"
         alt="Thumb preview..."
@@ -256,7 +257,7 @@ export default {
       this.$emit('close-dialog');
     },
     showFile() {
-      let demoImage = document.querySelector('img');
+      let demoImage = document.querySelector('#editImg'+this.article.id);
       let file = document.querySelector('input[type=file]').files[0];
       let reader = new FileReader();
       reader.onload = e => {

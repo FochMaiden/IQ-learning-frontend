@@ -30,7 +30,7 @@
       label="Attach a photo that will show while browsing through articles"
     />
     <!-- <input type="file" accept="image/x-png,image/gif,image/jpeg" @change="showFile">-->
-    <img :src="articleImg(article.image)" width="150" alt="Thumb preview..." />
+    <img id="addImg" :src="articleImg(article.image)" width="150" alt="Thumb preview..." />
 
     <v-divider></v-divider>
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
@@ -292,7 +292,7 @@ export default {
       this.dialog = [];
     },
     showFile() {
-      let demoImage = document.querySelector('img');
+      let demoImage = document.querySelector('#addImg');
       let file = document.querySelector('input[type=file]').files[0];
       let reader = new FileReader();
       reader.onload = e => {
