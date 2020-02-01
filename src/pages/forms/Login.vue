@@ -106,7 +106,7 @@ export default {
       restApi
         .login(this.username, this.password, this.rememberMe)
         .catch(error => {
-          this.error = error;
+          this.error = error.response.data;
         });
     },
   },

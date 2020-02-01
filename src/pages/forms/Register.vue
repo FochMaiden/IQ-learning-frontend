@@ -79,7 +79,6 @@
               color="primary"
             ></v-checkbox>
           </v-form>
-
           <v-spacer></v-spacer>
           <v-card-actions class="pb-6 px-6 justify-center">
             <v-btn
@@ -141,7 +140,9 @@ export default {
           this.surname,
           this.password
         )
-        .catch(err => (this.error = err));
+        .catch(error => {
+          this.error = error.response.data;
+        });
     },
   },
 };
