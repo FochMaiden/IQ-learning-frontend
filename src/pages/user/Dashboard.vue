@@ -138,6 +138,6 @@ export default {
 .svg-funnel-js .svg-funnel-js__labels .svg-funnel-js__label .label__percentage {
   font-size: 26px;
   font-weight: bold;
-  color: #9896dc;
+  color: #ffee23;
 }
 </style>

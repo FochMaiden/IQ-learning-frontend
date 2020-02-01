@@ -37,7 +37,7 @@
           <v-card-title>
             <span class="headline">{{ testTitle(test.id, test.title) }}</span>
             <v-spacer></v-spacer>
-            <v-menu v-model="menu" :close-on-content-click="false">
+            <v-menu v-model="menu[test.owner]" :close-on-content-click="false">
               <template v-slot:activator="{ on }">
                 <v-btn
                   outlined
@@ -162,7 +162,7 @@ export default {
       loadingResults: false,
       offset: true,
       msg: null,
-      menu: null,
+      menu: {},
       isConvo: false,
       loadingConvo:false
     };
@@ -258,7 +258,7 @@ export default {
       );
       restApi.fetchUser().then(response=>{
         this.loadingConvo = false
-                this.menu = false
+                this.menu[owner] = false
         this.$auth.user(response)
       })
     },
