@@ -43,6 +43,7 @@
                   outlined
                   color="info"
                   :disabled="test.owner === $auth.user().id"
+                  @click="conversationExists(test.owner)"
                   v-on="on"
                 >
                   CHAT &nbsp;
@@ -50,7 +51,7 @@
                 </v-btn>
               </template>
               <v-card class="pa-4">
-                <div v-if="conversationExists(test.owner)">
+                <div v-if="!isConvo">
                   <v-text-field dense v-model="msg"></v-text-field>
                   <v-btn color="primary" @click="startConversation(test.owner)"
                     >SENT</v-btn
@@ -161,6 +162,7 @@ export default {
       loadingResults: false,
       offset: true,
       msg: null,
+      isConvo: false,
     };
   },
   computed: {
@@ -180,15 +182,6 @@ export default {
         } else return 'Test number ' + id;
       };
     },
-    conversationExists() {
-      return function(owner) {
-        if (this.$auth.user().comversations) {
-          Object.values(this.$auth.user().conversations).map(o => {
-            return o.id === owner;
-          });
-        } else return false;
-      };
-    },
     items() {
       return function(q) {
         if (q === 0) {
@@ -203,6 +196,13 @@ export default {
     },
   },
   methods: {
+    conversationExists(owner) {
+      if (this.$auth.user().conversations) {
+        Object.values(this.$auth.user().conversations).map(o => {
+          this.isConvo = o.id === owner;
+        });
+      } else this.isConvo = false;
+    },
     remove(item) {
       if (this.selectedSubjects.length === 1) {
         this.selectedSubjects = null;
@@ -247,21 +247,12 @@ export default {
       });
     },
     startConversation(owner) {
-      console.log(this.$auth.user().conversations);
-      if (this.$auth.user().conversations) {
-        Object.values(this.$auth.user().conversations).map(o => {
-          console.log(o.id);
-          if (o.id === owner) {
-            console.log('jestem taki sammmm');
-          } else console.log('jestemm innnyyy');
-        });
-      } else
         stompClientSocket.startConversation(
           this.msg,
           owner,
           this.$auth.user().id
         );
-    },
+
   },
 };
 </script>

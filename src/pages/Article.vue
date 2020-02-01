@@ -16,6 +16,7 @@
             <template v-slot:activator="{ on }">
               <v-icon
                 :disabled="isDisabledChat"
+                @click="conversationExists(article[0].owner.id)"
                 v-on="on"
                 color="info"
                 class="ma-auto "
@@ -23,7 +24,7 @@
               >
             </template>
             <v-card class="pa-4">
-              <div v-if="conversationExists(article[0].owner.id)">
+              <div v-if="!isConvo">
                 <v-text-field dense v-model="msg"></v-text-field>
                 <v-btn color="primary" @click="startConversation()">SENT</v-btn>
               </div>
@@ -142,6 +143,7 @@ export default {
       counterEn: false,
       counter: 0,
       dense: false,
+      isConvo: false
     };
   },
   computed: {
@@ -155,15 +157,6 @@ export default {
       if (this.$auth.user().hasOwnProperty('id')) {
         return this.article[0].owner.id === this.$auth.user().id;
       } else return true;
-    },
-    conversationExists() {
-      return function(owner) {
-        if (this.$auth.user().comversations) {
-          Object.values(this.$auth.user().conversations).map(o => {
-            return o.id === owner;
-          });
-        } else return false;
-      };
     },
     articleImg() {
       return function(imga) {
@@ -191,6 +184,13 @@ export default {
     this.fetchData();
   },
   methods: {
+    conversationExists(owner) {
+      if (this.$auth.user().conversations) {
+        Object.values(this.$auth.user().conversations).map(o => {
+          this.isConvo = o.id === owner;
+        });
+      } else this.isConvo = false;
+    },
     getComments(id) {
       restApi
         .getArticleComments(id)
@@ -254,10 +254,6 @@ export default {
       this.getComments(this.article[0].id);
     },
     startConversation() {
-      /*      if (this.$auth.user() && this.$auth.user().conversations){
-        let convos = this.$auth.user().conversations
-        console.log(this.$auth.user())
-      }*/
       stompClientSocket.startConversation(
         this.msg,
         this.article[0].owner.id,
